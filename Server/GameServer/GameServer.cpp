@@ -164,6 +164,89 @@
 
 #pragma endregion
 
-#pragma region Lock 구현 이론
+#pragma region spinLock
+//// 스핀락은 현재 잠겨져있는 메서드를 계속 대기하고
+//// 열리면 들어가는것
+//// 계속 체크를 하기 때문에 CPU를 계속 낭비한다.
+//// 화장실앞 존버 메타
+//class SpinLock
+//{
+//public:
+//	void lock()
+//	{
+//		// CAS(Compare-And-Swap)
+//
+//		bool expected = false;
+//		bool desired = true;
+//
+//		// CAS 의사 코드
+//		//if (_locked == expected)
+//		//{
+//		//	expected = _locked;
+//		//	_locked = desired;
+//
+//		//	return true;
+//		//}
+//		//else
+//		//{
+//		//	expected = _locked;
+//		//	return false;
+//		//}
+//		//
+//		while (_locked.compare_exchange_strong(expected, desired) == false)
+//		{
+//			expected = false;
+//		}
+//	}
+//
+//	void unlock()
+//	{
+//		_locked.store(false);
+//	}
+//
+//private:
+//	atomic<bool> _locked = false;
+//};
+//
+//int32 sum = 0;
+//mutex m;
+//SpinLock  spinLock;
+//
+//void Add()
+//{
+//	for (int32 i = 0; i < 10'000; i++)
+//	{
+//		lock_guard<SpinLock> guard(spinLock);
+//		sum++;
+//	}
+//}
+//
+//void Sub()
+//{
+//	for (int32 i = 0; i < 10'000; i++)
+//	{
+//		lock_guard<SpinLock> guard(spinLock);
+//		sum--;
+//	}
+//}
+//
+//int main()
+//{
+//	thread t1(Add);
+//	thread t2(Sub);
+//
+//	t1.join();
+//	t2.join();
+//
+//	cout << sum << endl;
+//}
+
+#pragma endregion
+
+#pragma region SLEEP
+// 메서드에 진입을 했는데 락이 걸려있을경우
+// SpinLock처럼 무한대기가아니라 일정시간 기다렸다가 다시 메서드 진입
+// 이렇게 되면 진입후 락에걸려있어 기다리고있는데 락이 해제되어 다른놈이 들어갈수있다.
+// 랜덤메타
 
 #pragma endregion
