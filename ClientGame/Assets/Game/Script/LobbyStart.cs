@@ -6,6 +6,6 @@ public class LobbyStart : MonoBehaviour
 {
     private void Awake()
     {
-        UIMessageBox.ShowMessageBox("테슨트");
+        UIMessageBox.ShowMessageBox("테스트");
     }
 }

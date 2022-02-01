@@ -14,6 +14,8 @@ public enum PopupID
 
 public class PopupManager : Singleton<PopupManager>
 {
+    private const int m_nPopupCamearaDepth = 1;
+
     private Dictionary<PopupID, IResourceLocation> m_dicResourceLocaation = null;
     private Dictionary<PopupID, UIPopup> m_dicPopupObject = new Dictionary<PopupID, UIPopup>();
     private GameObject m_goPopupParent = null;
@@ -31,10 +33,14 @@ public class PopupManager : Singleton<PopupManager>
     /// </summary>
     /// <param name="_ePopupID"></param>
     /// <param name="_fnResult"> 비동기 함수다</param>
-    public void PopupOpen(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult)
+    public void OpenPopup(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult)
     {
         if (!InitSuccess)
+        {
+            Debug.Log("초기화가 안됐는데?");
             return;
+        }
+            
         UIPopup popup = null;
 
         // 팝업이 없다. 로드해야된다.
@@ -45,6 +51,32 @@ public class PopupManager : Singleton<PopupManager>
             return;
         }
         _fnAsyncResult(popup);
+    }
+
+    public void ClosePopup(PopupID _ePopupID)
+    {
+        if (!InitSuccess)
+        {
+            Debug.Log("초기화가 안됐는데?");
+            return;
+        }
+
+        UIPopup popup = null;
+
+        if (m_dicPopupObject.TryGetValue(_ePopupID, out popup))
+        {
+            if(!popup.gameObject.activeSelf)
+            {
+                // 뭐지?ㅅ
+                Debug.Log("이미 닫혀있는 팝업을 닫았다?");
+                return;
+            }
+            popup.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("한번도 열린적없는 팝업을 닫았다.");
+        }
     }
     private void CreatePopup(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult)
     {
@@ -95,7 +127,10 @@ public class PopupManager : Singleton<PopupManager>
         Canvas canvas = m_goPopupParent.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
 
-        m_goPopupParent.AddComponent<CanvasScaler>();
+        CanvasScaler canvasScaler = m_goPopupParent.AddComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1600, 900);
+
         m_goPopupParent.AddComponent<GraphicRaycaster>();
 
 
@@ -110,6 +145,8 @@ public class PopupManager : Singleton<PopupManager>
             // 카메라 생성
             Camera camera = cameraObject.AddComponent<Camera>();
 
+            camera.clearFlags = CameraClearFlags.Nothing;
+            camera.depth = m_nPopupCamearaDepth;
             // 캔버스에 카메라 세팅
             canvas.worldCamera = camera;
         }

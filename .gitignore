@@ -1,6 +1,7 @@
 ClientGame/[Ll]ibrary/
 ClientGame/Logs/
-
+ClientGame/Assets/ImageResource/
+ClientGame/Temp/
 # Visual Studio cache directory
 .vs/
 

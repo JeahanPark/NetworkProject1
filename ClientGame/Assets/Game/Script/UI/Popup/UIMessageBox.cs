@@ -6,7 +6,6 @@ public class UIMessageBox : UIPopup
 {
     public override PopupID GetPopupID()
     {
-
         return PopupID.UIMessageBox;
     }
     private Text m_Text = null;
@@ -22,7 +21,7 @@ public class UIMessageBox : UIPopup
     }
     public static void ShowMessageBox(string _strText)
     {
-        PopupManager.Instance.PopupOpen(PopupID.UIMessageBox, (popup) =>
+        PopupManager.Instance.OpenPopup(PopupID.UIMessageBox, (popup) =>
         {
             UIMessageBox uIMessageBox = popup as UIMessageBox;
             if(uIMessageBox != null)

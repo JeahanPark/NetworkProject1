@@ -43,7 +43,7 @@ namespace AddreesableManager
 
         public void InstanceIResourceLocation(IResourceLocation _resourceLocation, Transform _trParent, System.Action<GameObject> _fnResult)
         {
-            Addressables.InstantiateAsync(_resourceLocation, _trParent, true).Completed += (handle) =>
+            Addressables.InstantiateAsync(_resourceLocation, _trParent, false).Completed += (handle) =>
             {
                 _fnResult(handle.Result);
             };
