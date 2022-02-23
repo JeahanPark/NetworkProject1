@@ -12,7 +12,7 @@ public enum PopupID
 }
 
 
-public class PopupManager : Singleton<PopupManager>
+public class PopupManager : MonoSingleton<PopupManager>
 {
     private const int m_nPopupCamearaDepth = 1;
 

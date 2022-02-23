@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/SceneChange.unity
     guid: 584e4439bf32a1142b985eed6118769a
+  - enabled: 1
+    path: Assets/Game/Scenes/InGame.unity
+    guid: 00084b75169e79048b2b410a1dc1c2e4
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f2d480e509bd65446b3a9dc5f441f3df, type: 2}

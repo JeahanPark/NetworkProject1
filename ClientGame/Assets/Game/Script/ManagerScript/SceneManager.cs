@@ -7,6 +7,7 @@ public enum SceneType
 {
     Intro,
     Lobby,
+    InGame,
     SceneChange,
 }
 public class SceneManager : Singleton<SceneManager>
