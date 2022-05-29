@@ -1,4 +1,4 @@
-ClientGame/[Ll]ibrary/
+*ClientGame/[Ll]ibrary/
 ClientGame/Logs/
 ClientGame/Assets/ImageResource/
 ClientGame/Temp/
@@ -25,7 +25,9 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
- 
+*.log
+*.tlog
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta

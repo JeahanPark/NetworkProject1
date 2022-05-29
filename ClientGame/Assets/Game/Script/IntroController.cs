@@ -7,20 +7,29 @@ public class IntroController : MonoBehaviour
 {
     private void Start()
     {
+        int a = 0;
+
         StartCoroutine(IntroProcees());
+
+        int b = 0;
     }
 
     private IEnumerator IntroProcees()
     {
-        AddressableManager.Instance.Init();
-
         // 어드레서블 매니저가 성공할때까지 대기
-        yield return AddressableManager.Instance.InitSuccessWait();
+        {
+            AddressableManager.Instance.Init();
 
-        PopupManager.Instance.Init();
+            yield return AddressableManager.Instance.InitSuccessWait();
+        }
 
-        // 어드레서블 매니저가 성공할때까지 대기
-        yield return PopupManager.Instance.InitSuccessWait();
+
+        // 팝업 매니저가 초기화
+        {
+            PopupManager.Instance.Init();
+
+            yield return PopupManager.Instance.InitSuccessWait();
+        }
 
         // 끝났을경우 씬전환
         SceneManager.Instance.Init();

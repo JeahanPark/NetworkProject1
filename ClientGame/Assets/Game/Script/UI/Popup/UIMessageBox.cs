@@ -9,9 +9,8 @@ public class UIMessageBox : UIPopup
         return PopupID.UIMessageBox;
     }
     private Text m_Text = null;
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         m_Text = transform.Find("Text").GetComponent<Text>();
     }
 

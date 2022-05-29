@@ -81,6 +81,10 @@ int main()
                 cout << "Send ErrorCode : " << errCode << endl;
                 return 0;
             }
+            else
+            {
+                cout << "Client : " << sendBuffer << endl;
+            }
         }
 
         // 1초 대기

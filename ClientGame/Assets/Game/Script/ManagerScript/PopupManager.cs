@@ -8,6 +8,7 @@ public enum PopupID
 {
     UIFadeInOut,
     UIMessageBox,
+    UINickNameSetting,
     UI_MAX,
 }
 
@@ -196,7 +197,7 @@ public class PopupManager : MonoSingleton<PopupManager>
         }
 
 
-        m_eManagerState = ManagerState.InitAfter;
+        m_eManagerState = ManagerState.InitSuccess;
     }
 
     private void PopupClear()

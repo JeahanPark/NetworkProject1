@@ -52,8 +52,10 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected enum ManagerState
     {
+        None,
         InitBefore,
-        InitAfter,
+        InitSuccess,
+        InitFail,
         ManagerState_MAX,
     }
 
@@ -64,7 +66,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            return m_eManagerState == ManagerState.InitAfter;
+            return m_eManagerState == ManagerState.InitSuccess;
         }
     }
     public static T Instance
