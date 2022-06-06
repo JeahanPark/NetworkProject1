@@ -313,8 +313,8 @@ C:\NetworkTest\ClientGame\Temp\Bin\Debug\UnityEditor.UI.pdb
 C:\NetworkTest\ClientGame\Temp\Bin\Debug\Unity.Rider.Editor.pdb
 C:\NetworkTest\ClientGame\Temp\Bin\Debug\UnityEngine.UI.pdb
 C:\NetworkTest\ClientGame\Temp\Bin\Debug\Unity.PlasticSCM.Editor.pdb
-C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csprojAssemblyReference.cache
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.dll
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.pdb
+C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.AssemblyReference.cache

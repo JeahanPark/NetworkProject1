@@ -123,10 +123,10 @@ int main()
 
     cout << "Connected To Server!" << endl;
 
-    std::thread t1(Send, clientSocket);
+    //std::thread t1(Send, clientSocket);
     std::thread t2(Receive, clientSocket);
 
-    t1.join();
+    //t1.join();
     t2.join();
 
     while (true)

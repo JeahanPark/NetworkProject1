@@ -7,11 +7,7 @@ public class IntroController : MonoBehaviour
 {
     private void Start()
     {
-        int a = 0;
-
         StartCoroutine(IntroProcees());
-
-        int b = 0;
     }
 
     private IEnumerator IntroProcees()

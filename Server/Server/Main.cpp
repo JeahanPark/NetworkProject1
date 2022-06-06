@@ -185,7 +185,8 @@ int main()
         Session* session = g_SessionManager->CreateSession();
         session->SetSocket(clientSocket);
 
-        LOG("Client Connect!!!");
+
+        cout << session->GetSessionNumber() << " Join!!!" << endl;
 
         // 2번의 형식
         // IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.

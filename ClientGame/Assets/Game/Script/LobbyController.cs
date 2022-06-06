@@ -13,4 +13,11 @@ public class LobbyController : MonoBehaviour
     {
         SceneManager.Instance.SceneChange(SceneType.InGame);
     }
+
+    public void Login()
+    {
+        SocketManager.Instance.Init();
+
+        SocketManager.Instance.Send();
+    }
 }
