@@ -158,7 +158,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Session.cpp" />
-    <ClCompile Include="ListenerSocket.cpp" />
+    <ClCompile Include="ListenerSession.cpp" />
+    <ClCompile Include="SessionManager.cpp" />
+    <ClCompile Include="SocketEvent.cpp" />
+    <ClCompile Include="SocketUtil.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="TLSData.cpp" />
   </ItemGroup>
@@ -169,7 +172,10 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SereverMacro.h" />
     <ClInclude Include="Session.h" />
-    <ClInclude Include="ListenerSocket.h" />
+    <ClInclude Include="ListenerSession.h" />
+    <ClInclude Include="SessionManager.h" />
+    <ClInclude Include="SocketEvent.h" />
+    <ClInclude Include="SocketUtil.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="TLSData.h" />
     <ClInclude Include="Types.h" />

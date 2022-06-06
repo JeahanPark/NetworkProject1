@@ -3,17 +3,32 @@
 
 const int BUFSIZE = 1000;
 
-class Session
+class Session : WSAOVERLAPPED
 {
 public:
+    Session();
+
+public:
     SOCKET GetSocket() { return m_Socket; }
+    void SetSocket(SOCKET _socket) { m_Socket = _socket; }
+
+public:
+    WSABUF* GetInitRecvieWSABUF();
+
+    WSABUF* GetInitSendWSABUF();
+
+    string GetSessionNumber();
 
 public:
     char m_recvBuffer[BUFSIZE];
+    char m_sendBuffer[BUFSIZE];
 
-private:
-    
+protected:
     SOCKET m_Socket = INVALID_SOCKET;
+    WSABUF* m_wsaRecvieBuf;
+    WSABUF* m_wsaSendBuf;
+    int m_iSessionNumber = 0;
+
     /*
     SOCKET socket = INVALID_SOCKET;
     char recvBuffer[BUFSIZE] = {};

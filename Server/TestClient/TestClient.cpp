@@ -1,17 +1,73 @@
 ﻿#include <iostream>
 #include <stdio.h>
-
+#include <string>
 
 /////////// 네트워크 관련
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <WinSock2.h>
 #include <ws2tcpip.h>
+#include <thread>
 #pragma comment(lib, "ws2_32.lib")
 /////////// 네트워크 관련
 using namespace std;
 
 #define LOG(text) cout << text << endl;
+
+void Send(SOCKET clientSocket)
+{
+    int count = 0;
+
+    while (true)
+    {
+        string strData = "Hello World";
+        strData += to_string(count++);
+
+        char sendBuffer[1000];
+        strcpy_s(sendBuffer, strData.c_str());
+
+        // send는 연결된 소켓으로 데이터를 보낸다.
+        // clientSocket는 소켓주소가 서버이므로 서버로 해당 버퍼를 보낸다.
+        {
+            int resultCode = ::send(clientSocket, sendBuffer, sizeof(sendBuffer), 0);
+            if (resultCode == SOCKET_ERROR)
+            {
+                int errCode = ::WSAGetLastError();
+                cout << "Send ErrorCode : " << errCode << endl;
+            }
+        }
+        // 1초 대기
+        Sleep(1000);
+    }
+}
+
+void Receive(SOCKET clientSocket)
+{
+    int count = 0;
+
+    while (true)
+    {
+        char receBuffer[1000];
+
+        // send는 연결된 소켓으로 데이터를 보낸다.
+        // clientSocket는 소켓주소가 서버이므로 서버로 해당 버퍼를 보낸다.
+        {
+            int resultCode = ::recv(clientSocket, receBuffer, sizeof(receBuffer), 0);
+            if (resultCode == SOCKET_ERROR)
+            {
+                int errCode = ::WSAGetLastError();
+                cout << "Send ErrorCode : " << errCode << endl;
+            }
+            else
+            {
+                cout << "receiveData : " << receBuffer << endl;
+            }
+        }
+
+        // 1초 대기
+        Sleep(1000);
+    }
+}
 
 int main()
 {
@@ -67,28 +123,15 @@ int main()
 
     cout << "Connected To Server!" << endl;
 
+    std::thread t1(Send, clientSocket);
+    std::thread t2(Receive, clientSocket);
+
+    t1.join();
+    t2.join();
+
     while (true)
     {
-        char sendBuffer[100] = "Hello World";
-
-        // send는 연결된 소켓으로 데이터를 보낸다.
-        // clientSocket는 소켓주소가 서버이므로 서버로 해당 버퍼를 보낸다.
-        {
-            int resultCode = ::send(clientSocket, sendBuffer, sizeof(sendBuffer), 0);
-            if (resultCode == SOCKET_ERROR)
-            {
-                int errCode = ::WSAGetLastError();
-                cout << "Send ErrorCode : " << errCode << endl;
-                return 0;
-            }
-            else
-            {
-                cout << "Client : " << sendBuffer << endl;
-            }
-        }
-
-        // 1초 대기
-        Sleep(1000);
+        //모르겠다 일단돌려
     }
 
     // 윈도우 소켓 해제

@@ -13,14 +13,21 @@
     <ClCompile Include="Session.cpp">
       <Filter>Session</Filter>
     </ClCompile>
-    <ClCompile Include="ListenerSocket.cpp">
-      <Filter>Socket</Filter>
-    </ClCompile>
     <ClCompile Include="Packet.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="ListenerSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketUtil.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionManager.cpp" />
+    <ClCompile Include="SocketEvent.cpp">
+      <Filter>Socket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,11 +37,11 @@
     <Filter Include="Session">
       <UniqueIdentifier>{8852ea0f-68c9-462a-9569-7949cd4c7545}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Socket">
-      <UniqueIdentifier>{5b139cf7-de10-4101-a783-896944a9bba2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Packet">
       <UniqueIdentifier>{e5b73f8d-1119-4bd1-bd27-6eadfa9b4812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Socket">
+      <UniqueIdentifier>{25321ebf-887e-44df-b217-3e4d504f669a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,14 +58,21 @@
     <ClInclude Include="Session.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="ListenerSocket.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
     <ClInclude Include="Packet.h">
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ListenerSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketUtil.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h" />
+    <ClInclude Include="SocketEvent.h">
+      <Filter>Socket</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,10 +15,10 @@ using namespace std;
 #pragma comment(lib, "ws2_32.lib")
 /////////// 네트워크 관련
 
-// 자료구조
+//잡다한거
 #include <vector>
-
-// 자료구조
+#include <string>
+//잡다한거
 
 // 내가만든거
 #include "SereverMacro.h"
@@ -27,4 +27,7 @@ using namespace std;
 #include "IntegrateManager.h"
 #include "Session.h"
 #include "Packet.h"
+#include "SocketUtil.h"
+#include "ThreadManager.h"
+#include "SessionManager.h"
 // 내가만든거

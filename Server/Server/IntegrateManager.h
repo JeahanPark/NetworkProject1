@@ -2,4 +2,4 @@
 
 
 extern class ThreadManager* g_ThreadManager;
-extern class ListenerSocket* g_ListenerSocket;
+extern class SessionManager* g_SessionManager;

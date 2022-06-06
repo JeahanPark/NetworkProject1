@@ -3,7 +3,11 @@ class PacketHandler
 {
 
 public:
-	void SocketRegister()
+	PacketHandler();
 
+	void RegisterSession(Session _session);
+
+private:
+	HANDLE						m_iocpHandle;
 };
 

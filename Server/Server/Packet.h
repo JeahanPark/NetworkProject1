@@ -10,11 +10,11 @@ enum PacketType
 class Packet : public OVERLAPPED
 {
 
-public:
-	PacketType GetPacketType() { return m_ePacketType; }
-
-protected:
-	PacketType m_ePacketType;
+//public:
+//	PacketType GetPacketType() { return m_ePacketType; }
+//
+//protected:
+//	PacketType m_ePacketType;
 };
 
 class AcceptPaket : public Packet

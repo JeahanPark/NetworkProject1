@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "IntegrateManager.h"
-#include "ThreadManager.h"
-#include "ListenerSocket.h"
+
+#include "ListenerSession.h"
+
 
 ThreadManager* g_ThreadManager = nullptr;
-ListenerSocket* g_ListenerSocket = nullptr;
+SessionManager* g_SessionManager = nullptr;
 
 class IntegrateManager
 {
@@ -12,11 +13,11 @@ public:
 	IntegrateManager()
 	{
 		g_ThreadManager = new ThreadManager();
-		g_ListenerSocket = new ListenerSocket();
+		g_SessionManager = new SessionManager();
 	}
 	~IntegrateManager()
 	{
 		delete g_ThreadManager;
-		delete g_ListenerSocket;
+		delete g_SessionManager;
 	}
 } g_IntergrateManager;
