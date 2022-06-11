@@ -40,3 +40,11 @@ string Session::GetSessionNumber()
 
 	return strNum;
 }
+
+void Session::SendPacketHandling()
+{
+}
+
+void Session::ReceivePacketHandling()
+{
+}

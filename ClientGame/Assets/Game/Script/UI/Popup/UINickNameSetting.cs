@@ -17,6 +17,5 @@ public class UINickNameSetting : UIPopup
     private void Awake()
     {
         m_InputField = transform.Find("InputField").GetComponent<InputField>();
-
     }
 }

@@ -94,5 +94,53 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         yield return new WaitUntil(() => { return InitSuccess; });
     }
 }
+
+public abstract class MonoDestroySingleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private static T m_singleton = null;
+
+    protected enum ManagerState
+    {
+        None,
+        InitBefore,
+        InitSuccess,
+        InitFail,
+        ManagerState_MAX,
+    }
+
+    protected ManagerState m_eManagerState = ManagerState.InitBefore;
+
+
+    public bool InitSuccess
+    {
+        get
+        {
+            return m_eManagerState == ManagerState.InitSuccess;
+        }
+    }
+    public static T Instance
+    {
+        get
+        {
+            if (m_singleton == null)
+            {
+
+                GameObject go = new GameObject(typeof(T).Name, typeof(T));
+                m_singleton = go.GetComponent<T>();
+                //Debug.Log(typeof(T).Name);
+            }
+            return m_singleton;
+        }
+    }
+
+    public abstract void Init();
+
+    public abstract void Destroy();
+
+    public IEnumerator InitSuccessWait()
+    {
+        yield return new WaitUntil(() => { return InitSuccess; });
+    }
+}
 #endregion MonoSingleton
 

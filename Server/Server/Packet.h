@@ -1,11 +1,6 @@
 #pragma once
 class Session;
 
-enum PacketType
-{
-	Connect,
-	Accept,
-};
 
 class Packet : public OVERLAPPED
 {

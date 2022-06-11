@@ -10,9 +10,5 @@ PacketHandler::PacketHandler()
 	// 2. IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 
 	//    해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
 
-	m_iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 }
 
-void PacketHandler::RegisterSession(Session _session)
-{
-}

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIFrameworkTool
+public static class UIFrameworkTool
 {
     class ChildData
     {

@@ -60,7 +60,9 @@ void SocketEventHandle(HANDLE _IOCPhandle)
 
         if(socketEvent->GetSocketEventType() == SocketEventType_Receive)
         {
-            Broadcast(session->m_recvBuffer);
+            //session->PacketHandling();
+
+            //Broadcast(session->m_recvBuffer);
 
             SocketEvent* sEvent = new SocketEvent(SocketEventType_Receive, session);
 

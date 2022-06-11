@@ -19,6 +19,9 @@ public:
 
     string GetSessionNumber();
 
+    void SendPacketHandling();
+    void ReceivePacketHandling();
+
 public:
     char m_recvBuffer[BUFSIZE];
     char m_sendBuffer[BUFSIZE];
