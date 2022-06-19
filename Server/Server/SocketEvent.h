@@ -1,6 +1,6 @@
 #pragma once
 
-enum SocketEventType
+enum class SocketEventType
 {
 	SocketEventType_None,
 	SocketEventType_Send,
@@ -26,7 +26,7 @@ public:
 	}
 
 private:
-	SocketEventType m_EventType = SocketEventType_None;
+	SocketEventType m_EventType = SocketEventType::SocketEventType_None;
 	Session* m_Session = nullptr;
 };
 

@@ -13,23 +13,42 @@ public:
     void SetSocket(SOCKET _socket) { m_Socket = _socket; }
 
 public:
-    WSABUF* GetInitRecvieWSABUF();
+    void SendChatting(char chattingContent[]);
+
+
+public:
+    WSABUF* GetRecvieWSABUF();
 
     WSABUF* GetInitSendWSABUF();
 
     string GetSessionNumber();
 
     void SendPacketHandling();
-    void ReceivePacketHandling();
+    void ReceivePacketHandling(DWORD _bytesTransferred);
 
-public:
-    char m_recvBuffer[BUFSIZE];
-    char m_sendBuffer[BUFSIZE];
 
-protected:
+private:
+    int GetRecvUseBuffer()
+    {
+        return m_iWritePos - m_iReadPos;
+    }
+
+private:
+    // Recv
+    char        m_recvBuffer[BUFSIZE];
+    WSABUF*     m_wsaRecvieBuf;
+    int         m_iReadPos = 0;
+    int         m_iWritePos = 0;
+
+
+    // Send
+    char        m_sendBuffer[BUFSIZE];
+    WSABUF*     m_wsaSendBuf;
+
+private:
     SOCKET m_Socket = INVALID_SOCKET;
-    WSABUF* m_wsaRecvieBuf;
-    WSABUF* m_wsaSendBuf;
+
+
     int m_iSessionNumber = 0;
 
     /*

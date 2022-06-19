@@ -1,40 +1,5 @@
 ﻿#include "pch.h"
-#define LOG(text) cout << text << endl;
-//
-//enum IO_TYPE
-//{
-//    READ,
-//    WRITE,
-//    ACCEPT,
-//    CONNECT,
-//};
-//
-//struct OverlappedEx
-//{
-//    WSAOVERLAPPED overlapped = {};
-//    int type = 0; // read, write, accept, connect ...
-//};
-//
 
-void Broadcast(char _sendbuffer[BUFSIZE])
-{
-    std::vector<Session*> vecSession = g_SessionManager->GetSessions();
-
-    int nCount = (int)vecSession.size();
-    for (int i = 0; i < nCount; ++i)
-    {
-        SocketEvent* sEvent = new SocketEvent(SocketEventType_Send, vecSession[i]);
-
-        WSABUF wsaBuf;
-        wsaBuf.buf = _sendbuffer;
-        wsaBuf.len = BUFSIZE;
-
-        DWORD sendLen = 0;
-        DWORD flags = 0;
-
-        WSASend(vecSession[i]->GetSocket(), &wsaBuf, 1, &sendLen, flags, (LPWSAOVERLAPPED)sEvent, NULL);
-    }
-}
 void SocketEventHandle(HANDLE _IOCPhandle)
 {
     while (true)
@@ -58,22 +23,22 @@ void SocketEventHandle(HANDLE _IOCPhandle)
 
         Session* session = socketEvent->GetSession();
 
-        if(socketEvent->GetSocketEventType() == SocketEventType_Receive)
+        cout << session->GetSessionNumber() << " : " << session->GetRecvieWSABUF()->buf << endl;
+
+        if(socketEvent->GetSocketEventType() == SocketEventType::SocketEventType_Receive)
         {
-            //session->PacketHandling();
+            session->ReceivePacketHandling(bytesTransferred);
 
-            //Broadcast(session->m_recvBuffer);
-
-            SocketEvent* sEvent = new SocketEvent(SocketEventType_Receive, session);
+            SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, session);
 
             DWORD recvLen = 0;
             DWORD flags = 0;
 
-            cout << session->GetSessionNumber() << " : " << session->m_recvBuffer << endl;
+            cout << session->GetSessionNumber() << " : " << session->GetRecvieWSABUF()->buf << endl;
 
-            ::WSARecv(session->GetSocket(), session->GetInitRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
+            ::WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
         }
-        else if (socketEvent->GetSocketEventType() == SocketEventType_Send)
+        else if (socketEvent->GetSocketEventType() == SocketEventType::SocketEventType_Send)
         {
             cout << "SocketEventType_Send" << endl;
         }
@@ -85,7 +50,7 @@ void SocketEventHandle(HANDLE _IOCPhandle)
 
 int main()
 {
-    LOG("Server Start!!!");
+    cout << "Server Start!!!" << endl;
     /*
     1. 윈도우 소켓 생성
     2. 소켓 생성(서버)
@@ -112,7 +77,7 @@ int main()
 
         if (::WSAStartup(wVersionRequested, &wsaData) != 0)
         {
-            LOG("WSAData Fail");
+            cout << "WSAData Fail" << endl;
             return 0;
         }
     }
@@ -138,7 +103,7 @@ int main()
         // bind 함수 는 소켓 주소 표현 구조체와 소켓을 연결하기위해 사용하는것
         if (::bind(listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
         {
-            LOG("bind Fail");
+            cout << "bind Fail" << endl;
             return 0;
         }
     }
@@ -149,7 +114,7 @@ int main()
         
         if (::listen(listenSocket, SOMAXCONN) == SOCKET_ERROR)
         {
-            LOG("listen Fail");
+            cout << "listen Fail" << endl;
             return 0;
         }
     }
@@ -200,16 +165,13 @@ int main()
             // 주소와 길이를 저장하는이유
             // WSABUF 배열 형식으로 한번에 전달 가능하게끔 하기위해
             // 버퍼를 모아서 한번에 출력하는기법이 Scatter-Gather
-            WSABUF wsaBuf;
-            wsaBuf.buf = session->m_recvBuffer;
-            wsaBuf.len = BUFSIZE;
 
-            SocketEvent* sEvent = new SocketEvent(SocketEventType_Receive, session);
+            SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, session);
 
             DWORD recvLen = 0;
             DWORD flags = 0;
 
-            WSARecv(session->GetSocket(), session->GetInitRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
+            WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
         }
     }
     

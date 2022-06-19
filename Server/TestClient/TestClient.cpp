@@ -12,18 +12,20 @@
 /////////// 네트워크 관련
 using namespace std;
 
-#define LOG(text) cout << text << endl;
-
 void Send(SOCKET clientSocket)
 {
     int count = 0;
 
     while (true)
     {
-        string strData = "Hello World";
-        strData += to_string(count++);
+        string strData = "1111111111\n";
 
-        char sendBuffer[1000];
+        for (int i = 0; i < 300; ++i)
+        {
+            strData += "1111111111\n";
+        }
+
+        char sendBuffer[10000];
         strcpy_s(sendBuffer, strData.c_str());
 
         // send는 연결된 소켓으로 데이터를 보낸다.
@@ -74,7 +76,7 @@ int main()
     // 클라이언트는 일단 기본적인 걸로한다.
 
 
-    LOG("Test Client!!!");
+    cout << "Test Client!!!" << endl;
     // 윈도우 소켓 생성
     {
         WORD wVersionRequested;
@@ -84,7 +86,7 @@ int main()
 
         if (::WSAStartup(wVersionRequested, &wsaData) != 0)
         {
-            LOG("WSAData Fail");
+            cout << "WSAData Fail" << endl;
             return 0;
         }
     }
@@ -123,10 +125,10 @@ int main()
 
     cout << "Connected To Server!" << endl;
 
-    //std::thread t1(Send, clientSocket);
+    std::thread t1(Send, clientSocket);
     std::thread t2(Receive, clientSocket);
 
-    //t1.join();
+    t1.join();
     t2.join();
 
     while (true)

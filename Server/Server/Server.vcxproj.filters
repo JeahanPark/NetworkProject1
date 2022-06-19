@@ -13,14 +13,8 @@
     <ClCompile Include="Session.cpp">
       <Filter>Session</Filter>
     </ClCompile>
-    <ClCompile Include="Packet.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="ListenerSession.cpp">
-      <Filter>Session</Filter>
     </ClCompile>
     <ClCompile Include="SocketUtil.cpp">
       <Filter>Socket</Filter>
@@ -58,14 +52,8 @@
     <ClInclude Include="Session.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="Packet.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="ListenerSession.h">
-      <Filter>Session</Filter>
     </ClInclude>
     <ClInclude Include="SocketUtil.h">
       <Filter>Socket</Filter>

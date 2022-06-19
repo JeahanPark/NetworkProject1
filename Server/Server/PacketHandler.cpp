@@ -1,14 +1,44 @@
 #include "pch.h"
 #include "PacketHandler.h"
 
-PacketHandler::PacketHandler()
+void PacketHandler::PacketHandling(PacketData* _Packetdata)
 {
-	//    // CreateIoCompletionPort함수는 2가지 용도로 사용한다.
-	// 1. IOCP커널 오브젝트를 생성하기위해 사용된다.
-	//    처음에 한번 호출을 해줘야한다.
-	//    호출후에는 IOCP 핸들을 반환한다.
-	// 2. IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 
-	//    해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
+	switch (_Packetdata->m_PakcetType)
+	{
+	case PacketType::CToS_Login:
+		break;
 
+	case PacketType::Both_Chatting:
+		Chatting((ChattingPacket*)_Packetdata);
+		break;
+
+	default:
+		break;
+	}
 }
 
+void PacketHandler::Chatting(ChattingPacket* _Packetdata)
+{
+	std::vector<Session*> vecSession = g_SessionManager->GetSessions();
+
+	int nCount = (int)vecSession.size();
+	for (int i = 0; i < nCount; ++i)
+	{
+		SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, vecSession[i]);
+
+
+		ChattingPacket chatting;
+		chatting.m_PakcetType = PacketType::Both_Chatting;
+		chatting.m_iSize = sizeof(ChattingPacket);
+
+		WSABUF wsaBuf;
+		wsaBuf.buf = _Packetdata->chattingContent;
+		wsaBuf.len = BUFSIZE;
+
+		DWORD sendLen = 0;
+		DWORD flags = 0;
+
+		WSASend(vecSession[i]->GetSocket(), &wsaBuf, 1, &sendLen, flags, (LPWSAOVERLAPPED)sEvent, NULL);
+	}
+
+}
