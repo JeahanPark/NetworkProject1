@@ -1,49 +1,21 @@
 #include "pch.h"
 #include "Session.h"
+#include "ReceiveBuffer.h"
+#include "SendBuffer.h"
 
 static int SessionNumber = 0;
 
 Session::Session()
 {
-	m_wsaRecvieBuf = new WSABUF();
-	m_wsaSendBuf = new WSABUF();
-
-	memset(m_recvBuffer, 0, BUFSIZE);
-	memset(m_sendBuffer, 0, BUFSIZE);
-
+	m_ReceiveBuffer = new ReceiveBuffer();
 	m_iSessionNumber = SessionNumber++;
 }
 
-void Session::SendChatting(char chattingContent[])
+Session::~Session()
 {
-	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, this);
-
-	ChattingPacket chatting;
-	chatting.m_PakcetType = PacketType::Both_Chatting;
-	chatting.m_iSize = sizeof(ChattingPacket);
+	delete m_ReceiveBuffer;
 }
 
-WSABUF* Session::GetRecvieWSABUF()
-{
-	//memset(m_recvBuffer, 0, BUFSIZE);
-
-	//m_wsaRecvieBuf->buf = m_recvBuffer;
-	//m_wsaRecvieBuf->len = BUFSIZE;
-
-	m_wsaRecvieBuf->buf = &m_recvBuffer[m_iWritePos];
-	m_wsaRecvieBuf->len = BUFSIZE - m_iWritePos;
-
-	return m_wsaRecvieBuf;
-}
-
-WSABUF* Session::GetInitSendWSABUF()
-{
-	memset(m_sendBuffer, 0, BUFSIZE);
-
-	m_wsaSendBuf->buf = m_sendBuffer;
-	m_wsaSendBuf->len = BUFSIZE;
-	return m_wsaSendBuf;
-}
 
 string Session::GetSessionNumber()
 {
@@ -54,53 +26,71 @@ string Session::GetSessionNumber()
 	return strNum;
 }
 
-void Session::SendPacketHandling()
+void Session::RegisterReceive()
 {
+	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, this);
 
+	DWORD recvLen = 0;
+	DWORD flags = 0;
+
+	WSARecv(GetSocket(), m_ReceiveBuffer->GetWSABuf(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
 }
 
-void Session::ReceivePacketHandling(DWORD _bytesTransferred)
+void Session::RegisterSend(SendBuffer* _sendBuffer)
+{
+	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, this);
+
+	DWORD recvLen = 0;
+	DWORD flags = 0;
+
+	m_vecProcessSendBuffer.push_back(_sendBuffer);
+
+	WSASend(GetSocket(), _sendBuffer->GetWSABuf(), 1, &recvLen, flags, (LPWSAOVERLAPPED)sEvent, NULL);
+}
+
+void Session::ProcessReceive(DWORD _bytesTransferred)
 {
 	// 새로 데이터를 받았다.
 	// 쓰는 위치를 옮긴다.
-	m_iWritePos += _bytesTransferred;
+	m_ReceiveBuffer->WritePosMove(_bytesTransferred);
 
 	while (true)
 	{
-		if (sizeof(PacketData) > GetRecvUseBuffer())
+		if (sizeof(PacketData) > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 최소 패킷헤더보다 작다.
 			return;
 		}
+	
 
-		PacketData* data = (PacketData*)&m_recvBuffer[m_iReadPos];
-		if (data->m_iSize > GetRecvUseBuffer())
+		PacketData* data = (PacketData*)m_ReceiveBuffer->PacketAdress();
+		if (data->m_iSize > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 해당 패킷의 크기보다 작다.
 			return;
 		}
 
 		// 패킷 조립
-		PacketHandler::PacketHandling(data);
+		PacketHandler::PacketHandling(this, data);
 
 
 		// 읽은 패킷의 사이즈를 추가한다.
-		m_iReadPos += data->m_iSize;
+		m_ReceiveBuffer->ReadPosMove(data->m_iSize);
 	}
 
+	// 데이터를 모두 읽었을경우
+	m_ReceiveBuffer->AllReadCheck();
 
-	
-	if (m_iReadPos == m_iWritePos)
-	{
-		// 읽고쓰는 위치가 같을경우 초기화
-		m_iReadPos = m_iWritePos = 0;
-		memset(m_recvBuffer, 0, BUFSIZE);
-	}
-	else
-	{
-		// 아닐경우 읽고 쓰는 위치를 앞으로 당긴다.
-		::memcpy(&m_recvBuffer[0], &m_recvBuffer[m_iReadPos], GetRecvUseBuffer());
-		m_iReadPos = 0;
-		m_iWritePos = GetRecvUseBuffer();
-	}
+	// 리시브를 다시 받을수있도록 요청하자
+	RegisterReceive();
+}
+
+void Session::ProcessSend(DWORD _bytesTransferred)
+{
+	SendBuffer* sendBuffer = m_vecProcessSendBuffer[0];
+
+	PacketData* data = (PacketData*)sendBuffer->GetSendBufferAdress();
+
+	// 패킷조립
+	PacketHandler::PacketHandling(this, data);
 }

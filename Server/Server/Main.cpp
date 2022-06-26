@@ -23,25 +23,7 @@ void SocketEventHandle(HANDLE _IOCPhandle)
 
         Session* session = socketEvent->GetSession();
 
-        cout << session->GetSessionNumber() << " : " << session->GetRecvieWSABUF()->buf << endl;
-
-        if(socketEvent->GetSocketEventType() == SocketEventType::SocketEventType_Receive)
-        {
-            session->ReceivePacketHandling(bytesTransferred);
-
-            SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, session);
-
-            DWORD recvLen = 0;
-            DWORD flags = 0;
-
-            cout << session->GetSessionNumber() << " : " << session->GetRecvieWSABUF()->buf << endl;
-
-            ::WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
-        }
-        else if (socketEvent->GetSocketEventType() == SocketEventType::SocketEventType_Send)
-        {
-            cout << "SocketEventType_Send" << endl;
-        }
+        socketEvent->SocketEventHandling(bytesTransferred);
 
         delete socketEvent;
     }
@@ -166,12 +148,9 @@ int main()
             // WSABUF 배열 형식으로 한번에 전달 가능하게끔 하기위해
             // 버퍼를 모아서 한번에 출력하는기법이 Scatter-Gather
 
-            SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, session);
+            session->RegisterReceive();
 
-            DWORD recvLen = 0;
-            DWORD flags = 0;
-
-            WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
+            //WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
         }
     }
     

@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <stdio.h>
 #include <string>
+#include "ClientPacketHandler.h"
 
 /////////// 네트워크 관련
 #define WIN32_LEAN_AND_MEAN
@@ -18,15 +19,8 @@ void Send(SOCKET clientSocket)
 
     while (true)
     {
-        string strData = "1111111111\n";
-
-        for (int i = 0; i < 300; ++i)
-        {
-            strData += "1111111111\n";
-        }
-
-        char sendBuffer[10000];
-        strcpy_s(sendBuffer, strData.c_str());
+        char sendBuffer[1000];
+        strcpy_s(sendBuffer, ClientPacketHandler::Send_Chatting());
 
         // send는 연결된 소켓으로 데이터를 보낸다.
         // clientSocket는 소켓주소가 서버이므로 서버로 해당 버퍼를 보낸다.
@@ -37,6 +31,8 @@ void Send(SOCKET clientSocket)
                 int errCode = ::WSAGetLastError();
                 cout << "Send ErrorCode : " << errCode << endl;
             }
+            else
+                cout << "SendPacket" << endl;
         }
         // 1초 대기
         Sleep(1000);
@@ -62,7 +58,7 @@ void Receive(SOCKET clientSocket)
             }
             else
             {
-                cout << "receiveData : " << receBuffer << endl;
+                ClientPacketHandler::RecievePacketHandling(receBuffer);
             }
         }
 

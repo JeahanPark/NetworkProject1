@@ -5,38 +5,25 @@ enum class PacketType
 	// 서버에서 클라로
 
 	SToC_Login,
+	SToC_Chatting,
+
 	// 서버에서 클라로
 
 	// 클라에서 서버로
 
 	CToS_Login,
+	CToS_Chatting,
+
 	// 클라에서 서버로
 
-	// 둘다 똑같은 형태로 씀
-	
-	Both_Chatting,
-	 
-	// 둘다 똑같은 형태로 씀
 	END,
 };
-
-
 
 struct PacketData
 {
 public:
 	PacketType	m_PakcetType;
 	int			m_iSize;
-
-	static int GetHeaderSize()
-	{
-		return sizeof(PacketData);
-	}
-
-	virtual int GetPacketSize()
-	{
-		return GetHeaderSize();
-	}
 };
 
 struct LoginPacket : PacketData
@@ -47,19 +34,15 @@ struct LoginPacket : PacketData
 struct ChattingPacket : PacketData
 {
 public:
-	char chattingContent[];
+	char chattingContent[500];
 };
+
 class ClientPacketHandler
 {
+public:
+	static void RecievePacketHandling(char* _buffer);
+	static void Recieve_Chatting(ChattingPacket* _chattingPacket);
 
 	// Send
-public:
-
-
-
-	// Receive
-public:
-	static void PacketHandling(PacketData* _Packetdata);
-
-	static void Chatting(ChattingPacket* _Packetdata);
+	static char* Send_Chatting();
 };

@@ -1,17 +1,20 @@
 #include "pch.h"
 #include "PacketHandler.h"
+#include "SendBuffer.h"
 
-void PacketHandler::PacketHandling(PacketData* _Packetdata)
+void PacketHandler::PacketHandling(Session* _session, PacketData* _Packetdata)
 {
 	switch (_Packetdata->m_PakcetType)
 	{
 	case PacketType::CToS_Login:
 		break;
 
-	case PacketType::Both_Chatting:
+	case PacketType::CToS_Chatting:
 		Chatting((ChattingPacket*)_Packetdata);
 		break;
-
+	case PacketType::SToC_Chatting:
+		cout << _session->GetSessionNumber() << " : " << "SToC_Chatting" << endl;
+		break;
 	default:
 		break;
 	}
@@ -24,21 +27,14 @@ void PacketHandler::Chatting(ChattingPacket* _Packetdata)
 	int nCount = (int)vecSession.size();
 	for (int i = 0; i < nCount; ++i)
 	{
-		SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, vecSession[i]);
+		SendBuffer* pSendBuffer = new SendBuffer();
 
+		ChattingPacket* chatting = (ChattingPacket*)pSendBuffer->GetSendBufferAdress();
+		chatting->m_PakcetType = PacketType::SToC_Chatting;
+		chatting->m_iSize = sizeof(ChattingPacket);
+		chatting->chattingContent = _Packetdata->chattingContent;
 
-		ChattingPacket chatting;
-		chatting.m_PakcetType = PacketType::Both_Chatting;
-		chatting.m_iSize = sizeof(ChattingPacket);
-
-		WSABUF wsaBuf;
-		wsaBuf.buf = _Packetdata->chattingContent;
-		wsaBuf.len = BUFSIZE;
-
-		DWORD sendLen = 0;
-		DWORD flags = 0;
-
-		WSASend(vecSession[i]->GetSocket(), &wsaBuf, 1, &sendLen, flags, (LPWSAOVERLAPPED)sEvent, NULL);
+		vecSession[i]->RegisterSend(pSendBuffer);
 	}
 
 }

@@ -23,6 +23,12 @@
     <ClCompile Include="SocketEvent.cpp">
       <Filter>Socket</Filter>
     </ClCompile>
+    <ClCompile Include="ReceiveBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Thread">
@@ -36,6 +42,9 @@
     </Filter>
     <Filter Include="Socket">
       <UniqueIdentifier>{25321ebf-887e-44df-b217-3e4d504f669a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{30a85690-a6d6-4263-b4cb-bee911dc8ac7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +70,12 @@
     <ClInclude Include="SessionManager.h" />
     <ClInclude Include="SocketEvent.h">
       <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceiveBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>Buffer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

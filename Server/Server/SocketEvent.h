@@ -9,6 +9,7 @@ enum class SocketEventType
 };
 
 class Session;
+class SendBuffer;
 class SocketEvent : WSAOVERLAPPED
 {
 public:
@@ -24,9 +25,9 @@ public:
 	{
 		return m_EventType;
 	}
+	void SocketEventHandling(DWORD _bytesTransferred);
 
 private:
 	SocketEventType m_EventType = SocketEventType::SocketEventType_None;
 	Session* m_Session = nullptr;
 };
-
