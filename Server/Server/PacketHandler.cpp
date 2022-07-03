@@ -27,12 +27,14 @@ void PacketHandler::Chatting(ChattingPacket* _Packetdata)
 	int nCount = (int)vecSession.size();
 	for (int i = 0; i < nCount; ++i)
 	{
-		SendBuffer* pSendBuffer = new SendBuffer();
+		SendBuffer* pSendBuffer = new SendBuffer(sizeof(ChattingPacket));
 
 		ChattingPacket* chatting = (ChattingPacket*)pSendBuffer->GetSendBufferAdress();
 		chatting->m_PakcetType = PacketType::SToC_Chatting;
 		chatting->m_iSize = sizeof(ChattingPacket);
-		chatting->chattingContent = _Packetdata->chattingContent;
+		strcpy_s(chatting->chattingContent, _Packetdata->chattingContent);
+
+		pSendBuffer->WsaBufSetting();
 
 		vecSession[i]->RegisterSend(pSendBuffer);
 	}

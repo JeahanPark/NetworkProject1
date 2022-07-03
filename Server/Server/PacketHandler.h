@@ -34,7 +34,7 @@ struct LoginPacket : PacketData
 struct ChattingPacket : PacketData
 {
 public:
-	char* chattingContent;
+	char chattingContent[500];
 
 	
 };

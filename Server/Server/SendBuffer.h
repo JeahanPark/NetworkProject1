@@ -2,12 +2,14 @@
 class SendBuffer
 {
 public:
-    SendBuffer();
+    SendBuffer(int _BufferSize);
     ~SendBuffer();
 public:
     WSABUF* GetWSABuf();
-    char& GetSendBufferAdress();
+    char* GetSendBufferAdress();
+    void WsaBufSetting();
 private:
-    char        m_sendBuffer[BUFSIZE];
-    WSABUF     m_wsaSendBuf;
+    int         m_BufferSize;
+    char*       m_sendBuffer;
+    WSABUF      m_wsaSendBuf;
 };

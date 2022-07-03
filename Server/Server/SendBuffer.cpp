@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "SendBuffer.h"
 
-SendBuffer::SendBuffer()
+SendBuffer::SendBuffer(int _BufferSize) : m_BufferSize(_BufferSize) ,m_sendBuffer{}
 {
-	memset(m_sendBuffer, 0, BUFSIZE);
+	m_sendBuffer = new char[_BufferSize];
 }
 
 SendBuffer::~SendBuffer()
 {
+	delete m_sendBuffer;
 }
 
 WSABUF* SendBuffer::GetWSABuf()
@@ -15,7 +16,13 @@ WSABUF* SendBuffer::GetWSABuf()
 	return &m_wsaSendBuf;
 }
 
-char& SendBuffer::GetSendBufferAdress()
+char* SendBuffer::GetSendBufferAdress()
 {
-	return m_sendBuffer[0];
+	return m_sendBuffer;
+}
+
+void SendBuffer::WsaBufSetting()
+{
+	m_wsaSendBuf.buf = m_sendBuffer;
+	m_wsaSendBuf.len = m_BufferSize;
 }

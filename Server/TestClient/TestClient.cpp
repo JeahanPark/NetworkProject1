@@ -19,8 +19,17 @@ void Send(SOCKET clientSocket)
 
     while (true)
     {
-        char sendBuffer[1000];
-        strcpy_s(sendBuffer, ClientPacketHandler::Send_Chatting());
+        char sendBuffer[sizeof(ChattingPacket)];
+
+        ((ChattingPacket*)sendBuffer)->m_PakcetType = PacketType::CToS_Chatting;
+        ((ChattingPacket*)sendBuffer)->m_iSize = sizeof(ChattingPacket);
+        strcpy_s(((ChattingPacket*)sendBuffer)->chattingContent, "qweqwe123");
+
+        //((ChattingPacket*)sendBuffer).m_PakcetType = PacketType::SToC_Chatting;
+        //((ChattingPacket*)sendBuffer).m_iSize = sizeof(ChattingPacket);
+        //strcpy(((ChattingPacket*)sendBuffer).chattingContent, "qweqwe123");
+
+        //strcpy_s(sendBuffer, ClientPacketHandler::Send_Chatting());
 
         // send는 연결된 소켓으로 데이터를 보낸다.
         // clientSocket는 소켓주소가 서버이므로 서버로 해당 버퍼를 보낸다.

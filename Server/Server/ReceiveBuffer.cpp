@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "ReceiveBuffer.h"
 
-ReceiveBuffer::ReceiveBuffer()
+ReceiveBuffer::ReceiveBuffer() : m_recvBuffer{}, m_iReadPos{}, m_iWritePos{}
 {
-	memset(m_recvBuffer, 0, BUFSIZE);
+
 }
 
 WSABUF* ReceiveBuffer::GetWSABuf()
@@ -46,8 +46,8 @@ int ReceiveBuffer::GetRecvUseBuffer()
 	return m_iWritePos - m_iReadPos;
 }
 
-char& ReceiveBuffer::PacketAdress()
+char* ReceiveBuffer::PacketAdress()
 {
-	return m_recvBuffer[m_iReadPos];
+	return &m_recvBuffer[m_iReadPos];
 }
 

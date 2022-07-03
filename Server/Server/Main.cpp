@@ -149,8 +149,6 @@ int main()
             // 버퍼를 모아서 한번에 출력하는기법이 Scatter-Gather
 
             session->RegisterReceive();
-
-            //WSARecv(session->GetSocket(), session->GetRecvieWSABUF(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
         }
     }
     

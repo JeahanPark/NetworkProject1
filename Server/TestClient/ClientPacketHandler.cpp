@@ -10,7 +10,7 @@ void ClientPacketHandler::RecievePacketHandling(char* _buffer)
 
 	switch (data->m_PakcetType)
 	{
-	case PacketType::CToS_Chatting:
+	case PacketType::SToC_Chatting:
 		Recieve_Chatting((ChattingPacket*)data);
 		break;
 	default:

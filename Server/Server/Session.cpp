@@ -59,15 +59,15 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 		if (sizeof(PacketData) > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 최소 패킷헤더보다 작다.
-			return;
+			break;
 		}
 	
 
-		PacketData* data = (PacketData*)m_ReceiveBuffer->PacketAdress();
+		PacketData* data = (PacketData*)(m_ReceiveBuffer->PacketAdress());
 		if (data->m_iSize > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 해당 패킷의 크기보다 작다.
-			return;
+			break;
 		}
 
 		// 패킷 조립
@@ -89,8 +89,12 @@ void Session::ProcessSend(DWORD _bytesTransferred)
 {
 	SendBuffer* sendBuffer = m_vecProcessSendBuffer[0];
 
+	m_vecProcessSendBuffer.pop_back();
+
 	PacketData* data = (PacketData*)sendBuffer->GetSendBufferAdress();
 
 	// 패킷조립
 	PacketHandler::PacketHandling(this, data);
+
+	delete data;
 }

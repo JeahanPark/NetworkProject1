@@ -13,7 +13,7 @@ public:
     void        WritePosMove(DWORD _bytesTransferred);
     void        ReadPosMove(DWORD _bytesTransferred);
     int         GetRecvUseBuffer();
-    char&       PacketAdress();
+    char*       PacketAdress();
 
 
 
