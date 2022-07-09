@@ -2,80 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ThreadManager.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="TLSData.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="IntegrateManager.cpp" />
-    <ClCompile Include="Session.cpp">
-      <Filter>Session</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketHandler.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketUtil.cpp">
-      <Filter>Socket</Filter>
-    </ClCompile>
-    <ClCompile Include="SessionManager.cpp" />
-    <ClCompile Include="SocketEvent.cpp">
-      <Filter>Socket</Filter>
-    </ClCompile>
-    <ClCompile Include="ReceiveBuffer.cpp">
-      <Filter>Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="SendBuffer.cpp">
-      <Filter>Buffer</Filter>
-    </ClCompile>
+    <ClCompile Include="ServerSession.cpp" />
+    <ClCompile Include="PacketHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Thread">
-      <UniqueIdentifier>{8fd9c8f2-54c6-4a86-964d-f4ceb6650c1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Session">
-      <UniqueIdentifier>{8852ea0f-68c9-462a-9569-7949cd4c7545}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packet">
-      <UniqueIdentifier>{e5b73f8d-1119-4bd1-bd27-6eadfa9b4812}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Socket">
-      <UniqueIdentifier>{25321ebf-887e-44df-b217-3e4d504f669a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Buffer">
-      <UniqueIdentifier>{30a85690-a6d6-4263-b4cb-bee911dc8ac7}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ThreadManager.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="TLSData.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="IntegrateManager.h" />
-    <ClInclude Include="SereverMacro.h" />
-    <ClInclude Include="Session.h">
-      <Filter>Session</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketHandler.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketUtil.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="SessionManager.h" />
-    <ClInclude Include="SocketEvent.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
-    <ClInclude Include="ReceiveBuffer.h">
-      <Filter>Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="SendBuffer.h">
-      <Filter>Buffer</Filter>
-    </ClInclude>
+    <ClInclude Include="ServerSession.h" />
+    <ClInclude Include="PacketHandler.h" />
   </ItemGroup>
 </Project>

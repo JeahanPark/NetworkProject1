@@ -1,35 +1,5 @@
 ﻿#include "pch.h"
 
-void SocketEventHandle(HANDLE _IOCPhandle)
-{
-    while (true)
-    {
-        DWORD bytesTransferred = 0;
-        ULONG_PTR key = 0;
-        SocketEvent* socketEvent = nullptr;
-
-        // 대기열 완료 현황
-        // 
-
-        BOOL ret = GetQueuedCompletionStatus(_IOCPhandle, &bytesTransferred,
-            OUT &key, (LPOVERLAPPED*)&socketEvent, INFINITE);
-
-
-        if (ret == FALSE || bytesTransferred == 0)
-        {
-            // TODO : 연결 끊김
-            continue;
-        }
-
-        Session* session = socketEvent->GetSession();
-
-        socketEvent->SocketEventHandling(bytesTransferred);
-
-        delete socketEvent;
-    }
-}
-
-
 int main()
 {
     cout << "Server Start!!!" << endl;
@@ -112,10 +82,13 @@ int main()
 
 
     // IOCP를 받을 쓰레드를 돌린다.
-    g_ThreadManager->Run([&iocpHandle]
+    for (int i = 0; i < 5; ++i)
     {
-        SocketEventHandle(iocpHandle);
-    });
+        g_ThreadManager->Run([&iocpHandle]
+        {
+            SocketUtil::SocketEventHandle(iocpHandle);
+        });
+    }
 
     // 여기서 클라이언트에서 연결을 받는다.
     while (true)
@@ -131,25 +104,25 @@ int main()
 
         
 
-        Session* session = g_SessionManager->CreateSession();
-        session->SetSocket(clientSocket);
+        Session* session = g_SessionManager->CreateSession<ServerSession>();
+        session->InitSession(iocpHandle, clientSocket);
 
 
-        cout << session->GetSessionNumber() << " Join!!!" << endl;
+        //cout << session->GetSessionNumber() << " Join!!!" << endl;
 
-        // 2번의 형식
-        // IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
-        // 핸들(소켓)을 iocp와 연결
-        CreateIoCompletionPort((HANDLE)clientSocket, iocpHandle, (ULONG_PTR)session, 0);
+        //// 2번의 형식
+        //// IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
+        //// 핸들(소켓)을 iocp와 연결
+        //CreateIoCompletionPort((HANDLE)clientSocket, iocpHandle, (ULONG_PTR)session, 0);
 
-        {
-            // 버퍼의 주소와 버퍼의 길이를 저장
-            // 주소와 길이를 저장하는이유
-            // WSABUF 배열 형식으로 한번에 전달 가능하게끔 하기위해
-            // 버퍼를 모아서 한번에 출력하는기법이 Scatter-Gather
+        //{
+        //    // 버퍼의 주소와 버퍼의 길이를 저장
+        //    // 주소와 길이를 저장하는이유
+        //    // WSABUF 배열 형식으로 한번에 전달 가능하게끔 하기위해
+        //    // 버퍼를 모아서 한번에 출력하는기법이 Scatter-Gather
 
-            session->RegisterReceive();
-        }
+        //    session->RegisterReceive();
+        //}
     }
     
     // 윈도우 소켓 해제

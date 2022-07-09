@@ -72,15 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)Core\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)Core\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)Core\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)Core\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -147,7 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IntegrateManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="pch.cpp">
@@ -156,29 +163,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ReceiveBuffer.cpp" />
-    <ClCompile Include="SendBuffer.cpp" />
-    <ClCompile Include="Session.cpp" />
-    <ClCompile Include="SessionManager.cpp" />
-    <ClCompile Include="SocketEvent.cpp" />
-    <ClCompile Include="SocketUtil.cpp" />
-    <ClCompile Include="ThreadManager.cpp" />
-    <ClCompile Include="TLSData.cpp" />
+    <ClCompile Include="ServerSession.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IntegrateManager.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ReceiveBuffer.h" />
-    <ClInclude Include="SendBuffer.h" />
-    <ClInclude Include="SereverMacro.h" />
-    <ClInclude Include="Session.h" />
-    <ClInclude Include="SessionManager.h" />
-    <ClInclude Include="SocketEvent.h" />
-    <ClInclude Include="SocketUtil.h" />
-    <ClInclude Include="ThreadManager.h" />
-    <ClInclude Include="TLSData.h" />
-    <ClInclude Include="Types.h" />
+    <ClInclude Include="ServerSession.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,17 +1,17 @@
+#include "pch.h"
 #include "ClientPacketHandler.h"
-#include <iostream>
-#include <string.h>
+
 using namespace std;
 
-void ClientPacketHandler::RecievePacketHandling(char* _buffer)
+void ClientPacketHandler::RecievePacketHandling(PacketData* _Packetdata)
 {
-	PacketData* data = (PacketData*)_buffer;
-
-
-	switch (data->m_PakcetType)
+	switch (_Packetdata->m_PakcetType)
 	{
 	case PacketType::SToC_Chatting:
-		Recieve_Chatting((ChattingPacket*)data);
+		Recieve_Chatting((ChattingPacket*)_Packetdata);
+		break;
+	case PacketType::CToS_Chatting:
+		cout << "Client_Send_Chatting" << endl;
 		break;
 	default:
 		break;
@@ -23,12 +23,11 @@ void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 	cout << "receiveData : " << _chattingPacket->chattingContent << endl;
 }
 
-char* ClientPacketHandler::Send_Chatting()
+SendBuffer* ClientPacketHandler::Send_Chatting()
 {
-	ChattingPacket* chatting = new ChattingPacket();
-	chatting->m_PakcetType = PacketType::SToC_Chatting;
-	chatting->m_iSize = sizeof(ChattingPacket);
-	strcat_s(chatting->chattingContent, "qweqwe123");
+	char chattingContent[500] = "qweqwe123";
 
-	return (char*)chatting;
+	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(chattingContent, PacketType::CToS_Chatting);
+
+	return pSendBuffer;
 }

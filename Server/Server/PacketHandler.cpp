@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "PacketHandler.h"
-#include "SendBuffer.h"
 
 void PacketHandler::PacketHandling(Session* _session, PacketData* _Packetdata)
 {
@@ -11,9 +10,10 @@ void PacketHandler::PacketHandling(Session* _session, PacketData* _Packetdata)
 
 	case PacketType::CToS_Chatting:
 		Chatting((ChattingPacket*)_Packetdata);
+		cout << _session->GetSessionNumber() << " : " << "Receive_Chatting" << endl;
 		break;
 	case PacketType::SToC_Chatting:
-		cout << _session->GetSessionNumber() << " : " << "SToC_Chatting" << endl;
+		cout << _session->GetSessionNumber() << " : " << "Send_Chatting" << endl;
 		break;
 	default:
 		break;
@@ -27,16 +27,8 @@ void PacketHandler::Chatting(ChattingPacket* _Packetdata)
 	int nCount = (int)vecSession.size();
 	for (int i = 0; i < nCount; ++i)
 	{
-		SendBuffer* pSendBuffer = new SendBuffer(sizeof(ChattingPacket));
-
-		ChattingPacket* chatting = (ChattingPacket*)pSendBuffer->GetSendBufferAdress();
-		chatting->m_PakcetType = PacketType::SToC_Chatting;
-		chatting->m_iSize = sizeof(ChattingPacket);
-		strcpy_s(chatting->chattingContent, _Packetdata->chattingContent);
-
-		pSendBuffer->WsaBufSetting();
+		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(_Packetdata->chattingContent, PacketType::SToC_Chatting);
 
 		vecSession[i]->RegisterSend(pSendBuffer);
 	}
-
 }

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="CorePch.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="ReceiveBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketEvent.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketUtil.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="TLSData.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="IntegrateManager.cpp" />
+    <ClCompile Include="SessionManager.cpp" />
+    <ClCompile Include="PacketData.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CorePch.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="ReceiveBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketEvent.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketUtil.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="TLSData.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegrateManager.h" />
+    <ClInclude Include="SereverMacro.h" />
+    <ClInclude Include="SessionManager.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="PacketData.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{c6ca7f8e-1792-4487-8b1b-5b749bf3e875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{26af48ff-5ad7-440b-b1ed-8f2cd3f42332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Socket">
+      <UniqueIdentifier>{cb1b9011-8dc3-4ea8-a37f-53e99b4b6f34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{48f4bdd3-db17-4cc3-91d5-4ad3f82c76a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{c8d3e6a0-c180-4176-b7ba-bbe6b40304fd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

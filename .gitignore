@@ -4,7 +4,7 @@ ClientGame/Assets/ImageResource/
 ClientGame/Temp/
 # Visual Studio cache directory
 .vs/
-
+*x64
 # Gradle cache directory
 .gradle/
  
