@@ -24,14 +24,7 @@ int main()
         }
     }
 
-    //소켓 클래스는 네트워크 통신을 하기 위해 필요한 함수나 변수를 제공해주는 클래스입니다.
-    SOCKET clientSocket = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (clientSocket == INVALID_SOCKET)
-    {
-        int errCode = ::WSAGetLastError();
-        cout << "Socket ErrorCode : " << errCode << endl;
-        return 0;
-    }
+    HANDLE iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 
     // 서버의 주소
     SOCKADDR_IN serverAddr;
@@ -48,33 +41,47 @@ int main()
         serverAddr.sin_port = ::htons(7777);
     }
 
-    // 소켓에 서버의 소켓주소를 접속 해당 소켓은 바인딩된것으로 표시됌? 문서에 그렇게 써있음
-    if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+    int iClientCount = 3;
+
+    for (int i = 0; i < iClientCount; ++i)
     {
-        int errCode = ::WSAGetLastError();
-        cout << "Connect ErrorCode : " << errCode << endl;
-        return 0;
+        //소켓 클래스는 네트워크 통신을 하기 위해 필요한 함수나 변수를 제공해주는 클래스입니다.
+        SOCKET clientSocket = ::socket(AF_INET, SOCK_STREAM, 0);
+        if (clientSocket == INVALID_SOCKET)
+        {
+            int errCode = ::WSAGetLastError();
+            cout << "Socket ErrorCode : " << errCode << endl;
+            return 0;
+        }
+
+        // 소켓에 서버의 소켓주소를 접속 해당 소켓은 바인딩된것으로 표시됌? 문서에 그렇게 써있음
+        if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+        {
+            int errCode = ::WSAGetLastError();
+            cout << "Connect ErrorCode : " << errCode << endl;
+            return 0;
+        }
+
+        cout << "Connected To Server!" << endl;
+
+        shared_session session = g_SessionManager->CreateSession<ClientSession>();
+        session->InitSession(iocpHandle, clientSocket);
     }
 
-    cout << "Connected To Server!" << endl;
-
-    HANDLE iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
-
-    g_ThreadManager->Run([&iocpHandle]
+    for (int i = 0; i < 5; ++i)
     {
-        SocketUtil::SocketEventHandle(iocpHandle);
-    });
-
-    ClientSession* session = g_SessionManager->CreateSession<ClientSession>();
-    session->InitSession(iocpHandle, clientSocket);
-    //std::thread t2(Receive, clientSocket);
-
-  /*  t1.join();
-    t2.join();*/
+        g_ThreadManager->Run([&iocpHandle]
+        {
+            SocketUtil::SocketEventHandle(iocpHandle);
+        });
+    }
 
     while (true)
     {
-        session->Chetting();
+        for (shared_session iter : g_SessionManager->GetSessions())
+        {
+            ((ClientSession*)iter.get())->Chetting();
+        }
         //모르겠다 일단돌려
         Sleep(1000);
     }

@@ -14,19 +14,20 @@ Session::Session()
 Session::~Session()
 {
 	delete m_ReceiveBuffer;
+	SocketUtil::SocketClose(m_socket);
 }
 
 
 void Session::InitSession(HANDLE _iocpHandle, SOCKET _socket)
 {
-	m_Socket = _socket;
+	m_socket = _socket;
 
-	cout << GetSessionNumber() << " Join!!!" << endl;
+	cout << GetSessionNumber() << " Connect!!!" << endl;
 
 	// 2번의 형식
 	// IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
 	// 핸들(소켓)을 iocp와 연결
-	CreateIoCompletionPort((HANDLE)m_Socket, _iocpHandle, (ULONG_PTR)this, 0);
+	CreateIoCompletionPort((HANDLE)m_socket, _iocpHandle, (ULONG_PTR)this, 0);
 
 	{
 		// 버퍼의 주소와 버퍼의 길이를 저장
@@ -49,16 +50,29 @@ string Session::GetSessionNumber()
 
 void Session::RegisterReceive()
 {
-	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, this);
+	if (m_RegisterDisconnet)
+		return;
+
+	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, shared_from_this());
 
 	DWORD recvLen = 0;
 	DWORD flags = 0;
 
-	WSARecv(GetSocket(), m_ReceiveBuffer->GetWSABuf(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL);
+	if (SOCKET_ERROR == WSARecv(GetSocket(), m_ReceiveBuffer->GetWSABuf(), 1, &recvLen, &flags, (LPWSAOVERLAPPED)sEvent, NULL))
+	{
+		int errorCode = WSAGetLastError();
+		if (errorCode != WSA_IO_PENDING)
+		{
+			SocketEventError(errorCode);
+		}
+	}
 }
 
 void Session::RegisterSend(SendBuffer* _sendBuffer)
 {
+	if (m_RegisterDisconnet)
+		return;
+
 	{
 		LockGuard lock(m_lockSending);
 
@@ -75,8 +89,34 @@ void Session::RegisterSend(SendBuffer* _sendBuffer)
 		Send();
 }
 
+void Session::RegisterDisconnect()
+{
+	if (m_RegisterDisconnet.exchange(true) == true)
+		return;
+
+	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Disconnect, shared_from_this());
+	if (SOCKET_ERROR == SocketUtil::m_gDisconnect(m_socket, (LPWSAOVERLAPPED)sEvent, TF_REUSE_SOCKET, 0))
+	{
+		int error = WSAGetLastError();
+		if (error != WSA_IO_PENDING)
+		{
+			SocketEventError(error);
+			CRASH("Disconnect Fail");
+		}
+	}
+}
+
 void Session::ProcessReceive(DWORD _bytesTransferred)
 {
+	if (m_RegisterDisconnet)
+		return;
+
+	if (_bytesTransferred <= 0)
+	{
+		cout << "_bytesTransferred = " << _bytesTransferred << endl;
+		RegisterDisconnect();
+		return;
+	}
 	// 새로 데이터를 받았다.
 	// 쓰는 위치를 옮긴다.
 	m_ReceiveBuffer->WritePosMove(_bytesTransferred);
@@ -114,24 +154,36 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 
 void Session::ProcessSend(DWORD _bytesTransferred)
 {
+	if (m_RegisterDisconnet)
+		return;
+
 	for (SendBuffer* sendBuffer : m_lisProcessSendBuffer)
 	{
 		PacketData* data = (PacketData*)sendBuffer->GetSendBufferAdress();
 
 		// 패킷조립
-		//PacketHandler::PacketHandling(this, data);
+		PacketeHandle(data);
 
 		delete data;
 	}
 
 	m_lisProcessSendBuffer.clear();
 
-	LockGuard lock(m_lockSending);
-	
 	if (m_lisRegisterSendBuffer.empty())
 		m_RegisterSendBufferAdd.store(false);
 	else
 		Send();
+}
+
+void Session::ProcessDisconnect()
+{
+	cout << GetSessionNumber() << " Disconnect" << endl;
+	g_SessionManager->DeleteSession(shared_from_this());
+}
+
+void Session::SocketEventError(int _iCode)
+{
+	cout << GetSessionNumber() << ", SocketError : " << _iCode << endl;
 }
 
 void Session::Send()
@@ -153,11 +205,18 @@ void Session::Send()
 		}
 	}
 	
-	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, this);
+	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, shared_from_this());
 
 	DWORD recvLen = 0;
 	DWORD flags = 0;
 
 	// 쌓여있는 Send들을 한번에 넘겨준다.
-	WSASend(GetSocket(), vecWSABUF.data(), (DWORD)vecWSABUF.size(), &recvLen, flags, (LPWSAOVERLAPPED)sEvent, NULL);
+	if (SOCKET_ERROR == WSASend(GetSocket(), vecWSABUF.data(), (DWORD)vecWSABUF.size(), &recvLen, flags, (LPWSAOVERLAPPED)sEvent, NULL))
+	{
+		int errorCode = WSAGetLastError();
+		if (errorCode != WSA_IO_PENDING)
+		{
+			SocketEventError(errorCode);
+		}
+	}
 }

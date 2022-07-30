@@ -5,6 +5,7 @@ enum class SocketEventType
 	SocketEventType_None,
 	SocketEventType_Send,
 	SocketEventType_Receive,
+	SocketEventType_Disconnect,
 	SocketEventType_End
 };
 
@@ -14,10 +15,11 @@ class SocketEvent : WSAOVERLAPPED
 {
 public:
 	SocketEvent();
-	SocketEvent(SocketEventType type, Session* session);
+	SocketEvent(SocketEventType type, shared_session session);
+	~SocketEvent();
 
 public:
-	Session* GetSession()
+	shared_session GetSession()
 	{
 		return m_Session;
 	}
@@ -29,5 +31,5 @@ public:
 
 private:
 	SocketEventType m_EventType = SocketEventType::SocketEventType_None;
-	Session* m_Session = nullptr;
+	shared_session m_Session = nullptr;
 };

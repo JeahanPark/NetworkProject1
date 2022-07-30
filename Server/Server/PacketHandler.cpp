@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PacketHandler.h"
 
-void PacketHandler::PacketHandling(Session* _session, PacketData* _Packetdata)
+void PacketHandler::PacketHandling(shared_session _session, PacketData* _Packetdata)
 {
 	switch (_Packetdata->m_PakcetType)
 	{
@@ -22,13 +22,12 @@ void PacketHandler::PacketHandling(Session* _session, PacketData* _Packetdata)
 
 void PacketHandler::Chatting(ChattingPacket* _Packetdata)
 {
-	std::vector<Session*> vecSession = g_SessionManager->GetSessions();
+	set<shared_session> vecSession = g_SessionManager->GetSessions();
 
-	int nCount = (int)vecSession.size();
-	for (int i = 0; i < nCount; ++i)
+	for (shared_session iter : vecSession)
 	{
 		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(_Packetdata->chattingContent, PacketType::SToC_Chatting);
 
-		vecSession[i]->RegisterSend(pSendBuffer);
+		iter->RegisterSend(pSendBuffer);
 	}
 }

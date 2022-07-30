@@ -102,9 +102,7 @@ int main()
         if (clientSocket == INVALID_SOCKET)
             return 0;
 
-        
-
-        Session* session = g_SessionManager->CreateSession<ServerSession>();
+        shared_session session = g_SessionManager->CreateSession<ServerSession>();
         session->InitSession(iocpHandle, clientSocket);
 
 
@@ -113,7 +111,7 @@ int main()
         //// 2번의 형식
         //// IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
         //// 핸들(소켓)을 iocp와 연결
-        //CreateIoCompletionPort((HANDLE)clientSocket, iocpHandle, (ULONG_PTR)session, 0);
+        //Crea.teIoCompletionPort((HANDLE)clientSocket, iocpHandle, (ULONG_PTR)session, 0);
 
         //{
         //    // 버퍼의 주소와 버퍼의 길이를 저장

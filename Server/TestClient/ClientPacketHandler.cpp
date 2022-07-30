@@ -11,7 +11,7 @@ void ClientPacketHandler::RecievePacketHandling(PacketData* _Packetdata)
 		Recieve_Chatting((ChattingPacket*)_Packetdata);
 		break;
 	case PacketType::CToS_Chatting:
-		cout << "Client_Send_Chatting" << endl;
+		//cout << "Client_Send_Chatting" << endl;
 		break;
 	default:
 		break;

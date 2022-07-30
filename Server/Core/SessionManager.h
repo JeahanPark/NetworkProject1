@@ -6,20 +6,23 @@ class SessionManager
 
 public:
 	template <class T1>
-	T1* CreateSession()
+	shared_session CreateSession()
 	{
-		Session* session = new T1();
-		m_vecSession.push_back(session);
-		return (T1*)session;
+		LockGuard lock(m_lockSession);
+
+		shared_session shared = make_shared<T1>();
+
+		m_setSession.insert(shared);
+		return shared;
 	}
 
-public:
-	vector<Session*> GetSessions()
-	{
-		return m_vecSession;
-	}
+	void DeleteSession(shared_session _session);
+
+	set<shared_session> GetSessions();
+
 
 private:
-	vector<Session*> m_vecSession;
+	set<shared_session>		m_setSession;
+	mutex					m_lockSession;
 };
 
