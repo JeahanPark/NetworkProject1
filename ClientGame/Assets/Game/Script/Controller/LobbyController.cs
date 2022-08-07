@@ -37,9 +37,9 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         
     }
 
-    public void ReceiveChattingMessage(string _strMessage)
+    public void ReceiveChattingMessage(V2ChattingPacket _packet)
     {
-        m_UILobby.ReceiveChattingMessage(_strMessage);
+        m_UILobby.ReceiveChattingMessage(_packet.chattingContent);
     }
 
     public override void Init()

@@ -32,5 +32,4 @@ public class DataManager : Singleton<DataManager>
 
 public class UserData
 {
-    int a = 0;
 }

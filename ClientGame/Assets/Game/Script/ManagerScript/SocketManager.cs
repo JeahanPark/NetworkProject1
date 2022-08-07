@@ -15,8 +15,8 @@ public class SocketManager : MonoSingleton<SocketManager>
     private const string m_strServerAddress = "127.0.0.1";
     private const int m_iPort = 7777;
 
+    private Queue<byte[]> m_queBuffer = new Queue<byte[]>(); 
     private string m_strMessage = string.Empty;
-    private int m_ReceiveCount = 0;
 
     public bool IsConnet()
     {
@@ -35,12 +35,12 @@ public class SocketManager : MonoSingleton<SocketManager>
     {
     }
 
-    public void Send(string _strMessage)
+    public void Send(byte[] _buffer)
     {
-        if(!string.IsNullOrEmpty(m_strMessage))
+        if(_buffer == null || _buffer.Length == 0)
             return;
 
-        m_strMessage = _strMessage;
+        m_queBuffer.Enqueue(_buffer);
 
         StartCoroutine(CoSendData());
     }
@@ -112,55 +112,76 @@ public class SocketManager : MonoSingleton<SocketManager>
         {
             byte[] bytes = new byte[1000];
 
-            IAsyncResult async = null;
-            try
+            int iTotalRecevieBtye = 0;
+
+            while(true)
             {
-                async = m_socket.BeginReceive(bytes, 0, bytes.Length, 0, null, null);
+                IAsyncResult async = null;
+                try
+                {
+                    async = m_socket.BeginReceive(bytes, iTotalRecevieBtye, bytes.Length, 0, null, null);
+                }
+                catch (SocketException e)
+                {
+                    Debug.Log(string.Format("{0} Error Code: {1}.", e.Message, e.ErrorCode));
+
+                    m_socket.EndReceive(async);
+                    yield break;
+                }
+
+                // 뭔가 받은게 있다.
+                while (!async.IsCompleted)
+                    yield return null;
+
+                int iRecevieBtye = m_socket.EndReceive(async);
+
+                iTotalRecevieBtye += iRecevieBtye;
+
+
+                // 패킷 사이즈 체크후
+                // 패킷 데이터 처리
+                if (Packet.ReceviePacketHandle(bytes, iTotalRecevieBtye))
+                {
+                    // 패킷 보내는거 성공
+                    break;
+                }
+                else
+                {
+                    // 패킷 사이즈 체크에서 실패
+                    continue;
+                }
             }
-            catch (SocketException e)
-            {
-                Debug.Log(string.Format("{0} Error Code: {1}.", e.Message, e.ErrorCode));
-
-                m_socket.EndReceive(async);
-                yield break;
-            }
-
-            // 뭔가 받은게 있다.
-            while (!async.IsCompleted)
-                yield return null;
-
-            m_socket.EndReceive(async);
-
-            PacketReceiveHandler(bytes);
         }
     }
     public IEnumerator CoSendData()
     {
-        if(!string.IsNullOrEmpty(m_strMessage))
+        byte[] buffer = m_queBuffer.Dequeue();
+
+        if (buffer == null)
+            yield break;
+
+        IAsyncResult asyncResult = null; 
+        try
         {
-            IAsyncResult asyncResult = null; 
-            byte[] msg = Encoding.UTF8.GetBytes(m_strMessage);
-            try
-            {
-                asyncResult = m_socket.BeginSend(msg, 0, msg.Length, 0, null, null);
-            }
-            catch (SocketException e)
-            {
-                Debug.Log(string.Format("{0} Error Code: {1}.", e.Message, e.ErrorCode));
-                m_socket.EndSend(asyncResult);
-                m_strMessage = string.Empty;
-                yield break;
-            }
-
-            while(!asyncResult.IsCompleted)
-            {
-                yield return null;
-            }
-
-            int size = m_socket.EndSend(asyncResult);
-            Debug.Log("Size Leng :" + size);
-            m_strMessage = string.Empty;
+            asyncResult = m_socket.BeginSend(buffer, 0, buffer.Length, 0, null, null);
         }
+        catch (SocketException e)
+        {
+            Debug.Log(string.Format("{0} Error Code: {1}.", e.Message, e.ErrorCode));
+            m_socket.EndSend(asyncResult);
+            m_strMessage = string.Empty;
+            yield break;
+        }
+
+        while(!asyncResult.IsCompleted)
+        {
+            yield return null;
+        }
+
+        int size = m_socket.EndSend(asyncResult);
+        Debug.Log("Size Leng :" + size);
+        m_strMessage = string.Empty;
+        
     }
 
     private void PacketReceiveHandler(byte[] buffer)
@@ -169,6 +190,6 @@ public class SocketManager : MonoSingleton<SocketManager>
 
         // 일단 대화밖에 없어서 이렇게 처리
         // 근데 어케해야될지 모르겠어...
-        LobbyController.Instance.ReceiveChattingMessage(strReceiveDaata);
+        //LobbyController.Instance.ReceiveChattingMessage(strReceiveDaata);
     }
 }

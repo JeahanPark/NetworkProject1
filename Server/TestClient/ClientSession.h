@@ -5,6 +5,6 @@ protected:
 	virtual void PacketeHandle(PacketData* _Packetdata) override;
 
 public:
-	void Chetting();
+	void Chatting();
 };
 

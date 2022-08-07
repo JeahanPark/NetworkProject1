@@ -7,9 +7,10 @@ public class UIChatting : MonoBehaviour
 {
     private const int m_iMaxInputText = 20;
 
-    private InputField m_InputField = null;
-    private Text m_txtPrefabs = null;
-    private Transform m_transContent = null;
+    private InputField          m_InputField = null;
+    private Text                m_txtPrefabs = null;
+    private Transform           m_transContent = null;
+    private ScrollRect          m_scroll = null;
     private void Awake()
     {
         m_InputField = transform.Find("InputField").GetComponent<InputField>();
@@ -18,8 +19,8 @@ public class UIChatting : MonoBehaviour
 
         m_transContent = transform.Find("Scroll View/Viewport/Content");
 
+        m_scroll = transform.Find("Scroll View").GetComponent<ScrollRect>();
     }
-
     private void Start()
     {
         m_InputField.onValueChanged.AddListener(OnClickInputText);
@@ -47,8 +48,7 @@ public class UIChatting : MonoBehaviour
         if (string.IsNullOrEmpty(m_InputField.text))
             return;
 
-        // 어차피 동기라 블락킹이라 상관없긴한데... 나중에 바꿔야겠다
-        SocketManager.Instance.Send(m_InputField.text);
+        Packet.Chatting(m_InputField.text);
     }
 
     public void ReceiveChattingMessage(string _sendMessage)
@@ -56,5 +56,7 @@ public class UIChatting : MonoBehaviour
         Text text = Instantiate<Text>(m_txtPrefabs, m_transContent);
         text.gameObject.SetActive(true);
         text.text = _sendMessage;
+
+        m_scroll.verticalNormalizedPosition = 0;
     }
 }

@@ -41,7 +41,7 @@ int main()
         serverAddr.sin_port = ::htons(7777);
     }
 
-    int iClientCount = 3;
+    int iClientCount = 1;
 
     for (int i = 0; i < iClientCount; ++i)
     {
@@ -80,7 +80,7 @@ int main()
     {
         for (shared_session iter : g_SessionManager->GetSessions())
         {
-            ((ClientSession*)iter.get())->Chetting();
+            ((ClientSession*)iter.get())->Chatting();
         }
         //모르겠다 일단돌려
         Sleep(1000);

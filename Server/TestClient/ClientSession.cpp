@@ -6,7 +6,7 @@ void ClientSession::PacketeHandle(PacketData* _Packetdata)
 	ClientPacketHandler::RecievePacketHandling(_Packetdata);
 }
 
-void ClientSession::Chetting()
+void ClientSession::Chatting()
 {
 	SendBuffer* buffer = ClientPacketHandler::Send_Chatting();
 
