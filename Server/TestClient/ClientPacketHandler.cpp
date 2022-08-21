@@ -20,7 +20,7 @@ void ClientPacketHandler::RecievePacketHandling(PacketData* _Packetdata)
 
 void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 {
-	cout << "receiveData : " << _chattingPacket->chattingContent << endl;
+	cout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
 }
 
 SendBuffer* ClientPacketHandler::Send_Chatting()

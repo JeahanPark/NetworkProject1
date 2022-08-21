@@ -20,6 +20,52 @@ int main()
     // Select
     // WSAEvent
 
+    //DB세팅
+    if (!DataBaseManager().GetInstance()->Connect())
+    {
+        cout << "DB Connect Fail" << endl;
+        return 0;
+    }
+        
+    
+    PacketHandler::Register(nullptr);
+
+    return 0;
+
+    DBObject* object = DataBaseManager().GetInstance()->PopDBObject();
+
+    //int32 outGold = 0;
+    //SQLLEN outGoldLen = 0;
+    //ASSERT_CRASH(dbConn->BindCol(2, SQL_C_LONG, sizeof(outGold), &outGold, &outGoldLen));
+
+    //DataBaseManager().GetInstance()->BindCol(1 ,SQL_VARCHAR,)
+
+    //DataBaseManager().GetInstance()->UseDB();
+
+    WCHAR UserID[50];
+    SQLLEN outUserID = 0;
+    object->BindCol(1, SQL_C_WCHAR, 50, &UserID, &outUserID);
+
+    WCHAR Password[50];
+    SQLLEN outPassword = 0;
+    object->BindCol(2, SQL_C_WCHAR, 50, &Password, &outPassword);
+
+    int Score;
+    SQLLEN outScoreLen = 0;
+    object->BindCol(3, SQL_C_LONG, SQL_INTEGER, &Score, &outScoreLen);
+
+    object->Query(L"SELECT * FROM [GameServer].[dbo].[Players]");
+
+    wcout.imbue(locale("kor"));
+
+    while (object->Fetch())
+    {
+        wcout << "UserID  : " << UserID << ", Password  : "
+            << Password << ", Score  : " << Score << endl;
+    }
+
+    return 0;
+
     // 윈도우 소켓 생성
     {
         WORD wVersionRequested;
@@ -104,7 +150,6 @@ int main()
 
         shared_session session = g_SessionManager->CreateSession<ServerSession>();
         session->InitSession(iocpHandle, clientSocket);
-
 
         //cout << session->GetSessionNumber() << " Join!!!" << endl;
 

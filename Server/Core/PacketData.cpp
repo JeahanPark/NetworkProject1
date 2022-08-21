@@ -9,7 +9,7 @@ SendBuffer* PacketCreate::ChattingPacketCreate(char* _content, PacketType _ePack
 	ChattingPacket* chatting = (ChattingPacket*)pSendBuffer->GetSendBufferAdress();
 	chatting->m_PakcetType = _ePacketType;
 	chatting->m_iSize = sizeof(ChattingPacket);
-	strcpy_s(chatting->chattingContent, _content);
+	strcpy_s(chatting->m_chattingContent, _content);
 
 	pSendBuffer->WsaBufSetting();
 

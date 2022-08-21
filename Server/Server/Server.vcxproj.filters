@@ -5,10 +5,27 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
+    <ClCompile Include="DataBaseManager.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="DBObject.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="PacketHandler.h" />
+    <ClInclude Include="DataBaseManager.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="DBObject.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

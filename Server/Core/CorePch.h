@@ -18,6 +18,7 @@ using namespace std;
 #include <list>
 #include <string>
 #include <set>
+#include <queue>
 //잡다한거
 
 // 내가만든거
