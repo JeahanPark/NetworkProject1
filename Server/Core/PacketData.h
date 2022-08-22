@@ -6,7 +6,7 @@ enum class ePacketType
 
 	SToC_Login,
 	SToC_Chatting,
-
+	SToC_PacketResult,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -32,7 +32,7 @@ public:
 
 };
 
-struct PacketResult
+struct PacketResult : PacketData
 {
 public:
 	int			m_iResult;

@@ -56,9 +56,7 @@ public class UIRegister : UIPopup
             }
         });
 
-        while (!bResult || !uIRegister.IsClose)
+        while (!bResult && !uIRegister.IsClose)
             yield return null;
-
-        if(!uIRegister.m_bRegister || )
     }
 }

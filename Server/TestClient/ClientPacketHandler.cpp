@@ -7,10 +7,10 @@ void ClientPacketHandler::RecievePacketHandling(PacketData* _Packetdata)
 {
 	switch (_Packetdata->m_PakcetType)
 	{
-	case PacketType::SToC_Chatting:
+	case ePacketType::SToC_Chatting:
 		Recieve_Chatting((ChattingPacket*)_Packetdata);
 		break;
-	case PacketType::CToS_Chatting:
+	case ePacketType::CToS_Chatting:
 		//cout << "Client_Send_Chatting" << endl;
 		break;
 	default:
@@ -27,7 +27,7 @@ SendBuffer* ClientPacketHandler::Send_Chatting()
 {
 	char chattingContent[500] = "qweqwe123";
 
-	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(chattingContent, PacketType::CToS_Chatting);
+	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(chattingContent, ePacketType::CToS_Chatting);
 
 	return pSendBuffer;
 }
