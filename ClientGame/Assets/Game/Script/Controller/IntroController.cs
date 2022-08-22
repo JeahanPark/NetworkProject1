@@ -28,6 +28,19 @@ public class IntroController : MonoBehaviour
             yield return PopupManager.Instance.InitSuccessWait();
         }
 
+        // 소켓 연결
+        {
+            bool bResult = false;
+            LobbyController.Instance.ServerConnect((result) =>
+            {
+                bResult = result;
+            });
+
+            while (!bResult)
+                yield return null;
+        }
+
+
         // 끝났을경우 씬전환
         SceneManager.Instance.Init();
         yield return SceneManager.Instance.InitSuccessWait();

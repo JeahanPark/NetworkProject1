@@ -9,6 +9,7 @@ public enum PopupID
     UIFadeInOut,
     UIMessageBox,
     UINickNameSetting,
+    UIRegister,
     UI_MAX,
 }
 
@@ -52,6 +53,13 @@ public class PopupManager : MonoSingleton<PopupManager>
             return;
         }
         _fnAsyncResult(popup);
+    }
+
+    public UIPopup GetOpenPopup(PopupID _ePopupID)
+    {
+        UIPopup popup = null;
+        m_dicPopupObject.TryGetValue(_ePopupID, out popup);
+        return popup;
     }
 
     public void ClosePopup(PopupID _ePopupID)

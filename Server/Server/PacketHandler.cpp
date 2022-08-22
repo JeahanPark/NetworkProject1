@@ -7,19 +7,25 @@ void PacketHandler::PacketHandling(shared_session _session, PacketData* _packetD
 {
 	switch (_packetData->m_PakcetType)
 	{
-	case PacketType::CToS_Login:
+	case ePacketType::CToS_Login:
 		break;
 
-	case PacketType::CToS_Chatting:
+	case ePacketType::CToS_Chatting:
 		Chatting(_packetData);
 		SESSION_LOG(_session->GetSessionNumber(), "CToS_Chatting")
 		break;
-	case PacketType::SToC_Chatting:
+	case ePacketType::CToS_UserRegister:
+		Register(_session, _packetData);
+		SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
+			break;
+
+
+
+	case ePacketType::SToC_Chatting:
 		SESSION_LOG(_session->GetSessionNumber(), "SToC_Chatting")
 		break;
-	case PacketType::CToS_UserRegister:
-		Register(_packetData);
-		SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
+	case ePacketType::SToC_PacketResult:
+		SESSION_LOG(_session->GetSessionNumber(), "SToC_PacketResult")
 		break;
 	default:
 		break;
@@ -34,13 +40,13 @@ void PacketHandler::Chatting(PacketData* _packetData)
 
 	for (shared_session iter : vecSession)
 	{
-		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(packetData->m_chattingContent, PacketType::SToC_Chatting);
+		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(packetData->m_chattingContent, ePacketType::SToC_Chatting);
 
 		iter->RegisterSend(pSendBuffer);
 	}
 }
 
-void PacketHandler::Register(PacketData* _packetData)
+void PacketHandler::Register(shared_session _session, PacketData* _packetData)
 {
 	UserRegistPacket* packetData = (UserRegistPacket*)_packetData;
 
@@ -60,4 +66,22 @@ void PacketHandler::Register(PacketData* _packetData)
 	{
 		cout << "Query Fail" << endl;
 	}
+
+	SendBuffer* pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::SToC_PacketResult);
+	_session->RegisterSend(pSendBuffer);
+}
+
+SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType)
+{
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(PacketResult));
+
+	PacketResult* chatting = (PacketResult*)pSendBuffer->GetSendBufferAdress();
+	chatting->m_PakcetType = _ePacketType;
+	chatting->m_iSize = sizeof(PacketResult);
+
+	chatting->m_iResult = (int)_packetResult;
+
+	pSendBuffer->WsaBufSetting();
+
+	return pSendBuffer;
 }

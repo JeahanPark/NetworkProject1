@@ -9,36 +9,18 @@ public enum PacketType
 
 	SToC_Login,
 	SToC_Chatting,
-
+	SToC_PacketResult,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
 
 	CToS_Login,
 	CToS_Chatting,
-
+	CToS_UserRegister,
 	// 클라에서 서버로
 
 	END,
 }
-
-public class PacketData
-{
-	public PacketType m_PakcetType;
-	public int m_iSize;
-};
-
-public class LoginPacket : PacketData
-{
-
-};
-
-
-public class ChattingPacket : PacketData
-{
-	char[] chattingContent;
-};
-
 // 아... 나눌껄....
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct PacketHeader
@@ -62,6 +44,16 @@ public struct V2ChattingPacket
 }
 
 
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct UserRegistPacket
+{
+	public PacketType m_PakcetType;
+	public int m_iSize;
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_UserID;
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_Password;
+};
 
 public class Packet
 {

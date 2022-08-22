@@ -2,7 +2,7 @@
 #include "PacketData.h"
 
 
-SendBuffer* PacketCreate::ChattingPacketCreate(char* _content, PacketType _ePacketType)
+SendBuffer* PacketCreate::ChattingPacketCreate(char* _content, ePacketType _ePacketType)
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(ChattingPacket));
 

@@ -27,10 +27,12 @@ public class UILobby : MonoBehaviour
 
     public void OnClickLogin()
     {
-        LobbyController.Instance.Login((result) => 
-        {
-            m_Chatting.gameObject.SetActive(result);
-        });
+
+    }
+
+    public void OnClickRegister()
+    {
+
     }
 
     public void ReceiveChattingMessage(string strMessage)

@@ -10,4 +10,12 @@ public abstract class UIPopup : MonoBehaviour
     {
         PopupManager.Instance.ClosePopup(GetPopupID());
     }
+
+    public bool IsClose
+    {
+        get
+        {
+            return !gameObject.activeSelf;
+        }
+    }
 }

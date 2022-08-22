@@ -10,6 +10,19 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     {
         
     }
+    private void Start()
+    {
+        StartCoroutine(LobbyEnter());
+    }
+
+    private IEnumerator LobbyEnter()
+    {
+        yield return null;
+
+
+
+
+    }
 
     public void SetUILobby(UILobby lobby)
     {
@@ -21,25 +34,40 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         SceneManager.Instance.SceneChange(SceneType.InGame);
     }
 
-    public void Login(System.Action<bool> _funResult)
+    public void ServerConnect(System.Action<bool> _funResult)
     {
         SocketManager.Instance.ServerConnect((result) => 
         {
-            if(result)
-            {
-                DataManager.Instance.Login();
-            }
-
-
             _funResult(result);
         });
-
-        
     }
 
     public void ReceiveChattingMessage(V2ChattingPacket _packet)
     {
         m_UILobby.ReceiveChattingMessage(_packet.chattingContent);
+    }
+
+    public IEnumerator CoRegister()
+    {
+        
+        string strID = string.Empty;
+        string strPassword = string.Empty;
+
+        // UI 노출
+        yield return UIRegister.ShowPopup((id, password) =>
+        {
+            strID = id;
+            strPassword = password;
+        });
+
+        if(string.IsNullOrEmpty(strID) ||
+            string.IsNullOrEmpty(strPassword))
+        {
+            Debug.Log("회원가입 안함");
+            yield break;
+        }
+
+
     }
 
     public override void Init()

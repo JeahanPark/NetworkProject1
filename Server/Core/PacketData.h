@@ -1,5 +1,5 @@
 #pragma once
-enum class PacketType
+enum class ePacketType
 {
 	NONE = 0,
 	// 서버에서 클라로
@@ -19,11 +19,23 @@ enum class PacketType
 	END,
 };
 
+enum class ePacketResult
+{
+	Success,
+};
+
 struct PacketData
 {
 public:
-	PacketType	m_PakcetType;
+	ePacketType	m_PakcetType;
 	int			m_iSize;
+
+};
+
+struct PacketResult
+{
+public:
+	int			m_iResult;
 };
 
 struct UserRegistPacket : PacketData
@@ -50,5 +62,5 @@ public:
 class PacketCreate
 {
 public:
-	static SendBuffer* ChattingPacketCreate(char* _content, PacketType _ePacketType);
+	static SendBuffer* ChattingPacketCreate(char* _content, ePacketType _ePacketType);
 };

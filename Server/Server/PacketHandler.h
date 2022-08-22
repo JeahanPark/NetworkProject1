@@ -7,5 +7,7 @@ public:
 
 	static void Chatting(PacketData* _packetData);
 
-	static void Register(PacketData* _packetData);
+	static void Register(shared_session _session, PacketData* _packetData);
+
+	static SendBuffer* PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType);
 };

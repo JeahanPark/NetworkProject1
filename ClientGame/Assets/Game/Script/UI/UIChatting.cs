@@ -36,7 +36,7 @@ public class UIChatting : MonoBehaviour
 
         if(_strText.Length > m_iMaxInputText)
         {
-            UIMessageBox.ShowMessageBox("21자 이상은 텍스트 입력이 불가능합니다.");
+            UIMessageBox.ShowPopup("21자 이상은 텍스트 입력이 불가능합니다.");
 
             m_InputField.text = _strText.Substring(0, m_iMaxInputText);
         }

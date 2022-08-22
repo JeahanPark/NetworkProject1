@@ -18,7 +18,7 @@ public class UIMessageBox : UIPopup
     {
         m_Text.text = _strText;
     }
-    public static void ShowMessageBox(string _strText)
+    public static void ShowPopup(string _strText)
     {
         PopupManager.Instance.OpenPopup(PopupID.UIMessageBox, (popup) =>
         {
