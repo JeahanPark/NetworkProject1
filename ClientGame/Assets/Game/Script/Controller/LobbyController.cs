@@ -49,7 +49,6 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
     public IEnumerator CoRegister()
     {
-        
         string strID = string.Empty;
         string strPassword = string.Empty;
 
@@ -66,8 +65,19 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
             Debug.Log("회원가입 안함");
             yield break;
         }
+        UserRegistPacket packet = new UserRegistPacket();
+        packet.m_UserID = strID;
+        packet.m_Password = strPassword;
 
+        Packet.SendPacket<UserRegistPacket>(packet, PacketType.CToS_UserRegister);
+    }
 
+    public void SendChattingPacket(string _text)
+    {
+        V2ChattingPacket packet = new V2ChattingPacket();
+        packet.chattingContent = _text;
+
+        Packet.SendPacket<V2ChattingPacket>(packet, PacketType.CToS_Chatting);
     }
 
     public override void Init()

@@ -37,8 +37,6 @@ public struct PacketHeader
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct V2ChattingPacket
 {
-    public PacketType m_PakcetType;
-    public int m_iSize;
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 500)]
 	public string chattingContent;
 }
@@ -47,8 +45,6 @@ public struct V2ChattingPacket
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct UserRegistPacket
 {
-	public PacketType m_PakcetType;
-	public int m_iSize;
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_UserID;
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -57,11 +53,11 @@ public struct UserRegistPacket
 
 public class Packet
 {
-	private static T BufferToPacket<T>(byte[] _buffer) where T : struct
+	private static T BufferToPacket<T>(byte[] _buffer, int _startIndex) where T : struct
     {
 		int size = Marshal.SizeOf(typeof(T));
 		IntPtr ptr = Marshal.AllocHGlobal(size);
-		Marshal.Copy(_buffer, 0, ptr, size);
+		Marshal.Copy(_buffer, _startIndex, ptr, size);
 		T packet = (T)Marshal.PtrToStructure(ptr, typeof(T));
 		Marshal.FreeHGlobal(ptr);
 
@@ -70,9 +66,10 @@ public class Packet
 
 	public static bool ReceviePacketHandle(byte[] _buffer, int _iBufferSize)
     {
-        // 패킷 헤더 사이즈 체크
-        {
-			int iHearSize = Marshal.SizeOf(typeof(PacketHeader));
+		int iHearSize = 0;
+		// 패킷 헤더 사이즈 체크
+		{
+			iHearSize = Marshal.SizeOf(typeof(PacketHeader));
 			if (_iBufferSize < iHearSize)
 				return false;
 		}
@@ -80,7 +77,7 @@ public class Packet
 		// 패킷 사이즈가 부족하다.
 		PacketHeader packetHeader;
 		{
-			packetHeader = BufferToPacket<PacketHeader>(_buffer);
+			packetHeader = BufferToPacket<PacketHeader>(_buffer, 0);
 			if (packetHeader.m_iSize < _iBufferSize)
 				return false;
 		}
@@ -90,7 +87,7 @@ public class Packet
 			switch (packetHeader.m_PakcetType)
 			{
 				case PacketType.SToC_Chatting:
-					V2ChattingPacket chatting = BufferToPacket<V2ChattingPacket>(_buffer);
+					V2ChattingPacket chatting = BufferToPacket<V2ChattingPacket>(_buffer, iHearSize);
 					LobbyController.Instance.ReceiveChattingMessage(chatting);
 					break;
 			}
@@ -99,28 +96,34 @@ public class Packet
 		return true;
 	}
 
-	public static void Chatting(string _strText)
+	public static void SendPacket<T>(T _packet, PacketType packetType) where T : struct
     {
-		V2ChattingPacket chattingPacket = new V2ChattingPacket();
-		chattingPacket.m_PakcetType = PacketType.CToS_Chatting;
-		chattingPacket.chattingContent = _strText;
+		PacketHeader packetHeader = new PacketHeader();
+		packetHeader.m_PakcetType = packetType;
 
 		// SizeOf 사용하여 할당할 관리되지 않는 메모리의 양을 결정
-		int size = Marshal.SizeOf(chattingPacket);
+		int headerSize = Marshal.SizeOf(packetHeader);
+		int BodySize = Marshal.SizeOf(_packet);
 
-		chattingPacket.m_iSize = size;
+		packetHeader.m_iSize = headerSize + BodySize;
 
-		byte[] arr = new byte[size];
+		byte[] arr = new byte[packetHeader.m_iSize];
 
 		// 프로세스의 관리되지 않는 메모리에서 메모리를 할당합니다.
-		IntPtr ptr = Marshal.AllocHGlobal(size);
+		IntPtr headerPtr = Marshal.AllocHGlobal(headerSize);
+		IntPtr bodyPtr = Marshal.AllocHGlobal(BodySize);
 
 		// 관리되는 개체의 데이터를 관리되지 않는 메모리 블록으로 마샬링합니다.
-		Marshal.StructureToPtr(chattingPacket, ptr, true);
-		Marshal.Copy(ptr, arr, 0, size);
+
+		Marshal.StructureToPtr(packetHeader, headerPtr, true);
+		Marshal.StructureToPtr(_packet, bodyPtr, true);
+
+		Marshal.Copy(headerPtr, arr, 0, headerSize);
+		Marshal.Copy(bodyPtr, arr, headerSize, BodySize);
 
 		// 프로세스의 할당한 관리되지 않는 메모리를 해제시킵니다.
-		Marshal.FreeHGlobal(ptr);
+		Marshal.FreeHGlobal(headerPtr);
+		Marshal.FreeHGlobal(bodyPtr);
 
 		SocketManager.Instance.Send(arr);
 	}

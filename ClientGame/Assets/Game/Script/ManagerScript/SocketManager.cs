@@ -183,13 +183,4 @@ public class SocketManager : MonoSingleton<SocketManager>
         m_strMessage = string.Empty;
         
     }
-
-    private void PacketReceiveHandler(byte[] buffer)
-    {
-        string strReceiveDaata = Encoding.UTF8.GetString(buffer);
-
-        // 일단 대화밖에 없어서 이렇게 처리
-        // 근데 어케해야될지 모르겠어...
-        //LobbyController.Instance.ReceiveChattingMessage(strReceiveDaata);
-    }
 }

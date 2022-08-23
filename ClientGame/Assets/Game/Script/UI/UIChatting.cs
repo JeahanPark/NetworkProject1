@@ -48,8 +48,8 @@ public class UIChatting : MonoBehaviour
         if (string.IsNullOrEmpty(m_InputField.text))
             return;
 
-        Packet.Chatting(m_InputField.text);
-    }
+        LobbyController.Instance.SendChattingPacket(m_InputField.text);
+    } 
 
     public void ReceiveChattingMessage(string _sendMessage)
     {
