@@ -33,6 +33,7 @@ public class UILobby : MonoBehaviour
     public void OnClickRegister()
     {
 
+        UIRegister.ShowPopup();
     }
 
     public void ReceiveChattingMessage(string strMessage)

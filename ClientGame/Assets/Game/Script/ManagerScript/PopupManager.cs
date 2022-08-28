@@ -52,6 +52,8 @@ public class PopupManager : MonoSingleton<PopupManager>
             CreatePopup(_ePopupID, _fnAsyncResult);
             return;
         }
+        popup.gameObject.SetActive(true);
+
         _fnAsyncResult(popup);
     }
 

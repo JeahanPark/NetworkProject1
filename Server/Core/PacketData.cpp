@@ -2,15 +2,15 @@
 #include "PacketData.h"
 
 
-SendBuffer* PacketCreate::ChattingPacketCreate(char* _content, ePacketType _ePacketType)
+SendBuffer* PacketCreate::ChattingPacketCreate(WCHAR* _content, ePacketType _ePacketType)
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(ChattingPacket));
 
 	ChattingPacket* chatting = (ChattingPacket*)pSendBuffer->GetSendBufferAdress();
 	chatting->m_PakcetType = _ePacketType;
 	chatting->m_iSize = sizeof(ChattingPacket);
-	strcpy_s(chatting->m_chattingContent, _content);
-
+	wcscpy_s(chatting->m_chattingContent, _content);
+ 
 	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;

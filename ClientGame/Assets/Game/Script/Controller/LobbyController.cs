@@ -47,29 +47,27 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         m_UILobby.ReceiveChattingMessage(_packet.chattingContent);
     }
 
-    public IEnumerator CoRegister()
+    public void ReceiveRegister(ePacketResult _eResult)
     {
-        string strID = string.Empty;
-        string strPassword = string.Empty;
+        if (_eResult == ePacketResult.Success)
+            UIMessageBox.ShowPopup("회원가입 성공");
+        else
+            UIMessageBox.ShowPopup("회원가입 실패");
+    }
 
-        // UI 노출
-        yield return UIRegister.ShowPopup((id, password) =>
+    public void SendRegister(string _strID, string _strPassword)
+    {
+        if(string.IsNullOrEmpty(_strID) ||
+            string.IsNullOrEmpty(_strPassword))
         {
-            strID = id;
-            strPassword = password;
-        });
-
-        if(string.IsNullOrEmpty(strID) ||
-            string.IsNullOrEmpty(strPassword))
-        {
-            Debug.Log("회원가입 안함");
-            yield break;
+            Debug.Log("비밀번호나 아이디가 입력이안되있음");
+            return;
         }
         UserRegistPacket packet = new UserRegistPacket();
-        packet.m_UserID = strID;
-        packet.m_Password = strPassword;
+        packet.m_UserID = _strID;
+        packet.m_Password = _strPassword;
 
-        Packet.SendPacket<UserRegistPacket>(packet, PacketType.CToS_UserRegister);
+        Packet.SendPacket<UserRegistPacket>(packet, ePacketType.CToS_UserRegister);
     }
 
     public void SendChattingPacket(string _text)
@@ -77,7 +75,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         V2ChattingPacket packet = new V2ChattingPacket();
         packet.chattingContent = _text;
 
-        Packet.SendPacket<V2ChattingPacket>(packet, PacketType.CToS_Chatting);
+        Packet.SendPacket<V2ChattingPacket>(packet, ePacketType.CToS_Chatting);
     }
 
     public override void Init()

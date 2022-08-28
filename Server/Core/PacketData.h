@@ -35,6 +35,7 @@ public:
 struct PacketResult : PacketData
 {
 public:
+	ePacketType	m_TargetPakcetType;
 	int			m_iResult;
 };
 
@@ -48,19 +49,19 @@ public:
 
 struct LoginPacket : PacketData
 {
-
+public:
+	WCHAR m_UserID[64];
+	WCHAR m_Password[64];
 };
 
 struct ChattingPacket : PacketData
 {
 public:
-	char m_chattingContent[500];
-
-
+	WCHAR m_chattingContent[300];
 };
 
 class PacketCreate
 {
 public:
-	static SendBuffer* ChattingPacketCreate(char* _content, ePacketType _ePacketType);
+	static SendBuffer* ChattingPacketCreate(WCHAR* _content, ePacketType _ePacketType);
 };

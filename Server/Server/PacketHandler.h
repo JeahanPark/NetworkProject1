@@ -10,4 +10,6 @@ public:
 	static void Register(shared_session _session, PacketData* _packetData);
 
 	static SendBuffer* PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType);
+
+	static void Login(shared_session _session, PacketData* _packetData);
 };

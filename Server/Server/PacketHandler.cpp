@@ -50,38 +50,61 @@ void PacketHandler::Register(shared_session _session, PacketData* _packetData)
 {
 	UserRegistPacket* packetData = (UserRegistPacket*)_packetData;
 
-	DBObject* dbOBject = DataBaseManager().GetInstance()->PopDBObject();
+	DBObject* dbObject = DataBaseManager().GetInstance()->PopDBObject();
 
 	SQLLEN temp1 = 0;
 	SQLLEN temp2 = 0;
 	SQLLEN temp3 = 0;
 
-	dbOBject->BindParam(packetData->m_UserID, &temp1);
-	dbOBject->BindParam(packetData->m_Password, &temp2);
-	dbOBject->BindParam(&packetData->Score, &temp3);
+	dbObject->BindParam(packetData->m_UserID, &temp1);
+	dbObject->BindParam(packetData->m_Password, &temp2);
+	dbObject->BindParam(&packetData->Score, &temp3);
 
 	auto query = L"INSERT INTO [GameServer].[dbo].[Players] VALUES (?,?,?)";
 
-	if (!dbOBject->Query(query))
+	if (!dbObject->Query(query))
 	{
 		cout << "Query Fail" << endl;
 	}
 
-	SendBuffer* pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::SToC_PacketResult);
+	DataBaseManager().GetInstance()->PushDBObject(dbObject);
+
+	SendBuffer* pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::CToS_UserRegister);
 	_session->RegisterSend(pSendBuffer);
 }
 
-SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType)
+SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePacketType _eTargetPacketType)
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(PacketResult));
 
 	PacketResult* chatting = (PacketResult*)pSendBuffer->GetSendBufferAdress();
-	chatting->m_PakcetType = _ePacketType;
+	chatting->m_PakcetType = ePacketType::SToC_PacketResult;
 	chatting->m_iSize = sizeof(PacketResult);
 
 	chatting->m_iResult = (int)_packetResult;
+	chatting->m_TargetPakcetType = _eTargetPacketType;
 
 	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
+}
+
+void PacketHandler::Login(shared_session _session, PacketData* _packetData)
+{
+	LoginPacket* packetData = (LoginPacket*)_packetData;
+
+	DBObject* dbObject = DataBaseManager().GetInstance()->PopDBObject();
+
+	SQLLEN temp1 = 0;
+	SQLLEN temp2 = 0;
+
+	dbObject->BindParam(packetData->m_UserID, &temp1);
+	dbObject->BindParam(packetData->m_Password, &temp1);
+
+	auto query = L"SELECT * FROM [GameServer].[dbo].[Players] WHEAR UserID LIKE (?) AND Password LIKE (?)";
+
+	if (!dbObject->Query(query))
+	{
+		cout << "Query Fail" << endl;
+	}
 }

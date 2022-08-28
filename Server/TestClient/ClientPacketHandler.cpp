@@ -25,7 +25,7 @@ void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 
 SendBuffer* ClientPacketHandler::Send_Chatting()
 {
-	char chattingContent[500] = "qweqwe123";
+	WCHAR chattingContent[300] = L"qweqwe123";
 
 	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(chattingContent, ePacketType::CToS_Chatting);
 
