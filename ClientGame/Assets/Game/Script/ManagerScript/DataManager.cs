@@ -11,9 +11,11 @@ public class DataManager : Singleton<DataManager>
     }
 
 
-    public void Login()
+    public void SetUserData(LoginResultPacket _loginResultPacket)
     {
         m_UserData = new UserData();
+        m_UserData.m_UserID = _loginResultPacket.m_UserID;
+        m_UserData.m_iScore = _loginResultPacket.Score;
     }
 
     public void LogOut()
@@ -32,4 +34,6 @@ public class DataManager : Singleton<DataManager>
 
 public class UserData
 {
+    public string m_UserID;
+    public int m_iScore;
 }

@@ -9,7 +9,7 @@ public:
 
 public:
 	void SQLStmtFree();
-	bool Fetch();
+	bool IsValidData();
 	bool Query(const WCHAR* _query);
 	bool BindCol(SQLUSMALLINT _columnIndex, SQLSMALLINT _cType, SQLULEN _len, SQLPOINTER _value, SQLLEN* _index);
 	

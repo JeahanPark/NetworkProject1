@@ -10,6 +10,7 @@ public enum PopupID
     UIMessageBox,
     UINickNameSetting,
     UIRegister,
+    UILogIn,
     UI_MAX,
 }
 

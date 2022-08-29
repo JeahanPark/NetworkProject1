@@ -27,7 +27,7 @@ public class UILobby : MonoBehaviour
 
     public void OnClickLogin()
     {
-
+        UILogIn.ShowPopup();
     }
 
     public void OnClickRegister()

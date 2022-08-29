@@ -54,6 +54,17 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         else
             UIMessageBox.ShowPopup("회원가입 실패");
     }
+    public void ReceiveLoginResult(LoginResultPacket _loginResult)
+    {
+        if(_loginResult.m_eResult == ePacketResult.Fail)
+        {
+            UIMessageBox.ShowPopup("로그인 실패");
+            return;
+        }
+
+        DataManager.Instance.SetUserData(_loginResult);
+        UIMessageBox.ShowPopup("로그인 성공");
+    }
 
     public void SendRegister(string _strID, string _strPassword)
     {
@@ -69,7 +80,20 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
         Packet.SendPacket<UserRegistPacket>(packet, ePacketType.CToS_UserRegister);
     }
+    public void SendLogIn(string _strID, string _strPassword)
+    {
+        if (string.IsNullOrEmpty(_strID) ||
+            string.IsNullOrEmpty(_strPassword))
+        {
+            Debug.Log("비밀번호나 아이디가 입력이안되있음");
+            return;
+        }
+        LogInPacket packet = new LogInPacket();
+        packet.m_UserID = _strID;
+        packet.m_Password = _strPassword;
 
+        Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
+    }
     public void SendChattingPacket(string _text)
     {
         V2ChattingPacket packet = new V2ChattingPacket();

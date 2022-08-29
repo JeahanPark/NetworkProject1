@@ -113,7 +113,7 @@ void DBObject::DBErrorHandle(SQLRETURN _return)
     }
 }
 
-bool DBObject::Fetch()
+bool DBObject::IsValidData()
 {
     //SQLFetch 는 결과 집합에서 데이터의 다음 행 집합을 가져오고 모든 바인딩된 열에 대한 데이터를 반환합니다.
     SQLRETURN ret = ::SQLFetch(m_Statement);

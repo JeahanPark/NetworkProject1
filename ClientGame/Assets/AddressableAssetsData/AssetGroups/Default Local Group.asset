@@ -27,6 +27,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Popup
+  - m_GUID: b661b6ca25bd45a4c9d4508ad8734b3d
+    m_Address: UILogIn
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d5227b445983c6848ab06a31e870170a, type: 2}
   m_SchemaSet:

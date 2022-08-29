@@ -7,9 +7,9 @@ public enum ePacketType
 	NONE = 0,
 	// 서버에서 클라로
 
-	SToC_Login,
 	SToC_Chatting,
 	SToC_PacketResult,
+	SToC_LoginResult,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -25,6 +25,7 @@ public enum ePacketType
 public enum ePacketResult
 {
 	Success,
+	Fail
 };
 
 // 아... 나눌껄....
@@ -60,6 +61,25 @@ public struct UserRegistPacket
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_Password;
 
+	public int Score;
+};
+
+[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+public struct LogInPacket
+{
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_UserID;
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_Password;
+};
+[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+public struct LoginResultPacket
+{
+	public ePacketType m_eTargetPakcetType;
+	public ePacketResult m_eResult;
+
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_UserID;
 	public int Score;
 };
 
@@ -112,6 +132,10 @@ public class Packet
 				case ePacketType.SToC_PacketResult:
 					PacketResult Result = BufferToPacket<PacketResult>(_buffer, iHearSize);
 					PacketResult(Result);
+					break;
+				case ePacketType.SToC_LoginResult:
+					LoginResultPacket LoginResult = BufferToPacket<LoginResultPacket>(_buffer, iHearSize);
+					LobbyController.Instance.ReceiveLoginResult(LoginResult);
 					break;
 			}
 		}

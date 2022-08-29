@@ -11,6 +11,7 @@
     <ClCompile Include="DBObject.cpp">
       <Filter>DataBase</Filter>
     </ClCompile>
+    <ClCompile Include="UserData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -22,6 +23,8 @@
     <ClInclude Include="DBObject.h">
       <Filter>DataBase</Filter>
     </ClInclude>
+    <ClInclude Include="UserData.h" />
+    <ClInclude Include="ServerTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
