@@ -10,9 +10,7 @@ public class UILobby : MonoBehaviour
     private void Awake()
     {
         m_Chatting = transform.Find("LeftMiddle/Chatting").GetComponent<UIChatting>();
-
-        // 로그인을해야 채팅창을 볼수있다!
-        m_Chatting.gameObject.SetActive(DataManager.Instance.IsLogin());
+        m_Chatting.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -32,8 +30,13 @@ public class UILobby : MonoBehaviour
 
     public void OnClickRegister()
     {
-
         UIRegister.ShowPopup();
+    }
+
+    public void ActiveChatting()
+    {
+        // 로그인을해야 채팅창을 볼수있다!
+        m_Chatting.gameObject.SetActive(DataManager.Instance.IsLogin());
     }
 
     public void ReceiveChattingMessage(string strMessage)

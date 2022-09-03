@@ -60,6 +60,9 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
         DataManager.Instance.SetUserData(_loginResult);
         UIMessageBox.ShowPopup("로그인 성공");
+
+        PopupManager.Instance.ClosePopup(PopupID.UILogIn);
+        m_UILobby.ActiveChatting();
     }
 
     public void SendRegister(string _strID, string _strPassword)

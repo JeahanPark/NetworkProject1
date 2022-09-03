@@ -87,7 +87,7 @@ public class PopupManager : MonoSingleton<PopupManager>
         }
         else
         {
-            Debug.Log("한번도 열린적없는 팝업을 닫았다.");
+            Debug.Log(string.Format("{0} 팝업이 없다",_ePopupID.ToString()));
         }
     }
     private void CreatePopup(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult)

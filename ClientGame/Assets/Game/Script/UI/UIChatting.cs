@@ -49,6 +49,10 @@ public class UIChatting : MonoBehaviour
             return;
 
         LobbyController.Instance.SendChattingPacket(m_InputField.text);
+
+        m_InputField.text = string.Empty;
+
+        m_InputField.ActivateInputField();
     } 
 
     public void ReceiveChattingMessage(string _sendMessage)
