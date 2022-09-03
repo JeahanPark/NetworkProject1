@@ -106,7 +106,6 @@ void DBObject::DBErrorHandle(SQLRETURN _return)
             break;
 
         // TODO : Log
-        wcout.imbue(locale("kor"));
         wcout << errMsg << endl;
 
         index++;

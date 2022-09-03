@@ -9,23 +9,31 @@ public class UIMessageBox : UIPopup
         return PopupID.UIMessageBox;
     }
     private Text m_Text = null;
+    private System.Action m_funResult;
     private void Awake()
     {
         m_Text = transform.Find("Text").GetComponent<Text>();
     }
 
-    public void SetText(string _strText)
+    public override void Close()
+    {
+        m_funResult?.Invoke();
+        base.Close();
+    }
+
+    public void InitMessageBox(string _strText, System.Action _funResult)
     {
         m_Text.text = _strText;
+        m_funResult = _funResult;
     }
-    public static void ShowPopup(string _strText)
+    public static void ShowPopup(string _strText, System.Action _funResult = null)
     {
         PopupManager.Instance.OpenPopup(PopupID.UIMessageBox, (popup) =>
         {
             UIMessageBox uIMessageBox = popup as UIMessageBox;
             if(uIMessageBox != null)
             {
-                uIMessageBox.SetText(_strText);
+                uIMessageBox.InitMessageBox(_strText, _funResult);
             }
         });
     }

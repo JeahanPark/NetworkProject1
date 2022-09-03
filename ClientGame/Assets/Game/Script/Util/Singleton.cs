@@ -89,6 +89,11 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public abstract void Destroy();
 
+    private void OnDestroy()
+    {
+        Destroy();
+    }
+
     public IEnumerator InitSuccessWait()
     {
         yield return new WaitUntil(() => { return InitSuccess; });

@@ -48,7 +48,7 @@ public struct PacketHeader
 [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
 public struct V2ChattingPacket
 {
-	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 300)]
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
 	public string chattingContent;
 }
 

@@ -26,8 +26,7 @@ void ThreadManager::Join()
 {
 	for (thread& t : m_vecThread)
 	{
-		if(t.joinable())
-			t.join();
+		t.join();
 	}
 }
 

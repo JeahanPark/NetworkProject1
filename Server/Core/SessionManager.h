@@ -3,7 +3,6 @@
 class Session;
 class SessionManager
 {
-
 public:
 	template <class T1>
 	shared_session CreateSession()

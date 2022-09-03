@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SessionManager.h"
 
+
 void SessionManager::DeleteSession(shared_session _session)
 {
     LockGuard lock(m_lockSession);

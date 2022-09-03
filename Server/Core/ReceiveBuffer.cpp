@@ -9,7 +9,7 @@ ReceiveBuffer::ReceiveBuffer() : m_recvBuffer{}, m_iReadPos{}, m_iWritePos{}
 WSABUF* ReceiveBuffer::GetWSABuf()
 {
 	m_wsaRecvieBuf.buf = &m_recvBuffer[m_iWritePos];
-	m_wsaRecvieBuf.len = BUFSIZE - m_iWritePos;
+	m_wsaRecvieBuf.len = BUF_MAX_SIZE - m_iWritePos;
 
 	return &m_wsaRecvieBuf;
 }
@@ -20,7 +20,7 @@ void ReceiveBuffer::AllReadCheck()
 	{
 		// 읽고쓰는 위치가 같을경우 초기화
 		m_iReadPos = m_iWritePos = 0;
-		memset(m_recvBuffer, 0, BUFSIZE);
+		memset(m_recvBuffer, 0, BUF_MAX_SIZE);
 	}
 	else
 	{

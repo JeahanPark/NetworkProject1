@@ -60,19 +60,10 @@ int main()
     //}
 
     //return 0;
-
+    wcout.imbue(locale("kor"));
     // 윈도우 소켓 생성
     {
-        WORD wVersionRequested;
-        WSAData wsaData;
-
-        wVersionRequested = MAKEWORD(2, 2);
-
-        if (::WSAStartup(wVersionRequested, &wsaData) != 0)
-        {
-            cout << "WSAData Fail" << endl;
-            return 0;
-        }
+        SocketUtil::InitWinSock();
     }
 
     //소켓 클래스는 네트워크 통신을 하기 위해 필요한 함수나 변수를 제공해주는 클래스입니다.
@@ -120,7 +111,6 @@ int main()
     //    해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
 
     HANDLE iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
-
 
     // IOCP를 받을 쓰레드를 돌린다.
     for (int i = 0; i < 5; ++i)

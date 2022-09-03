@@ -18,10 +18,6 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     private IEnumerator LobbyEnter()
     {
         yield return null;
-
-
-
-
     }
 
     public void SetUILobby(UILobby lobby)

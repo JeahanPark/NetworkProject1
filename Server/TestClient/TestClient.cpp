@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     // 클라이언트는 일단 기본적인 걸로한다.
-
+    wcout.imbue(locale("kor"));
 
     cout << "Test Client!!!" << endl;
     // 윈도우 소켓 생성
@@ -75,6 +75,8 @@ int main()
             SocketUtil::SocketEventHandle(iocpHandle);
         });
     }
+    SocketUtil::InitWinSock();
+
 
     while (true)
     {

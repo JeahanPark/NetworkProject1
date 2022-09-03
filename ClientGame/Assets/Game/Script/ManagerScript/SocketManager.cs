@@ -7,8 +7,11 @@ using System;
 using System.Threading;
 using System.Text;
 
+
+
 public class SocketManager : MonoSingleton<SocketManager>
 {
+    private const int BUFF_MAX_SIZE = 1024;
 
     private Socket m_socket = null;
 
@@ -25,9 +28,9 @@ public class SocketManager : MonoSingleton<SocketManager>
 
     public override void Destroy()
     {
-        if(m_socket != null)
+        if(m_socket != null && IsConnet())
         {
-            m_socket.Close();
+            Disconnect();
         }
     }
 
@@ -43,6 +46,21 @@ public class SocketManager : MonoSingleton<SocketManager>
         m_queBuffer.Enqueue(_buffer);
 
         StartCoroutine(CoSendData());
+    }
+
+    public void Disconnect()
+    {
+        if (!IsConnet())
+            return;
+        //Shutdown
+        //
+        // Socket에서 보내기 및 받기를 사용할 수 없도록 설정합니다.
+        // 소켓을 닫기 전에 모든 데이터를 보내고 받도록 하려면 메서드를 호출 Disconnect 하기 전에 호출 Shutdown 해야 합니다.
+        m_socket.Shutdown(SocketShutdown.Both);
+
+        m_socket.Disconnect(false);
+
+        Debug.Log("Disconnect!!!");
     }
 
     public void ServerConnect(System.Action<bool> _funResult)
@@ -110,7 +128,7 @@ public class SocketManager : MonoSingleton<SocketManager>
     {
         while(true)
         {
-            byte[] bytes = new byte[1000];
+            byte[] bytes = new byte[BUFF_MAX_SIZE];
 
             int iTotalRecevieBtye = 0;
 
@@ -134,6 +152,9 @@ public class SocketManager : MonoSingleton<SocketManager>
                     yield return null;
 
                 int iRecevieBtye = m_socket.EndReceive(async);
+
+                if (iRecevieBtye == 0)
+                    Disconnect();
 
                 iTotalRecevieBtye += iRecevieBtye;
 

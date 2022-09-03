@@ -3,12 +3,22 @@
 
 LPFN_DISCONNECTEX SocketUtil::m_gDisconnect = nullptr;
 
-void SocketUtil::InitDisconnect()
+void SocketUtil::InitWinSock()
 {
+    WORD wVersionRequested;
+    WSAData wsaData;
+
+    wVersionRequested = MAKEWORD(2, 2);
+
+    if (::WSAStartup(wVersionRequested, &wsaData) != 0)
+    {
+        CRASH("WSAData Fail");
+    }
+
     SOCKET socket = SocketCreate();
     
     DWORD bytes = 0;
-    LPVOID* fn = (LPVOID*)m_gDisconnect;
+    LPVOID* fn = (LPVOID*)&m_gDisconnect;
     GUID guid = WSAID_DISCONNECTEX;
     int error = WSAIoctl(socket, SIO_GET_EXTENSION_FUNCTION_POINTER, &guid, sizeof(guid), fn, sizeof(*fn), OUT & bytes, NULL, NULL);
 
@@ -42,12 +52,12 @@ void SocketUtil::SocketEventHandle(HANDLE _IOCPhandle)
         BOOL ret = GetQueuedCompletionStatus(_IOCPhandle, &bytesTransferred,
             OUT & key, (LPOVERLAPPED*)&socketEvent, INFINITE);
 
-
-        if (ret == FALSE || bytesTransferred == 0)
-        {
-            // TODO : ¿¬°á ²÷±è
-            continue;
-        }
+        // ¾Æ´Ï ÀÌ°Å ³»°¡ ¿Ö³ÖÀº°Å¾ß
+        //if (ret == FALSE || bytesTransferred == 0)
+        //{
+        //    // TODO : ¿¬°á ²÷±è
+        //    continue;
+        //}
 
         shared_session session = socketEvent->GetSession();
 

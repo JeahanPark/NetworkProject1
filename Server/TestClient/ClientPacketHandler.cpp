@@ -20,12 +20,12 @@ void ClientPacketHandler::RecievePacketHandling(PacketData* _Packetdata)
 
 void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 {
-	cout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
+	wcout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
 }
 
 SendBuffer* ClientPacketHandler::Send_Chatting()
 {
-	WCHAR chattingContent[300] = L"qweqwe123";
+	WCHAR chattingContent[CHATTING_LENGTH] = L"qweqwe123";
 
 	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(chattingContent, ePacketType::CToS_Chatting);
 

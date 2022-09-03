@@ -5,8 +5,8 @@ using shared_session = shared_ptr<class Session>;
 
 using LockGuard = std::lock_guard<std::mutex>;
 using UniqueLock = std::unique_lock<std::mutex>;
-const int BUFSIZE = 1000;
+const int BUF_MAX_SIZE = 1024;
 
 #define USER_ID_LENGTH 64
 #define PASSWORD_LENGTH 64
-#define CHATTING_LENGTH 512
+#define CHATTING_LENGTH 256
