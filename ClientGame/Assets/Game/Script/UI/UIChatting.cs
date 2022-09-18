@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIChatting : MonoBehaviour
 {
     private const int m_iMaxInputText = 20;
+    private const int m_iMaxChatting = 30;
 
     private InputField          m_InputField = null;
     private Text                m_txtPrefabs = null;
@@ -57,10 +58,22 @@ public class UIChatting : MonoBehaviour
 
     public void ReceiveChattingMessage(string _sendMessage)
     {
-        Text text = Instantiate<Text>(m_txtPrefabs, m_transContent);
-        text.gameObject.SetActive(true);
-        text.text = _sendMessage;
+        if(m_transContent.childCount <= m_iMaxChatting)
+        {
+            // 최대 30개까지만 만든다.
+            Text text = Instantiate<Text>(m_txtPrefabs, m_transContent);
+            text.gameObject.SetActive(true);
+            text.name = m_transContent.childCount.ToString();
+            text.text = _sendMessage;
 
-        m_scroll.verticalNormalizedPosition = 0;
+            m_scroll.verticalNormalizedPosition = 0;
+        }
+        else
+        {
+            // 리스트에서 마지막 인덱스 원소를 첫번째로 바꿔 재사용
+            Text text = m_transContent.GetChild(0).GetComponent<Text>();
+            text.transform.SetAsLastSibling();
+            text.text = _sendMessage;
+        }
     }
 }
