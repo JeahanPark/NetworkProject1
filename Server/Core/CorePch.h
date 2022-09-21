@@ -29,7 +29,7 @@ using namespace std;
 #include "Session.h"
 #include "SocketUtil.h"
 #include "ThreadManager.h"
-#include "SessionManager.h"
 #include "PacketData.h"
 #include "SendBuffer.h"
+#include "BaseManager.h"
 // 내가만든거

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseManager.h" />
     <ClInclude Include="CorePch.h" />
     <ClInclude Include="IntegrateManager.h" />
     <ClInclude Include="PacketData.h" />
@@ -159,7 +160,6 @@
     <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="SereverMacro.h" />
     <ClInclude Include="Session.h" />
-    <ClInclude Include="SessionManager.h" />
     <ClInclude Include="SocketEvent.h" />
     <ClInclude Include="SocketUtil.h" />
     <ClInclude Include="ThreadManager.h" />
@@ -167,6 +167,7 @@
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseManager.cpp" />
     <ClCompile Include="CorePch.cpp" />
     <ClCompile Include="IntegrateManager.cpp" />
     <ClCompile Include="PacketData.cpp" />
@@ -179,7 +180,6 @@
     <ClCompile Include="ReceiveBuffer.cpp" />
     <ClCompile Include="SendBuffer.cpp" />
     <ClCompile Include="Session.cpp" />
-    <ClCompile Include="SessionManager.cpp" />
     <ClCompile Include="SocketEvent.cpp" />
     <ClCompile Include="SocketUtil.cpp" />
     <ClCompile Include="ThreadManager.cpp" />

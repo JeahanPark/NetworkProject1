@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="DataBaseManager.cpp">
       <Filter>DataBase</Filter>
@@ -12,10 +10,22 @@
       <Filter>DataBase</Filter>
     </ClCompile>
     <ClCompile Include="UserData.cpp" />
+    <ClCompile Include="ServerSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSessionManager.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ChattingObject.cpp">
+      <Filter>Chatting</Filter>
+    </ClCompile>
+    <ClCompile Include="ChattingManager.cpp">
+      <Filter>Chatting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ServerSession.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="DataBaseManager.h">
       <Filter>DataBase</Filter>
@@ -25,10 +35,28 @@
     </ClInclude>
     <ClInclude Include="UserData.h" />
     <ClInclude Include="ServerTypes.h" />
+    <ClInclude Include="ServerSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSessionManager.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingObject.h">
+      <Filter>Chatting</Filter>
+    </ClInclude>
+    <ClInclude Include="ChattingManager.h">
+      <Filter>Chatting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
       <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{48b05756-bba2-4309-aab3-1b8d036ac60d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chatting">
+      <UniqueIdentifier>{40dee9ac-f80d-44dc-993f-d0c454983be1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

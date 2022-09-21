@@ -2,6 +2,8 @@
 enum class ePacketType
 {
 	NONE = 0,
+	Signal,
+
 	// 서버에서 클라로
 
 	SToC_Chatting,
@@ -25,6 +27,13 @@ enum class ePacketResult
 	Fail,
 };
 
+// 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
+enum class ePacketSignal
+{
+	Signal_ChattingRoomEnter,
+	Signal_ChattingRoomExit,
+};
+
 struct PacketData
 {
 public:
@@ -45,7 +54,7 @@ struct UserRegistPacket : PacketData
 public:
 	WCHAR m_UserID[USER_ID_LENGTH] = {};
 	WCHAR m_Password[PASSWORD_LENGTH] = {};
-	int Score;
+	int m_iScore;
 };
 
 struct LoginRequestPacket : PacketData
@@ -59,13 +68,19 @@ struct LoginResultPacket : PacketResult
 {
 public:
 	WCHAR m_UserID[USER_ID_LENGTH] = {};
-	int Score;
+	int m_iScore;
 };
 
 struct ChattingPacket : PacketData
 {
 public:
 	WCHAR m_chattingContent[CHATTING_LENGTH] = {};
+};
+
+struct SignalPacket : PacketResult
+{
+public:
+	ePacketSignal m_ePacketSignal;
 };
 
 class PacketCreate

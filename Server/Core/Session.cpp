@@ -178,13 +178,14 @@ void Session::ProcessSend(DWORD _bytesTransferred)
 void Session::ProcessDisconnect()
 {
 	cout << GetSessionNumber() << " Disconnect" << endl;
-	g_SessionManager->DeleteSession(shared_from_this());
+	DeleteSession();
 }
 
 void Session::SocketEventError(int _iCode)
 {
 	cout << GetSessionNumber() << ", SocketError : " << _iCode << endl;
 }
+
 
 void Session::Send()
 {

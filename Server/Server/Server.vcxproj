@@ -155,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChattingManager.cpp" />
+    <ClCompile Include="ChattingObject.cpp" />
     <ClCompile Include="DataBaseManager.cpp" />
     <ClCompile Include="DBObject.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -166,14 +168,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ServerSession.cpp" />
+    <ClCompile Include="ServerSessionManager.cpp" />
     <ClCompile Include="UserData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChattingManager.h" />
+    <ClInclude Include="ChattingObject.h" />
     <ClInclude Include="DataBaseManager.h" />
     <ClInclude Include="DBObject.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerSession.h" />
+    <ClInclude Include="ServerSessionManager.h" />
     <ClInclude Include="ServerTypes.h" />
     <ClInclude Include="UserData.h" />
   </ItemGroup>

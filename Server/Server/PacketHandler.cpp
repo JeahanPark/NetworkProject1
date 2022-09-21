@@ -8,6 +8,9 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 {
 	switch (_packetData->m_PakcetType)
 	{
+	case ePacketType::Signal:
+		PacketSignal(_session, _packetData);
+		break;
 #pragma region  클라에서 서버로
 	case ePacketType::CToS_Login:
 		Login(_session, _packetData);
@@ -38,9 +41,19 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 	default:
 		break;
 #pragma endregion
+	}
+}
 
+void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _PacketData)
+{
+	SignalPacket* packetSignal = (SignalPacket*)_PacketData;
 
-
+	switch (packetSignal->m_ePacketSignal)
+	{
+	case ePacketSignal::Signal_ChattingRoomEnter:
+	case ePacketSignal::Signal_ChattingRoomExit:
+		ChattingRoomProcess(_session, packetSignal->m_ePacketSignal);
+		break;
 	}
 }
 
@@ -48,9 +61,9 @@ void PacketHandler::Chatting(PacketData* _packetData)
 {
 	ChattingPacket* packetData = (ChattingPacket*)_packetData;
 
-	set<shared_session> vecSession = g_SessionManager->GetSessions();
+	set<s_ServerSession> vecSession = ServerSessionManager().GetInstance()->GetSessions();
 
-	for (shared_session iter : vecSession)
+	for (s_ServerSession iter : vecSession)
 	{
 		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(packetData->m_chattingContent, ePacketType::SToC_Chatting);
 
@@ -70,7 +83,7 @@ void PacketHandler::Register(s_ServerSession _session, PacketData* _packetData)
 
 	dbObject->BindParam(packetData->m_UserID, &temp1);
 	dbObject->BindParam(packetData->m_Password, &temp2);
-	dbObject->BindParam(&packetData->Score, &temp3);
+	dbObject->BindParam(&packetData->m_iScore, &temp3);
 
 	auto query = L"INSERT INTO [GameServer].[dbo].[Players] VALUES (?,?,?)";
 
@@ -115,12 +128,15 @@ void PacketHandler::Login(s_ServerSession _session, PacketData* _packetData)
 	SQLLEN outPassword = 0;
 	dbObject->BindCol(2, SQL_C_WCHAR, PASSWORD_LENGTH, &Password, &outPassword);
 
-	int Score;
+	int iScore;
 	SQLLEN outScoreLen = 0;
-	dbObject->BindCol(3, SQL_C_LONG, SQL_INTEGER, &Score, &outScoreLen);
+	dbObject->BindCol(3, SQL_C_LONG, SQL_INTEGER, &iScore, &outScoreLen);
+
+	int iUserIndex;
+	SQLLEN outUserIndexLen = 0;
+	dbObject->BindCol(4, SQL_C_LONG, SQL_INTEGER, &iUserIndex, &outUserIndexLen);
 
 	SQLLEN temp1 = 0;
-
 	dbObject->BindParam(packetData->m_UserID, &temp1);
 
 	auto query = L"SELECT * FROM [GameServer].[dbo].[Players] WHERE UserID = (?)";
@@ -138,7 +154,7 @@ void PacketHandler::Login(s_ServerSession _session, PacketData* _packetData)
 		if (0 == result)
 		{
 			// 비밀번호가 같다.
-			_session->GetUserData()->SetUserData(UserID, Score);
+			_session->SetUserData(UserID, iScore, iUserIndex);
 			packetResult = ePacketResult::Success;
 		}
 	}
@@ -163,11 +179,19 @@ SendBuffer* PacketHandler::LoginResultPacketCreate(s_ServerSession _session, ePa
 	if (_result == ePacketResult::Success)
 	{
 		wcscpy_s(LoginResult->m_UserID, USER_ID_LENGTH, _session->GetUserData()->GetUserID());
-		LoginResult->Score = _session->GetUserData()->GetScore();
+		LoginResult->m_iScore = _session->GetUserData()->GetScore();
 	}
 
 
 	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
+}
+
+void PacketHandler::ChattingRoomProcess(s_ServerSession _session, ePacketSignal _signal)
+{
+	if(_signal == ePacketSignal::Signal_ChattingRoomEnter)
+		ChattingManager().GetInstance()->InsertChattingObject(_session);
+	else
+		ChattingManager().GetInstance()->InsertChattingObject(_session);
 }

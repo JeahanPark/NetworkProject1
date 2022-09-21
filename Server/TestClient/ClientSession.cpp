@@ -12,3 +12,7 @@ void ClientSession::Chatting()
 
 	RegisterSend(buffer);
 }
+
+void ClientSession::DeleteSession()
+{
+}

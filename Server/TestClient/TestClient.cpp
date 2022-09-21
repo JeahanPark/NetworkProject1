@@ -64,8 +64,8 @@ int main()
 
         cout << "Connected To Server!" << endl;
 
-        shared_session session = g_SessionManager->CreateSession<ClientSession>();
-        session->InitSession(iocpHandle, clientSocket);
+        //shared_session session = g_SessionManager->CreateSession<ClientSession>();
+        //session->InitSession(iocpHandle, clientSocket);
     }
 
     for (int i = 0; i < 5; ++i)
@@ -80,10 +80,10 @@ int main()
 
     while (true)
     {
-        for (shared_session iter : g_SessionManager->GetSessions())
-        {
-            ((ClientSession*)iter.get())->Chatting();
-        }
+        //for (shared_session iter : g_SessionManager->GetSessions())
+        //{
+        //    ((ClientSession*)iter.get())->Chatting();
+        //}
         //모르겠다 일단돌려
         Sleep(1000);
     }

@@ -25,10 +25,10 @@
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="IntegrateManager.cpp" />
-    <ClCompile Include="SessionManager.cpp" />
     <ClCompile Include="PacketData.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
+    <ClCompile Include="BaseManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CorePch.h" />
@@ -56,11 +56,11 @@
     </ClInclude>
     <ClInclude Include="IntegrateManager.h" />
     <ClInclude Include="SereverMacro.h" />
-    <ClInclude Include="SessionManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="PacketData.h">
       <Filter>Packet</Filter>
     </ClInclude>
+    <ClInclude Include="BaseManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Buffer">

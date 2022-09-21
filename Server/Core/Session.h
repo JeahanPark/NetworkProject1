@@ -36,7 +36,7 @@ public:
 
 protected:
     virtual void PacketeHandle(PacketData* _Packetdata) = 0;
-
+    virtual void DeleteSession() = 0;
 private:
     void Send();
 

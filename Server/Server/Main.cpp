@@ -133,7 +133,7 @@ int main()
         if (clientSocket == INVALID_SOCKET)
             return 0;
 
-        shared_session session = g_SessionManager->CreateSession<ServerSession>();
+        shared_session session = ServerSessionManager().GetInstance()->CreateSession();
         session->InitSession(iocpHandle, clientSocket);
 
         //cout << session->GetSessionNumber() << " Join!!!" << endl;
