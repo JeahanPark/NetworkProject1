@@ -11,7 +11,7 @@ public:
 
 	static void Register(s_ServerSession _session, PacketData* _packetData);
 
-	static SendBuffer* PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType);
+	static SendBuffer* PacketResultCreate(ePacketResult _packetResult, ePacketType _ePacketType, ePacketSignal _eSignal = ePacketSignal::NONE);
 
 	static void Login(s_ServerSession _session, PacketData* _packetData);
 

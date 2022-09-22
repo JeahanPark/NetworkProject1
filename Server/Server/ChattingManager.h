@@ -2,15 +2,18 @@
 class ChattingObject;
 class ChattingManager : public BaseManager<ChattingManager>
 {
+private:
+	 const int m_iMaxChattingUser = 30;
 public:
 	~ChattingManager();
 
 public:
-	void InsertChattingObject(s_ServerSession _session);
-	void DeleteChattingObject(s_ServerSession _session);
-	set<ChattingObject*> GetChattingObjects();
+	bool InsertChattingObject(s_ServerSession _session);
+	bool DeleteChattingObject(s_ServerSession _session);
+	bool AllSendChatting(ChattingPacket* packetData);
+
 private:
-	set<ChattingObject*>	m_setChatting;
+	list<ChattingObject*>	m_lisChatting;
 	mutex					m_lockChatting;
 };
 

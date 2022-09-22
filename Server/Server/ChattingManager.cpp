@@ -4,29 +4,71 @@
 
 ChattingManager::~ChattingManager()
 {
-    for (ChattingObject* chatting : m_setChatting)
+    for (ChattingObject* chatting : m_lisChatting)
     {
         delete chatting;
     }
-    m_setChatting.clear();
+    m_lisChatting.clear();
 }
 
-void ChattingManager::InsertChattingObject(s_ServerSession _session)
+bool ChattingManager::InsertChattingObject(s_ServerSession _session)
 {
     LockGuard lock(m_lockChatting);
+
+    if (m_iMaxChattingUser <= m_lisChatting.size())
+        return false;
+   
+    int iUserIndex = _session->GetUserData()->GetUserIndex();
+
+    // 이미 있다.
+    for (ChattingObject* chatting : m_lisChatting)
+    {
+        if (chatting->SameSession(_session->GetUserData()->GetUserIndex()))
+            return false;
+    }
 
     ChattingObject* chatting = new ChattingObject(_session);
-    m_setChatting.insert(chatting);
+    m_lisChatting.push_back(chatting);
+    return true;
 }
 
-void ChattingManager::DeleteChattingObject(s_ServerSession _session)
+bool ChattingManager::DeleteChattingObject(s_ServerSession _session)
 {
     LockGuard lock(m_lockChatting);
 
-    m_setChatting.erase(_chatting);
+    int iUserIndex = _session->GetUserData()->GetUserIndex();
+
+    // 찾기
+    for (ChattingObject* chatting : m_lisChatting)
+    {
+        if (chatting->SameSession(_session->GetUserData()->GetUserIndex()))
+        {
+            m_lisChatting.remove(chatting);
+            return true;
+        }
+    }
+    return false;
 }
 
-set<ChattingObject*> ChattingManager::GetChattingObjects()
+
+bool ChattingManager::AllSendChatting(ChattingPacket* packetData)
 {
-    return m_setChatting;
+    auto iter = m_lisChatting.begin();
+    while (iter != m_lisChatting.end())
+    {
+        if (!(*iter)->UseChatting())
+        {
+            // 채팅 불가능 삭제
+            auto delteIter = iter++;
+            delete (*delteIter);
+            m_lisChatting.erase(delteIter);
+        }
+        else
+        {
+            (*iter)->SendChatting(packetData);
+            iter++;
+        }
+    }
+
+    return false;
 }

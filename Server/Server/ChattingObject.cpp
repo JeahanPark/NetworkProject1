@@ -12,6 +12,20 @@ ChattingObject::~ChattingObject()
 
 bool ChattingObject::SameSession(int _iUserIndex)
 {
-	//m_session->GetUserData()
-	return false;
+	UserData* userData = m_session->GetUserData();
+	if (userData == nullptr)
+		return false;
+
+	return userData->GetUserIndex() == _iUserIndex;
+}
+
+bool ChattingObject::UseChatting()
+{
+	return m_session->IsLogin();
+}
+
+void ChattingObject::SendChatting(ChattingPacket* packetData)
+{
+	SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(packetData->m_chattingContent, ePacketType::SToC_Chatting);
+	m_session->RegisterSend(pSendBuffer);
 }

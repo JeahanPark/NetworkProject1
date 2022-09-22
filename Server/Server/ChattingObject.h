@@ -6,7 +6,8 @@ public:
 	~ChattingObject();
 
 	bool SameSession(int _iUserIndex);
-
+	bool UseChatting();
+	void SendChatting(ChattingPacket* packetData);
 private:
 	s_ServerSession m_session = nullptr;
 };

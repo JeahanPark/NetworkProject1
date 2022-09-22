@@ -61,14 +61,7 @@ void PacketHandler::Chatting(PacketData* _packetData)
 {
 	ChattingPacket* packetData = (ChattingPacket*)_packetData;
 
-	set<s_ServerSession> vecSession = ServerSessionManager().GetInstance()->GetSessions();
-
-	for (s_ServerSession iter : vecSession)
-	{
-		SendBuffer* pSendBuffer = PacketCreate::ChattingPacketCreate(packetData->m_chattingContent, ePacketType::SToC_Chatting);
-
-		iter->RegisterSend(pSendBuffer);
-	}
+	ChattingManager().GetInstance()->AllSendChatting(packetData);
 }
 
 void PacketHandler::Register(s_ServerSession _session, PacketData* _packetData)
@@ -98,7 +91,7 @@ void PacketHandler::Register(s_ServerSession _session, PacketData* _packetData)
 	_session->RegisterSend(pSendBuffer);
 }
 
-SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePacketType _eTargetPacketType)
+SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePacketType _eTargetPacketType, ePacketSignal _eSignal)
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(PacketResult));
 
@@ -108,6 +101,7 @@ SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePack
 
 	chatting->m_Result = _packetResult;
 	chatting->m_TargetPakcetType = _eTargetPacketType;
+	chatting->m_SignalType = _eSignal;
 
 	pSendBuffer->WsaBufSetting();
 
@@ -190,8 +184,29 @@ SendBuffer* PacketHandler::LoginResultPacketCreate(s_ServerSession _session, ePa
 
 void PacketHandler::ChattingRoomProcess(s_ServerSession _session, ePacketSignal _signal)
 {
-	if(_signal == ePacketSignal::Signal_ChattingRoomEnter)
-		ChattingManager().GetInstance()->InsertChattingObject(_session);
+	SendBuffer* pSendBuffer = nullptr;
+	if (_signal == ePacketSignal::Signal_ChattingRoomEnter)
+	{
+		if (_session->IsLogin())
+		{
+			// 룸진입
+			if (ChattingManager().GetInstance()->InsertChattingObject(_session))
+				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomEnter);
+			else // 이미 방에 들어있다.
+				pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomEnter);
+		}
+		else // 로그인을 안했다.
+			pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomEnter_Not_Login, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomEnter);
+	}
 	else
-		ChattingManager().GetInstance()->InsertChattingObject(_session);
+	{
+		// 룸 나가기
+		if (ChattingManager().GetInstance()->DeleteChattingObject(_session))
+			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
+		else // 채팅방에 이유저가 없음
+			pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomExit_Not_Exist, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
+	}
+
+	if (pSendBuffer != nullptr)
+		_session->RegisterSend(pSendBuffer);
 }

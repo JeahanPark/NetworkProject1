@@ -21,6 +21,7 @@ public:
 
 public:
     string GetSessionNumber();
+    bool IsSessionConnect();
 
     // 요청 할때 사용
     void RegisterReceive();
@@ -41,8 +42,6 @@ private:
     void Send();
 
 private:
-    atomic<int>             m_refCount;
-    
     //Receive
     ReceiveBuffer*          m_ReceiveBuffer = nullptr;
 
@@ -54,7 +53,8 @@ private:
     list<SendBuffer*>       m_lisProcessSendBuffer;
 
     //disconnent
-    atomic<bool>            m_RegisterDisconnet;
+    atomic<bool>            m_RegisterDisconnect; // 이거는 disconnect를 요청했다.
+    bool                    m_bSessionDisconnect; // 이거는 disconnect처리가 완료됐다.
 
 private:
     SOCKET m_socket = INVALID_SOCKET;

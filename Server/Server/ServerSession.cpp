@@ -24,4 +24,7 @@ void ServerSession::DeleteSession()
 	s_ServerSession serverSession = std::static_pointer_cast<ServerSession>(shared_from_this());
 
 	ServerSessionManager().GetInstance()->DeleteSession(serverSession);
+
+	delete m_userData;
+	m_userData = nullptr;
 }

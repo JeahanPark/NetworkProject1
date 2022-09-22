@@ -2,7 +2,13 @@
 enum class ePacketType
 {
 	NONE = 0,
+	
+	// 결과 보낼때 쓰자
+	Result,
+
+	// 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
 	Signal,
+
 
 	// 서버에서 클라로
 
@@ -23,13 +29,20 @@ enum class ePacketType
 
 enum class ePacketResult
 {
+	NONE = 0,
 	Success,
 	Fail,
+
+	// 채팅방 결과
+	ChattingRoomEnter_Not_Login,
+	ChattingRoomEnter_Already_In,
+	ChattingRoomExit_Not_Exist,
 };
 
-// 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
+
 enum class ePacketSignal
 {
+	NONE = 0,
 	Signal_ChattingRoomEnter,
 	Signal_ChattingRoomExit,
 };
@@ -47,6 +60,9 @@ struct PacketResult : PacketData
 public:
 	ePacketType			m_TargetPakcetType;
 	ePacketResult		m_Result;
+
+	// m_TargetPakcetType이 Signal일경우 쓴다.
+	ePacketSignal		m_SignalType = ePacketSignal::NONE;
 };
 
 struct UserRegistPacket : PacketData
@@ -77,7 +93,7 @@ public:
 	WCHAR m_chattingContent[CHATTING_LENGTH] = {};
 };
 
-struct SignalPacket : PacketResult
+struct SignalPacket : PacketData
 {
 public:
 	ePacketSignal m_ePacketSignal;

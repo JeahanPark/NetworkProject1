@@ -5,10 +5,8 @@
 
 static int SessionNumber = 0;
 
-Session::Session()
+Session::Session() : m_ReceiveBuffer(new ReceiveBuffer()), m_iSessionNumber(SessionNumber++), m_bSessionDisconnect(true)
 {
-	m_ReceiveBuffer = new ReceiveBuffer();
-	m_iSessionNumber = SessionNumber++;
 }
 
 Session::~Session()
@@ -48,9 +46,14 @@ string Session::GetSessionNumber()
 	return strNum;
 }
 
+bool Session::IsSessionConnect()
+{
+	return !m_bSessionDisconnect;
+}
+
 void Session::RegisterReceive()
 {
-	if (m_RegisterDisconnet)
+	if (m_RegisterDisconnect)
 		return;
 
 	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Receive, shared_from_this());
@@ -70,7 +73,7 @@ void Session::RegisterReceive()
 
 void Session::RegisterSend(SendBuffer* _sendBuffer)
 {
-	if (m_RegisterDisconnet)
+	if (m_RegisterDisconnect)
 		return;
 
 	{
@@ -91,7 +94,7 @@ void Session::RegisterSend(SendBuffer* _sendBuffer)
 
 void Session::RegisterDisconnect()
 {
-	if (m_RegisterDisconnet.exchange(true) == true)
+	if (m_RegisterDisconnect.exchange(true) == true)
 		return;
 
 	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Disconnect, shared_from_this());
@@ -108,7 +111,7 @@ void Session::RegisterDisconnect()
 
 void Session::ProcessReceive(DWORD _bytesTransferred)
 {
-	if (m_RegisterDisconnet)
+	if (m_RegisterDisconnect)
 		return;
 
 	if (_bytesTransferred <= 0)
@@ -154,7 +157,7 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 
 void Session::ProcessSend(DWORD _bytesTransferred)
 {
-	if (m_RegisterDisconnet)
+	if (m_RegisterDisconnect)
 		return;
 
 	for (SendBuffer* sendBuffer : m_lisProcessSendBuffer)
@@ -178,6 +181,7 @@ void Session::ProcessSend(DWORD _bytesTransferred)
 void Session::ProcessDisconnect()
 {
 	cout << GetSessionNumber() << " Disconnect" << endl;
+	m_bSessionDisconnect = true;
 	DeleteSession();
 }
 
