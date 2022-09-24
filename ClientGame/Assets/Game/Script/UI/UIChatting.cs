@@ -16,11 +16,26 @@ public class UIChatting : MonoBehaviour
     {
         m_InputField = transform.Find("InputField").GetComponent<InputField>();
 
-        m_txtPrefabs = transform.Find("Scroll View/Viewport/Content/Text").GetComponent<Text>();
+        m_txtPrefabs = transform.Find("Text").GetComponent<Text>();
 
         m_transContent = transform.Find("Scroll View/Viewport/Content");
 
         m_scroll = transform.Find("Scroll View").GetComponent<ScrollRect>();
+    }
+    private void OnEnable()
+    {
+        if (m_transContent.childCount == 0)
+            return;
+        foreach (Transform child in m_transContent.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(gameObject.activeSelf)
+            LobbyController.Instance.SendChattingRoom(false);
     }
     private void Start()
     {
@@ -75,5 +90,10 @@ public class UIChatting : MonoBehaviour
             text.transform.SetAsLastSibling();
             text.text = _sendMessage;
         }
+    }
+
+    public void OnClickClose()
+    {
+        LobbyController.Instance.SendChattingRoom(false);
     }
 }

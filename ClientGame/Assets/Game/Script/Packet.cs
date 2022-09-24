@@ -5,6 +5,14 @@ using System;
 public enum ePacketType
 {
 	NONE = 0,
+
+	// 결과 보낼때 쓰자
+	Result,
+
+	// 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
+	Signal,
+
+
 	// 서버에서 클라로
 
 	SToC_Chatting,
@@ -24,8 +32,20 @@ public enum ePacketType
 
 public enum ePacketResult
 {
+	NONE = 0,
 	Success,
-	Fail
+	Fail,
+
+	// 채팅방 결과
+	ChattingRoomEnter_Not_Login,
+	ChattingRoomEnter_Already_In,
+	ChattingRoomExit_Not_Exist,
+};
+public enum ePacketSignal
+{
+	NONE = 0,
+	Signal_ChattingRoomEnter,
+	Signal_ChattingRoomExit,
 };
 
 // 아... 나눌껄....
@@ -88,6 +108,14 @@ public struct PacketResult
 {
 	public ePacketType		m_eTargetPakcetType;
 	public ePacketResult	m_eResult;
+
+	public ePacketSignal	m_SignalType;
+};
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+struct SignalPacket
+{
+	public ePacketSignal m_ePacketSignal;
 };
 
 public class Packet
@@ -145,6 +173,19 @@ public class Packet
 
 	public static void PacketResult(PacketResult _packetResult)
     {
+		// 간단한 시그널 응답일경우
+		if(_packetResult.m_eTargetPakcetType == ePacketType.Signal &&
+			_packetResult.m_SignalType != ePacketSignal.NONE)
+        {
+            switch (_packetResult.m_SignalType)
+            {
+				case ePacketSignal.Signal_ChattingRoomEnter:
+				case ePacketSignal.Signal_ChattingRoomExit:
+					LobbyController.Instance.ReceiveChattingRoom(_packetResult);
+					break;
+			}
+        }
+
         switch (_packetResult.m_eTargetPakcetType)
         {
 			case ePacketType.CToS_UserRegister:
