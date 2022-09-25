@@ -3,9 +3,9 @@
 class PacketHandler
 {
 public:
-	static void PacketHandling(s_ServerSession _session, PacketData* _PacketData);
+	static void PacketHandling(s_ServerSession _session, PacketData* _packetData);
 
-	static void PacketSignal(s_ServerSession _session, PacketData* _PacketData);
+	static void PacketSignal(s_ServerSession _session, PacketData* _packetData);
 
 	static void Chatting(PacketData* _packetData);
 

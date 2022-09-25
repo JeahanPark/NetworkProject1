@@ -28,6 +28,9 @@ public class UIChatting : MonoBehaviour
             return;
         foreach (Transform child in m_transContent.GetComponentsInChildren<Transform>())
         {
+            // 아니 부모를 왜찾는거
+            if (child == m_transContent)
+                continue;
             child.gameObject.SetActive(false);
         }
     }
@@ -87,6 +90,7 @@ public class UIChatting : MonoBehaviour
         {
             // 리스트에서 마지막 인덱스 원소를 첫번째로 바꿔 재사용
             Text text = m_transContent.GetChild(0).GetComponent<Text>();
+            text.gameObject.SetActive(true);
             text.transform.SetAsLastSibling();
             text.text = _sendMessage;
         }

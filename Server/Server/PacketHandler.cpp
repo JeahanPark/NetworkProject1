@@ -44,9 +44,9 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 	}
 }
 
-void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _PacketData)
+void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetData)
 {
-	SignalPacket* packetSignal = (SignalPacket*)_PacketData;
+	SignalPacket* packetSignal = (SignalPacket*)_packetData;
 
 	switch (packetSignal->m_ePacketSignal)
 	{

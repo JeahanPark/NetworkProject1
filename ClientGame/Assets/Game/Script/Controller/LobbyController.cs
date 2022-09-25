@@ -62,16 +62,22 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         UIMessageBox.ShowPopup("로그인 성공");
 
         PopupManager.Instance.ClosePopup(PopupID.UILogIn);
-        m_UILobby.ActiveChattingButton();
+        m_UILobby.ChattingButtonOn(true);
     }
     public void ReceiveChattingRoom(PacketResult packetResult)
     {
         if (packetResult.m_eResult == ePacketResult.Success)
         {
             if(packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomEnter)
+            {
                 m_UILobby.ChattingRoomOn(true);
+                m_UILobby.ChattingButtonOn(false);
+            }
             else if(packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomExit)
+            {
                 m_UILobby.ChattingRoomOn(false);
+                m_UILobby.ChattingButtonOn(true);
+            }
         }
         else if (packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Already_In)
             UIMessageBox.ShowPopup("이미 채널방에 있다.");

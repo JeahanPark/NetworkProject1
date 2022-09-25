@@ -14,7 +14,7 @@ public class UILobby : MonoBehaviour
         m_goChattingButton = transform.Find("LeftBottom/BtnList/Btn_Chatting").gameObject;
 
         m_Chatting.gameObject.SetActive(false);
-        ActiveChattingButton();
+        ChattingButtonOn(true);
     }
 
     private void Start()
@@ -48,9 +48,9 @@ public class UILobby : MonoBehaviour
         LobbyController.Instance.SendChattingRoom(true);
     }
 
-    public void ActiveChattingButton()
+    public void ChattingButtonOn(bool _On)
     {
-        m_goChattingButton.SetActive(DataManager.Instance.IsLogin());
+        m_goChattingButton.SetActive(DataManager.Instance.IsLogin() && _On);
     }
 
     public void ChattingRoomOn(bool _On)

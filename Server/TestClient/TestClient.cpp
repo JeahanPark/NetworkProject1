@@ -64,8 +64,8 @@ int main()
 
         cout << "Connected To Server!" << endl;
 
-        //shared_session session = g_SessionManager->CreateSession<ClientSession>();
-        //session->InitSession(iocpHandle, clientSocket);
+        s_ClientSession session = ClientSessionManager().GetInstance()->CreateSession();
+        session->InitSession(iocpHandle, clientSocket);
     }
 
     for (int i = 0; i < 5; ++i)
@@ -77,13 +77,17 @@ int main()
     }
     SocketUtil::InitWinSock();
 
+    for (s_ClientSession iter : ClientSessionManager().GetInstance()->GetSessions())
+    {
+        iter->Login();
+    }
 
     while (true)
     {
-        //for (shared_session iter : g_SessionManager->GetSessions())
-        //{
-        //    ((ClientSession*)iter.get())->Chatting();
-        //}
+        for (s_ClientSession iter : ClientSessionManager().GetInstance()->GetSessions())
+        {
+            iter->Chatting();
+        }
         //모르겠다 일단돌려
         Sleep(1000);
     }

@@ -4,11 +4,27 @@
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="TestClient.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="ClientSession.cpp" />
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSessionManager.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ClientSession.h" />
+    <ClInclude Include="ClientSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientType.h" />
+    <ClInclude Include="ClientSessionManager.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Session">
+      <UniqueIdentifier>{241a1c01-38b3-4b03-98ee-3092ee4a1ea5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

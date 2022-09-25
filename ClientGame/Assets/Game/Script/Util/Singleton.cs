@@ -129,7 +129,6 @@ public abstract class MonoDestroySingleton<T> : MonoBehaviour where T : MonoBeha
         {
             if (m_singleton == null)
             {
-
                 GameObject go = new GameObject(typeof(T).Name, typeof(T));
                 m_singleton = go.GetComponent<T>();
                 //Debug.Log(typeof(T).Name);

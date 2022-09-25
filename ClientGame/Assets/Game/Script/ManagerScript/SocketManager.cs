@@ -23,12 +23,12 @@ public class SocketManager : MonoSingleton<SocketManager>
 
     public bool IsConnet()
     {
-        return m_socket.Connected;
+        return m_socket != null && m_socket.Connected;
     }
 
     public override void Destroy()
     {
-        if(m_socket != null && IsConnet())
+        if(IsConnet())
         {
             Disconnect();
         }
@@ -40,7 +40,10 @@ public class SocketManager : MonoSingleton<SocketManager>
 
     public void Send(byte[] _buffer)
     {
-        if(_buffer == null || _buffer.Length == 0)
+        if (!IsConnet())
+            return;
+
+        if (_buffer == null || _buffer.Length == 0)
             return;
 
         m_queBuffer.Enqueue(_buffer);
@@ -150,6 +153,10 @@ public class SocketManager : MonoSingleton<SocketManager>
                 // 뭔가 받은게 있다.
                 while (!async.IsCompleted)
                     yield return null;
+
+                // 연결이 끊겨있다.
+                if (!IsConnet())
+                    break;
 
                 int iRecevieBtye = m_socket.EndReceive(async);
 
