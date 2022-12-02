@@ -12,4 +12,5 @@
 #include "DataBaseManager.h"
 #include "ServerSessionManager.h"
 #include "ChattingManager.h"
+#include "InGameManager.h"
 // 서버 코드

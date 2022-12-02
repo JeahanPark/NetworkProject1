@@ -11,6 +11,19 @@ ChattingManager::~ChattingManager()
     m_lisChatting.clear();
 }
 
+bool ChattingManager::IsExistentChattingObject(s_ServerSession _session)
+{
+    int iUserIndex = _session->GetUserData()->GetUserIndex();
+
+    // ÀÖ´Ù.
+    for (ChattingObject* chatting : m_lisChatting)
+    {
+        if (chatting->SameSession(_session->GetUserData()->GetUserIndex()))
+            return true;
+    }
+    return false;
+}
+
 bool ChattingManager::InsertChattingObject(s_ServerSession _session)
 {
     LockGuard lock(m_lockChatting);

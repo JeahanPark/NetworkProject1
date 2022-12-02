@@ -159,6 +159,8 @@
     <ClCompile Include="ChattingObject.cpp" />
     <ClCompile Include="DataBaseManager.cpp" />
     <ClCompile Include="DBObject.cpp" />
+    <ClCompile Include="InGameManager.cpp" />
+    <ClCompile Include="InGameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="pch.cpp">
@@ -176,6 +178,8 @@
     <ClInclude Include="ChattingObject.h" />
     <ClInclude Include="DataBaseManager.h" />
     <ClInclude Include="DBObject.h" />
+    <ClInclude Include="InGameManager.h" />
+    <ClInclude Include="InGameObject.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerSession.h" />

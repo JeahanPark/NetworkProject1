@@ -24,7 +24,7 @@ public class UILobby : MonoBehaviour
 
     public void OnClickInGameEnter()
     {
-        LobbyController.Instance.InGameEnter();
+        LobbyController.Instance.SendInGameEnter(true);
     }
 
     public void OnClickLogin()

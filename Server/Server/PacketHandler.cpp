@@ -53,6 +53,9 @@ void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetDa
 	case ePacketSignal::Signal_ChattingRoomEnter:
 	case ePacketSignal::Signal_ChattingRoomExit:
 		ChattingRoomProcess(_session, packetSignal->m_ePacketSignal);
+	case ePacketSignal::Signal_InGameEnter:
+	case ePacketSignal::Signal_InGameExit:
+		InGameEnterProcess(_session, packetSignal->m_ePacketSignal);
 		break;
 	}
 }
@@ -202,6 +205,41 @@ void PacketHandler::ChattingRoomProcess(s_ServerSession _session, ePacketSignal 
 	{
 		// 룸 나가기
 		if (ChattingManager().GetInstance()->DeleteChattingObject(_session))
+			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
+		else // 채팅방에 이유저가 없음
+			pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomExit_Not_Exist, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
+	}
+
+	if (pSendBuffer != nullptr)
+		_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _signal)
+{
+	SendBuffer* pSendBuffer = nullptr;
+
+	if (ChattingManager().GetInstance()->IsExistentChattingObject(_session))
+	{
+		// 채팅방에 있다? 정상적인 경우에는 못들어오는데
+		pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_InChattingRoom, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+	}
+	else if (_signal == ePacketSignal::Signal_InGameEnter)
+	{
+		if (_session->IsLogin())
+		{
+			// 룸진입
+			if (InGameManager().GetInstance()->InsertChattingObject(_session))
+				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+			else // 이미 방에 들어있다.
+				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+		}
+		else // 로그인을 안했다.
+			pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Not_Login, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+	}
+	else
+	{
+		// 룸 나가기
+		if (InGameManager().GetInstance()->DeleteChattingObject(_session))
 			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
 		else // 채팅방에 이유저가 없음
 			pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomExit_Not_Exist, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);

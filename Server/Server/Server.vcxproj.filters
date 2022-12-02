@@ -23,6 +23,12 @@
     <ClCompile Include="ChattingManager.cpp">
       <Filter>Chatting</Filter>
     </ClCompile>
+    <ClCompile Include="InGameManager.cpp">
+      <Filter>InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameObject.cpp">
+      <Filter>InGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -47,6 +53,12 @@
     <ClInclude Include="ChattingManager.h">
       <Filter>Chatting</Filter>
     </ClInclude>
+    <ClInclude Include="InGameManager.h">
+      <Filter>InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameObject.h">
+      <Filter>InGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
@@ -57,6 +69,9 @@
     </Filter>
     <Filter Include="Chatting">
       <UniqueIdentifier>{40dee9ac-f80d-44dc-993f-d0c454983be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame">
+      <UniqueIdentifier>{99b3ea1b-9e08-4230-9ef8-257a842374c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

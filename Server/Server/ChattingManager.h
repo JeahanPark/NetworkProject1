@@ -8,6 +8,7 @@ public:
 	~ChattingManager();
 
 public:
+	bool IsExistentChattingObject(s_ServerSession _session);
 	bool InsertChattingObject(s_ServerSession _session);
 	bool DeleteChattingObject(s_ServerSession _session);
 	bool AllSendChatting(ChattingPacket* packetData);

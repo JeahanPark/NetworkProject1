@@ -25,11 +25,6 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         m_UILobby = lobby;
     }
 
-    public void InGameEnter()
-    {
-        SceneManager.Instance.SceneChange(SceneType.InGame);
-    }
-
     public void ServerConnect(System.Action<bool> _funResult)
     {
         SocketManager.Instance.ServerConnect((result) => 
@@ -64,27 +59,41 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         PopupManager.Instance.ClosePopup(PopupID.UILogIn);
         m_UILobby.ChattingButtonOn(true);
     }
-    public void ReceiveChattingRoom(PacketResult packetResult)
+    public void ReceiveChattingRoom(PacketResult _packetResult)
     {
-        if (packetResult.m_eResult == ePacketResult.Success)
+        if (_packetResult.m_eResult == ePacketResult.Success)
         {
-            if(packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomEnter)
+            if(_packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomEnter)
             {
                 m_UILobby.ChattingRoomOn(true);
                 m_UILobby.ChattingButtonOn(false);
             }
-            else if(packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomExit)
+            else if(_packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomExit)
             {
                 m_UILobby.ChattingRoomOn(false);
                 m_UILobby.ChattingButtonOn(true);
             }
         }
-        else if (packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Already_In)
+        else if (_packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Already_In)
             UIMessageBox.ShowPopup("이미 채널방에 있다.");
-        else if (packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Not_Login)
+        else if (_packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Not_Login)
             UIMessageBox.ShowPopup("로그인이 안되어있다");
-        else if (packetResult.m_eResult == ePacketResult.ChattingRoomExit_Not_Exist)
+        else if (_packetResult.m_eResult == ePacketResult.ChattingRoomExit_Not_Exist)
             UIMessageBox.ShowPopup("내가 방에 없다?");
+    }
+    public void ReceiveInGameEnter(PacketResult _packetResult)
+    {
+        if (_packetResult.m_eResult == ePacketResult.Success)
+        {
+            if (_packetResult.m_SignalType == ePacketSignal.Signal_InGameEnter)
+            {
+                SceneManager.Instance.SceneChange(SceneType.InGame);
+            }
+            else if (_packetResult.m_SignalType == ePacketSignal.Signal_InGameExit)
+            {
+                SceneManager.Instance.SceneChange(SceneType.Lobby);
+            }
+        }
     }
     public void SendChattingRoom(bool _bEnter)
     {
@@ -96,6 +105,20 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
         SignalPacket packet = new SignalPacket();
         packet.m_ePacketSignal = _bEnter ? ePacketSignal.Signal_ChattingRoomEnter : ePacketSignal.Signal_ChattingRoomExit;
+
+        Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
+    }
+
+    public void SendInGameEnter(bool _bEnter)
+    {
+        if (!DataManager.Instance.IsLogin())
+        {
+            UIMessageBox.ShowPopup("로그인을 해주세요.");
+            return;
+        }
+
+        SignalPacket packet = new SignalPacket();
+        packet.m_ePacketSignal = _bEnter ? ePacketSignal.Signal_InGameEnter : ePacketSignal.Signal_InGameExit;
 
         Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
     }

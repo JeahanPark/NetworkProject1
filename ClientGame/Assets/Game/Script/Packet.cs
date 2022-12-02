@@ -18,6 +18,7 @@ public enum ePacketType
 	SToC_Chatting,
 	SToC_PacketResult,
 	SToC_LoginResult,
+	SToC_GameEnter,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -25,11 +26,13 @@ public enum ePacketType
 	CToS_Login,
 	CToS_Chatting,
 	CToS_UserRegister,
+	CToS_GameEnter,
 	// 클라에서 서버로
 
 	END,
 }
 
+// 결과에 대한 enum
 public enum ePacketResult
 {
 	NONE = 0,
@@ -41,11 +44,15 @@ public enum ePacketResult
 	ChattingRoomEnter_Already_In,
 	ChattingRoomExit_Not_Exist,
 };
+
+// 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
 public enum ePacketSignal
 {
 	NONE = 0,
 	Signal_ChattingRoomEnter,
 	Signal_ChattingRoomExit,
+	Signal_InGameEnter,
+	Signal_InGameExit,
 };
 
 // 아... 나눌껄....
@@ -85,6 +92,12 @@ public struct UserRegistPacket
 };
 
 [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+public struct InGameEnterPacket
+{
+	public int m_UserIndex;
+};
+
+[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
 public struct LogInPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -101,6 +114,7 @@ public struct LoginResultPacket
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_UserID;
 	public int Score;
+	public int m_iUserIndex;
 };
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -183,8 +197,13 @@ public class Packet
 				case ePacketSignal.Signal_ChattingRoomExit:
 					LobbyController.Instance.ReceiveChattingRoom(_packetResult);
 					break;
+				case ePacketSignal.Signal_InGameEnter:
+				case ePacketSignal.Signal_InGameExit:
+					LobbyController.Instance.ReceiveInGameEnter(_packetResult);
+					break;
+
 			}
-        }
+		}
 
         switch (_packetResult.m_eTargetPakcetType)
         {

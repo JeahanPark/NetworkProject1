@@ -33,10 +33,16 @@ enum class ePacketResult
 	Success,
 	Fail,
 
-	// 채팅방 결과
+	// 채팅방 진입 나가기에 대한 결과
 	ChattingRoomEnter_Not_Login,
 	ChattingRoomEnter_Already_In,
 	ChattingRoomExit_Not_Exist,
+
+	// 인게임 진입 나가기에 대한 결과
+	InGameEnter_Not_Login,
+	InGameEnter_Already_In,
+	InGameEnter_InChattingRoom,
+	InGameExit_Not_Exist,
 };
 
 
@@ -45,6 +51,9 @@ enum class ePacketSignal
 	NONE = 0,
 	Signal_ChattingRoomEnter,
 	Signal_ChattingRoomExit,
+
+	Signal_InGameEnter,
+	Signal_InGameExit,
 };
 
 struct PacketData
@@ -85,6 +94,7 @@ struct LoginResultPacket : PacketResult
 public:
 	WCHAR m_UserID[USER_ID_LENGTH] = {};
 	int m_iScore;
+	int m_iUserIndex;
 };
 
 struct ChattingPacket : PacketData
