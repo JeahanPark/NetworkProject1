@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System;
+using UnityEngine;
+
 public enum ePacketType
 {
 	NONE = 0,
@@ -18,7 +20,6 @@ public enum ePacketType
 	SToC_Chatting,
 	SToC_PacketResult,
 	SToC_LoginResult,
-	SToC_GameEnter,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -26,7 +27,6 @@ public enum ePacketType
 	CToS_Login,
 	CToS_Chatting,
 	CToS_UserRegister,
-	CToS_GameEnter,
 	// 클라에서 서버로
 
 	END,
@@ -43,14 +43,25 @@ public enum ePacketResult
 	ChattingRoomEnter_Not_Login,
 	ChattingRoomEnter_Already_In,
 	ChattingRoomExit_Not_Exist,
+
+	// 인게임 진입 나가기에 대한 결과
+	InGameEnter_Not_Login,
+	InGameEnter_Already_In,
+	InGameEnter_InChattingRoom,
+	InGameExit_Not_Exist,
 };
 
 // 데이터는 안보내고 간단하게 신호만 보낼경우 이걸로 쓰자
 public enum ePacketSignal
 {
 	NONE = 0,
+
+	// 채팅방 결과
 	Signal_ChattingRoomEnter,
 	Signal_ChattingRoomExit,
+	Signal_ChattingRoomExit_Not_Exist,
+
+	// 인게임 입장, 나가기 결과
 	Signal_InGameEnter,
 	Signal_InGameExit,
 };
@@ -72,7 +83,7 @@ public struct PacketHeader
 // LayoutKind.Sequential = 순서대로 정렬한다. 원래는 지멋대로 정렬함
 // Pack = 멤버변수 사이즈를 최소를 1바이트로 잡아둠
 // CharSet = 샬링된 문자열이 사용할 문자 집합을 지정합니다.
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct V2ChattingPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
@@ -80,7 +91,7 @@ public struct V2ChattingPacket
 }
 
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct UserRegistPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -91,13 +102,13 @@ public struct UserRegistPacket
 	public int Score;
 };
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct InGameEnterPacket
 {
 	public int m_UserIndex;
 };
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct LogInPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -105,7 +116,7 @@ public struct LogInPacket
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_Password;
 };
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct LoginResultPacket
 {
 	public ePacketType m_eTargetPakcetType;
@@ -117,7 +128,7 @@ public struct LoginResultPacket
 	public int m_iUserIndex;
 };
 
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
+[StructLayout(LayoutKind.Sequential)]
 public struct PacketResult
 {
 	public ePacketType		m_eTargetPakcetType;
@@ -126,7 +137,7 @@ public struct PacketResult
 	public ePacketSignal	m_SignalType;
 };
 
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
+[StructLayout(LayoutKind.Sequential)]
 struct SignalPacket
 {
 	public ePacketSignal m_ePacketSignal;
@@ -162,9 +173,9 @@ public class Packet
 			if (packetHeader.m_iSize < _iBufferSize)
 				return false;
 		}
-
+		string packet = string.Empty;
 		// 패킷에 따라 함수 호출해주기... 먼가 이상하다
-        {
+		{
 			switch (packetHeader.m_PakcetType)
 			{
 				case ePacketType.SToC_Chatting:
@@ -174,6 +185,7 @@ public class Packet
 				case ePacketType.SToC_PacketResult:
 					PacketResult Result = BufferToPacket<PacketResult>(_buffer, iHearSize);
 					PacketResult(Result);
+					packet = Result.m_eResult.ToString() + ", " + Result.m_eTargetPakcetType.ToString() + ", " + Result.m_SignalType.ToString();
 					break;
 				case ePacketType.SToC_LoginResult:
 					LoginResultPacket LoginResult = BufferToPacket<LoginResultPacket>(_buffer, iHearSize);
@@ -181,7 +193,11 @@ public class Packet
 					break;
 			}
 		}
-
+		if (packetHeader.m_PakcetType != ePacketType.SToC_PacketResult)
+        {
+			packet = packetHeader.m_PakcetType.ToString();
+		}
+		Debug.Log(packet);
 		return true;
 	}
 

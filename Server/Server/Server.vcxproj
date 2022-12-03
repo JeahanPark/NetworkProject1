@@ -161,6 +161,8 @@
     <ClCompile Include="DBObject.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="InGameObject.cpp" />
+    <ClCompile Include="InteractionManager.cpp" />
+    <ClCompile Include="InteractionObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="pch.cpp">
@@ -171,7 +173,10 @@
     </ClCompile>
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="ServerSessionManager.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UserController.cpp" />
     <ClCompile Include="UserData.cpp" />
+    <ClCompile Include="UserObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChattingManager.h" />
@@ -180,12 +185,17 @@
     <ClInclude Include="DBObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="InGameObject.h" />
+    <ClInclude Include="InteractionManager.h" />
+    <ClInclude Include="InteractionObject.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="ServerSessionManager.h" />
     <ClInclude Include="ServerTypes.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="UserController.h" />
     <ClInclude Include="UserData.h" />
+    <ClInclude Include="UserObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

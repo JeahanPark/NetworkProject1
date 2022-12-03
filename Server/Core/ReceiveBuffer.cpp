@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ReceiveBuffer.h"
 
-ReceiveBuffer::ReceiveBuffer() : m_recvBuffer{}, m_iReadPos{}, m_iWritePos{}
+ReceiveBuffer::ReceiveBuffer() : m_recvBuffer{}, m_wsaRecvieBuf{}, m_iReadPos{}, m_iWritePos{}
 {
 
 }

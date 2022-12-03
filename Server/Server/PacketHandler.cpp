@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PacketHandler.h"
 #include "UserData.h"
-
+#include "InGameObject.h"
 #define SESSION_LOG(SessionNumber, LogName) cout << SessionNumber << " , " << LogName << endl;
 
 void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packetData)
@@ -23,6 +23,10 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 	case ePacketType::CToS_UserRegister:
 		Register(_session, _packetData);
 		SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
+			break;
+	case ePacketType::CToS_MyUserMove:
+		Register(_session, _packetData);
+		SESSION_LOG(_session->GetSessionNumber(), "CToS_MyUserMove")
 			break;
 #pragma endregion
 
@@ -53,9 +57,12 @@ void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetDa
 	case ePacketSignal::Signal_ChattingRoomEnter:
 	case ePacketSignal::Signal_ChattingRoomExit:
 		ChattingRoomProcess(_session, packetSignal->m_ePacketSignal);
+		SESSION_LOG(_session->GetSessionNumber(), "Chatting," + (int)packetSignal->m_ePacketSignal)
+		break;
 	case ePacketSignal::Signal_InGameEnter:
 	case ePacketSignal::Signal_InGameExit:
 		InGameEnterProcess(_session, packetSignal->m_ePacketSignal);
+		SESSION_LOG(_session->GetSessionNumber(), "InGame," + (int)packetSignal->m_ePacketSignal)
 		break;
 	}
 }
@@ -227,10 +234,10 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 	{
 		if (_session->IsLogin())
 		{
-			// 룸진입
-			if (InGameManager().GetInstance()->InsertChattingObject(_session))
+			// 인게임 진입
+			if (InGameManager().GetInstance()->InsertInGameObject(_session))
 				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
-			else // 이미 방에 들어있다.
+			else // 이미 인게임이다.
 				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 		}
 		else // 로그인을 안했다.
@@ -238,13 +245,27 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 	}
 	else
 	{
-		// 룸 나가기
-		if (InGameManager().GetInstance()->DeleteChattingObject(_session))
-			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
-		else // 채팅방에 이유저가 없음
-			pSendBuffer = PacketResultCreate(ePacketResult::ChattingRoomExit_Not_Exist, ePacketType::Signal, ePacketSignal::Signal_ChattingRoomExit);
+		// 인게임 나가기
+		if (InGameManager().GetInstance()->DeleteInGameObject(_session))
+			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameExit);
+		else // 인게임에 이유저가 없음
+			pSendBuffer = PacketResultCreate(ePacketResult::InGameExit_Not_Exist, ePacketType::Signal, ePacketSignal::Signal_InGameExit);
 	}
 
 	if (pSendBuffer != nullptr)
 		_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::MyUserMove(s_ServerSession _session, PacketData* _packetData)
+{
+	MyUserMovePacket* packetData = (MyUserMovePacket*)_packetData;
+
+	s_InGameObject inGameObject = InGameManager().GetInstance()->GetInGameObject(_session->GetUserData()->GetUserIndex());
+
+	if (inGameObject == nullptr)
+	{
+		return;
+	}
+
+	inGameObject->MyUserMove(packetData);
 }

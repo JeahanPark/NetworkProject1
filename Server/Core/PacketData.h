@@ -15,6 +15,7 @@ enum class ePacketType
 	SToC_Chatting,
 	SToC_PacketResult,
 	SToC_LoginResult,
+	SToC_PositionUpdate,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -22,6 +23,7 @@ enum class ePacketType
 	CToS_Login,
 	CToS_Chatting,
 	CToS_UserRegister,
+	CToS_MyUserMove,
 	// 클라에서 서버로
 
 	END,
@@ -49,9 +51,14 @@ enum class ePacketResult
 enum class ePacketSignal
 {
 	NONE = 0,
+
+
+	// 채팅방 결과
 	Signal_ChattingRoomEnter,
 	Signal_ChattingRoomExit,
+	Signal_ChattingRoomExit_Not_Exist,
 
+	// 인게임 입장, 나가기 결과
 	Signal_InGameEnter,
 	Signal_InGameExit,
 };
@@ -109,6 +116,12 @@ public:
 	ePacketSignal m_ePacketSignal;
 };
 
+struct MyUserMovePacket : PacketData
+{
+public:
+	float m_fDirX;
+	float m_fDirY;
+};
 class PacketCreate
 {
 public:

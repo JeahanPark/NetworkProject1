@@ -94,6 +94,14 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
                 SceneManager.Instance.SceneChange(SceneType.Lobby);
             }
         }
+        else if (_packetResult.m_eResult == ePacketResult.InGameEnter_Already_In)
+            UIMessageBox.ShowPopup("이미 인게임에 있다.");
+        else if (_packetResult.m_eResult == ePacketResult.InGameEnter_Not_Login)
+            UIMessageBox.ShowPopup("로그인이 안되어있다.");
+        else if (_packetResult.m_eResult == ePacketResult.InGameExit_Not_Exist)
+            UIMessageBox.ShowPopup("내가 인게임에 없다.?");
+        else if( _packetResult.m_eResult == ePacketResult.InGameEnter_InChattingRoom)
+            UIMessageBox.ShowPopup("채팅방에서 나가야 인게임에 접근할수있다.");
     }
     public void SendChattingRoom(bool _bEnter)
     {

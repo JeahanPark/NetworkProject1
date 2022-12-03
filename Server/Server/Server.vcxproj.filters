@@ -29,6 +29,21 @@
     <ClCompile Include="InGameObject.cpp">
       <Filter>InGame</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>InGame\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="UserController.cpp">
+      <Filter>InGame\Component\UserController</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractionObject.cpp">
+      <Filter>InGame\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractionManager.cpp">
+      <Filter>InGame\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="UserObject.cpp">
+      <Filter>InGame\Interaction\User</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -59,6 +74,21 @@
     <ClInclude Include="InGameObject.h">
       <Filter>InGame</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>InGame\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="UserController.h">
+      <Filter>InGame\Component\UserController</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractionObject.h">
+      <Filter>InGame\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractionManager.h">
+      <Filter>InGame\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="UserObject.h">
+      <Filter>InGame\Interaction\User</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
@@ -72,6 +102,21 @@
     </Filter>
     <Filter Include="InGame">
       <UniqueIdentifier>{99b3ea1b-9e08-4230-9ef8-257a842374c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component">
+      <UniqueIdentifier>{2db60e02-cfd5-467f-9c8c-0834ae5f3fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\UserController">
+      <UniqueIdentifier>{cf8f5f3d-89fa-44ad-b4e2-b5c0d37eef84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\Transform">
+      <UniqueIdentifier>{90ed4bc1-9ed1-4101-bc53-7c3f6751aed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction">
+      <UniqueIdentifier>{07ad90be-54d5-4e96-8c37-24d8de3b1b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\User">
+      <UniqueIdentifier>{cdc866ad-8231-4a1a-89be-ec22200f5a0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

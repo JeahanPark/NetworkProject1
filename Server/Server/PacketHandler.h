@@ -20,4 +20,6 @@ public:
 	static void ChattingRoomProcess(s_ServerSession _session, ePacketSignal _signal);
 	
 	static void InGameEnterProcess(s_ServerSession _session, ePacketSignal _signal);
+
+	static void MyUserMove(s_ServerSession _session, PacketData* _packetData);
 };

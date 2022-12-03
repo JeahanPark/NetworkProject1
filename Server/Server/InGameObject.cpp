@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "InGameObject.h"
-
-InGameObject::InGameObject(s_ServerSession _session)
+#include "UserController.h"
+InGameObject::InGameObject(s_ServerSession _session, s_UserController _userController)
+	: m_session(_session), m_UserController(_userController)
 {
 }
 
@@ -17,4 +18,9 @@ bool InGameObject::SameSession(int _iUserIndex)
 		return false;
 
 	return userData->GetUserIndex() == _iUserIndex;
+}
+
+void InGameObject::MyUserMove(MyUserMovePacket* _packetData)
+{
+	m_UserController->SetUserMove(_packetData);
 }

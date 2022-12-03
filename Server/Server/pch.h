@@ -13,4 +13,5 @@
 #include "ServerSessionManager.h"
 #include "ChattingManager.h"
 #include "InGameManager.h"
+#include "InteractionManager.h"
 // 서버 코드
