@@ -4,7 +4,7 @@
 #include "UserController.h"
 InGameManager::~InGameManager()
 {
-    for (InGameMap::value_type inGameObject : m_mapInGame)
+    for (mapInGame::value_type inGameObject : m_mapInGame)
     {
         inGameObject.second = nullptr;
     }
@@ -65,5 +65,5 @@ void InGameManager::CreateInGameObject(s_ServerSession _session)
     s_InGameObject ingame = make_shared<InGameObject>(_session, userController);
     m_mapInGame.insert(std::make_pair(_session->GetUserData()->GetUserIndex(), ingame));
 
-    InteractionManager().GetInstance()->AddUserInteractionObject(ingame, userController);
+    InteractionManager().GetInstance()->AddUserInteractionObject(_session->GetUserData()->GetUserIndex(), userController);
 }

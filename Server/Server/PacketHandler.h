@@ -1,5 +1,5 @@
 #pragma once
-
+class InteractionObject;
 class PacketHandler
 {
 public:
@@ -22,4 +22,6 @@ public:
 	static void InGameEnterProcess(s_ServerSession _session, ePacketSignal _signal);
 
 	static void MyUserMove(s_ServerSession _session, PacketData* _packetData);
+
+	static void InGameUpdate(const list<InteractionObject*>& _lisInteraction, s_ServerSession _session);
 };

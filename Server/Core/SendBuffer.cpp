@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SendBuffer.h"
 
-SendBuffer::SendBuffer(int _BufferSize) : m_BufferSize(_BufferSize) ,m_sendBuffer{}
+SendBuffer::SendBuffer(int _BufferSize) : m_BufferSize(_BufferSize), m_sendBuffer{}, m_wsaSendBuf{}
 {
 	m_sendBuffer = new char[_BufferSize];
 }

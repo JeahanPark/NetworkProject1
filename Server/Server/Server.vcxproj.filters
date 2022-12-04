@@ -44,6 +44,12 @@
     <ClCompile Include="UserObject.cpp">
       <Filter>InGame\Interaction\User</Filter>
     </ClCompile>
+    <ClCompile Include="InGameUpdateManager.cpp">
+      <Filter>InGame\InGameUpdateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>InGame\Component\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -89,13 +95,17 @@
     <ClInclude Include="UserObject.h">
       <Filter>InGame\Interaction\User</Filter>
     </ClInclude>
+    <ClInclude Include="InGameUpdateManager.h">
+      <Filter>InGame\InGameUpdateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>InGame\Component\State</Filter>
+    </ClInclude>
+    <ClInclude Include="InGamePacketDatah.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
       <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Session">
-      <UniqueIdentifier>{48b05756-bba2-4309-aab3-1b8d036ac60d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Chatting">
       <UniqueIdentifier>{40dee9ac-f80d-44dc-993f-d0c454983be1}</UniqueIdentifier>
@@ -117,6 +127,15 @@
     </Filter>
     <Filter Include="InGame\Interaction\User">
       <UniqueIdentifier>{cdc866ad-8231-4a1a-89be-ec22200f5a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\InGameUpdateManager">
+      <UniqueIdentifier>{fed1aa4c-dba9-438e-bbd8-62e8040190c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\State">
+      <UniqueIdentifier>{857f9b9c-0319-4c6c-a7ce-503ab4fe27eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{48b05756-bba2-4309-aab3-1b8d036ac60d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UserController.h"
 
-UserController::UserController() : m_fDirX(0), m_fDirY(0)
+UserController::UserController() : m_vMoveDir{0,0,0}, m_bNeedMoveCheck(false)
 {
 }
 
@@ -11,12 +11,15 @@ UserController::~UserController()
 
 void UserController::SetUserMove(MyUserMovePacket* _packetData)
 {
-	m_fDirX = _packetData->m_fDirX;
-	m_fDirY = _packetData->m_fDirY;
+	m_vMoveDir = _packetData->m_vDir;
+
+
+	m_bNeedMoveCheck = true;
 }
 
 void UserController::ClearUserCommand()
 {
-	m_fDirX = 0;
-	m_fDirY = 0;
+	m_bNeedMoveCheck = false;
+
+	m_vMoveDir = { 0,0,0 };
 }

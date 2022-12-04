@@ -1,4 +1,5 @@
 #pragma once
+
 class UserController
 {
 public:
@@ -6,10 +7,16 @@ public:
 	~UserController();
 public:
 	void SetUserMove(MyUserMovePacket* _packetData);
+
+public:
+	bool GetNeedMoveCheck() { return m_bNeedMoveCheck; }
+	const XMFLOAT3& GetMoveDir() { return m_vMoveDir; }
+
+public:
 	void ClearUserCommand();
 
 private:
-	float m_fDirX;
-	float m_fDirY;
+	bool m_bNeedMoveCheck;
+	XMFLOAT3 m_vMoveDir;
 };
 

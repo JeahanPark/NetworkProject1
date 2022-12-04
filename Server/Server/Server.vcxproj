@@ -161,6 +161,7 @@
     <ClCompile Include="DBObject.cpp" />
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="InGameObject.cpp" />
+    <ClCompile Include="InGameUpdateManager.cpp" />
     <ClCompile Include="InteractionManager.cpp" />
     <ClCompile Include="InteractionObject.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -173,6 +174,7 @@
     </ClCompile>
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="ServerSessionManager.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UserController.cpp" />
     <ClCompile Include="UserData.cpp" />
@@ -185,6 +187,8 @@
     <ClInclude Include="DBObject.h" />
     <ClInclude Include="InGameManager.h" />
     <ClInclude Include="InGameObject.h" />
+    <ClInclude Include="InGamePacketDatah.h" />
+    <ClInclude Include="InGameUpdateManager.h" />
     <ClInclude Include="InteractionManager.h" />
     <ClInclude Include="InteractionObject.h" />
     <ClInclude Include="PacketHandler.h" />
@@ -192,6 +196,7 @@
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="ServerSessionManager.h" />
     <ClInclude Include="ServerTypes.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UserController.h" />
     <ClInclude Include="UserData.h" />

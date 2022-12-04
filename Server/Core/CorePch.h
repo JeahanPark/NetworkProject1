@@ -20,6 +20,8 @@ using namespace std;
 #include <set>
 #include <queue>
 #include <map>
+#include <DirectXMath.h>
+using namespace DirectX;
 //잡다한거
 
 // 내가만든거

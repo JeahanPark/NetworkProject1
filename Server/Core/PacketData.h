@@ -15,7 +15,7 @@ enum class ePacketType
 	SToC_Chatting,
 	SToC_PacketResult,
 	SToC_LoginResult,
-	SToC_PositionUpdate,
+	SToC_InGameUpdate,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -114,13 +114,6 @@ struct SignalPacket : PacketData
 {
 public:
 	ePacketSignal m_ePacketSignal;
-};
-
-struct MyUserMovePacket : PacketData
-{
-public:
-	float m_fDirX;
-	float m_fDirY;
 };
 class PacketCreate
 {

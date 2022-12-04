@@ -1,6 +1,6 @@
 #pragma once
 class InGameObject;
-typedef std::map<int, s_InGameObject> InGameMap;
+
 class InGameManager : public BaseManager<InGameManager>
 {
 private:
@@ -10,14 +10,15 @@ public:
 	~InGameManager();
 	bool InsertInGameObject(s_ServerSession _session);
 	bool DeleteInGameObject(s_ServerSession _session);
+public:
 	s_InGameObject GetInGameObject(int _iUserIndex);
-	 
+	const mapInGame& GetmapInGame() { return m_mapInGame; }
 private:
 	void CreateInGameObject(s_ServerSession _session);
 
 private:
 	// userIndex
-	InGameMap			m_mapInGame;
+	mapInGame			m_mapInGame;
 	mutex				m_lockInGame;
 };
 
