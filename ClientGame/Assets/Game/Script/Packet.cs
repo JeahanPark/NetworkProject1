@@ -20,6 +20,7 @@ public enum ePacketType
 	SToC_Chatting,
 	SToC_PacketResult,
 	SToC_LoginResult,
+	SToC_InGameUpdate,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -27,6 +28,7 @@ public enum ePacketType
 	CToS_Login,
 	CToS_Chatting,
 	CToS_UserRegister,
+	CToS_MyUserMove,
 	// 클라에서 서버로
 
 	END,

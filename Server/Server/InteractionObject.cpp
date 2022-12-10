@@ -5,7 +5,8 @@
 InteractionObject::InteractionObject() : 
 	m_eType(eInteractionType::None),
 	m_transform(new Transform()),
-	m_iInteractionIndex{-1}
+	m_iInteractionIndex{-1},
+	m_bVaildCheck(true)
 {
 }
 

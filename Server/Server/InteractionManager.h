@@ -8,9 +8,7 @@ public:
 public:
 	void AddUserInteractionObject(int _userIndex, s_UserController _userController);
 
-	void AllUpdateInteractionObject();
-
-	const list<InteractionObject*>& GetlisInteractionObject() { return m_lisInteraction; }
+	list<InteractionObject*>AllUpdateInteractionObject();
 
 private:
 	list<InteractionObject*>		m_lisInteraction;

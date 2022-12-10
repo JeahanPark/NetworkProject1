@@ -12,7 +12,7 @@ public:
 	bool DeleteInGameObject(s_ServerSession _session);
 public:
 	s_InGameObject GetInGameObject(int _iUserIndex);
-	const mapInGame& GetmapInGame() { return m_mapInGame; }
+	const mapInGame GetmapInGame();
 private:
 	void CreateInGameObject(s_ServerSession _session);
 

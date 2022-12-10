@@ -276,28 +276,27 @@ void PacketHandler::MyUserMove(s_ServerSession _session, PacketData* _packetData
 
 void PacketHandler::InGameUpdate(const list<InteractionObject*>& _lisInteraction, s_ServerSession _session)
 {
-	size_t interactionCount = _lisInteraction.size();
+	const int interactionCount = _lisInteraction.size();
 
 	if (interactionCount == 0)
 		return;
 
-	int iBufferSize = sizeof(InGameUpdatePacket) + sizeof(InteractionPacketData) * interactionCount;
-
-	SendBuffer* pSendBuffer = new SendBuffer(iBufferSize);
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(InGameUpdatePacket));
 	
 	InGameUpdatePacket* InGameUpdate = (InGameUpdatePacket*)pSendBuffer->GetSendBufferAdress();
 	InGameUpdate->m_PakcetType = ePacketType::SToC_InGameUpdate;
-	InGameUpdate->m_iSize = iBufferSize;
+	InGameUpdate->m_iSize = sizeof(InGameUpdatePacket);
 	
 	InGameUpdate->m_iInteractionCount = interactionCount;
 
-	InteractionPacketData* pInteraction = InGameUpdate->m_arrInteraction;
+	int iArrInteractionIndex = 0;
 
 	for (InteractionObject* interaction : _lisInteraction)
 	{
 		// 패킷을 넘겨줘서 세팅해달라고 한다.
-		interaction->InteractionPacketSetting(pInteraction);
-		*++pInteraction;
+		interaction->InteractionPacketSetting(
+			&InGameUpdate->m_arrInteraction[iArrInteractionIndex]);
+		++iArrInteractionIndex;
 	}
 
 	pSendBuffer->WsaBufSetting();

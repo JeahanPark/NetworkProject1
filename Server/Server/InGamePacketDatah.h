@@ -18,5 +18,5 @@ struct InteractionPacketData
 struct InGameUpdatePacket : PacketData
 {
 	int						m_iInteractionCount;
-	InteractionPacketData*	m_arrInteraction;
+	InteractionPacketData	m_arrInteraction[maxInteractionCount];
 };

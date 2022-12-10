@@ -20,6 +20,13 @@ UserObject::~UserObject()
 
 void UserObject::Update()
 {
+	// 인게임에서 어떤이유로든 나가졌을경우
+	if (m_userController->GetVaildCheck())
+	{
+		m_bVaildCheck = true;
+		return;
+	}
+
 	// 이동해야되나?
 	if (m_userController->GetNeedMoveCheck())
 	{

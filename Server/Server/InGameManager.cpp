@@ -67,3 +67,9 @@ void InGameManager::CreateInGameObject(s_ServerSession _session)
 
     InteractionManager().GetInstance()->AddUserInteractionObject(_session->GetUserData()->GetUserIndex(), userController);
 }
+const mapInGame InGameManager::GetmapInGame()
+{
+    LockGuard lock(m_lockInGame);
+
+    return m_mapInGame;
+}

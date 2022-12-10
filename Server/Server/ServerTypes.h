@@ -11,3 +11,5 @@ enum class eInteractionType
 	None,
 	User
 };
+// 어케해야될지... 모르겟음
+const int maxInteractionCount = 10;

@@ -15,4 +15,5 @@
 #include "ChattingManager.h"
 #include "InGameManager.h"
 #include "InteractionManager.h"
+#include "InGameUpdateManager.h"
 // 서버 코드

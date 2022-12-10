@@ -11,7 +11,6 @@ public:
 	~InGameUpdateManager();
 
 public:
-	void InGameUpdateStart();
 	void InGameUpdate();
 };
 
