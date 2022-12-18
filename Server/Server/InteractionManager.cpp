@@ -20,22 +20,43 @@ void InteractionManager::AddUserInteractionObject(int _userIndex, s_UserControll
 list<InteractionObject*> InteractionManager::AllUpdateInteractionObject()
 {
 	LockGuard lock(m_lockInteraction);
-
-	for (auto iter = m_lisInteraction.begin(); iter != m_lisInteraction.end(); ++iter)
+	auto iter = m_lisInteraction.begin();
+	while (iter != m_lisInteraction.end())
 	{
 		InteractionObject* object = *iter;
 		object->Update();
 
 		// 삭제해야될 오브젝트일경우 생명주기가 끝나거나 등등
-		if (!object->GetValidCheck())
+		if (!object->GetValidLife())
 		{
-			auto removeIter = iter;
-			++iter;
-			m_lisInteraction.erase(removeIter);
-			delete *removeIter;
+			// 해당 객체 삭제
+			InteractionObject* object = *iter;
+			delete object;
+
+			// 이터레이터 없애기
+			iter = m_lisInteraction.erase(iter);
 			continue;
 		}
+		else
+			++iter;
 	}
+	//for (auto iter = m_lisInteraction.begin(); iter != m_lisInteraction.end(); ++iter)
+	//{
+	//	InteractionObject* object = *iter;
+	//	object->Update();
+
+	//	// 삭제해야될 오브젝트일경우 생명주기가 끝나거나 등등
+	//	if (!object->GetValidLife())
+	//	{
+	//		// 해당 객체 삭제
+	//		InteractionObject* object = *iter;
+	//		delete object;
+
+	//		// 이터레이터 없애기
+	//		iter = m_lisInteraction.erase(iter);
+	//		continue;
+	//	}
+	//}
 
 	return m_lisInteraction;
 }

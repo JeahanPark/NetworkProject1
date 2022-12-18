@@ -139,8 +139,10 @@ public abstract class MonoDestroySingleton<T> : MonoBehaviour where T : MonoBeha
 
     public abstract void Init();
 
-    public abstract void Destroy();
-
+    public virtual void Destroy()
+    {
+        m_singleton = null;
+    }
     public IEnumerator InitSuccessWait()
     {
         yield return new WaitUntil(() => { return InitSuccess; });

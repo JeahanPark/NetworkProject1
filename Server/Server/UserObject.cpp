@@ -21,9 +21,9 @@ UserObject::~UserObject()
 void UserObject::Update()
 {
 	// 인게임에서 어떤이유로든 나가졌을경우
-	if (m_userController->GetVaildCheck())
+	if (!m_userController->GetVaildCheck())
 	{
-		m_bVaildCheck = true;
+		m_bVaildLife = false;
 		return;
 	}
 
@@ -35,7 +35,6 @@ void UserObject::Update()
 
 		m_transform->MovePos(dir, speed);
 	}
-
 
 	m_userController->ClearUserCommand();
 }

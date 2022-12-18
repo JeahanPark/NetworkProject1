@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LobbyController : MonoDestroySingleton<LobbyController>
 {
-    private UILobby m_UILobby = null;
+    private LobbyUIWorker m_LobbyUI = null;
 
     private void Awake()
     {
@@ -20,9 +20,9 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         yield return null;
     }
 
-    public void SetUILobby(UILobby lobby)
+    public void SetLobbyUIWorker(LobbyUIWorker lobby)
     {
-        m_UILobby = lobby;
+        m_LobbyUI = lobby;
     }
 
     public void ServerConnect(System.Action<bool> _funResult)
@@ -35,7 +35,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
     public void ReceiveChattingMessage(V2ChattingPacket _packet)
     {
-        m_UILobby.ReceiveChattingMessage(_packet.chattingContent);
+        m_LobbyUI.ReceiveChattingMessage(_packet.chattingContent);
     }
 
     public void ReceiveRegister(ePacketResult _eResult)
@@ -57,7 +57,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         UIMessageBox.ShowPopup("로그인 성공");
 
         PopupManager.Instance.ClosePopup(PopupID.UILogIn);
-        m_UILobby.ChattingButtonOn(true);
+        m_LobbyUI.ChattingButtonOn(true);
     }
     public void ReceiveChattingRoom(PacketResult _packetResult)
     {
@@ -65,13 +65,13 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         {
             if(_packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomEnter)
             {
-                m_UILobby.ChattingRoomOn(true);
-                m_UILobby.ChattingButtonOn(false);
+                m_LobbyUI.ChattingRoomOn(true);
+                m_LobbyUI.ChattingButtonOn(false);
             }
             else if(_packetResult.m_SignalType == ePacketSignal.Signal_ChattingRoomExit)
             {
-                m_UILobby.ChattingRoomOn(false);
-                m_UILobby.ChattingButtonOn(true);
+                m_LobbyUI.ChattingRoomOn(false);
+                m_LobbyUI.ChattingButtonOn(true);
             }
         }
         else if (_packetResult.m_eResult == ePacketResult.ChattingRoomEnter_Already_In)
@@ -81,15 +81,21 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         else if (_packetResult.m_eResult == ePacketResult.ChattingRoomExit_Not_Exist)
             UIMessageBox.ShowPopup("내가 방에 없다?");
     }
-    public void ReceiveInGameEnter(PacketResult _packetResult)
+
+    public void ReceiveInGameEnter(InGameEnterSuccess _packet)
+    {
+        // 데이터 세팅
+        DataManager.Instance.SetInteractionUserData(_packet.m_iInteractionIndex, _packet.m_eType);
+
+        // 인게임 진입
+        SceneManager.Instance.SceneChange(SceneType.InGame);
+    }
+
+    public void ReceiveInGameFaile(PacketResult _packetResult)
     {
         if (_packetResult.m_eResult == ePacketResult.Success)
         {
-            if (_packetResult.m_SignalType == ePacketSignal.Signal_InGameEnter)
-            {
-                SceneManager.Instance.SceneChange(SceneType.InGame);
-            }
-            else if (_packetResult.m_SignalType == ePacketSignal.Signal_InGameExit)
+            if (_packetResult.m_SignalType == ePacketSignal.Signal_InGameExit)
             {
                 SceneManager.Instance.SceneChange(SceneType.Lobby);
             }
@@ -174,6 +180,8 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
     public override void Destroy()
     {
+        base.Destroy();
 
+        m_LobbyUI = null;
     }
 }

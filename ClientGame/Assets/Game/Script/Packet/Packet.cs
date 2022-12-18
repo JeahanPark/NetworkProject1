@@ -21,6 +21,7 @@ public enum ePacketType
 	SToC_PacketResult,
 	SToC_LoginResult,
 	SToC_InGameUpdate,
+	STOC_InGameEnter_Success,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -140,14 +141,51 @@ public struct PacketResult
 };
 
 [StructLayout(LayoutKind.Sequential)]
-struct SignalPacket
+public struct SignalPacket
 {
 	public ePacketSignal m_ePacketSignal;
 };
 
+[StructLayout(LayoutKind.Sequential)]
+public struct InteractionPacketData
+{
+	public int							m_iInteractionIndex;
+	public eInteractionType				m_eType;
+	public bool							m_ValidLife;
+	public PacketVector3				m_vPos;
+};
+
+[StructLayout(LayoutKind.Sequential)]
+public struct InGameUpdatePacket
+{
+	public int m_iInteractionCount;
+
+	[MarshalAs(UnmanagedType.ByValArray, SizeConst = EnumType.maxInteractionCount)]
+	public InteractionPacketData[] m_arrInteraction;
+};
+
+[StructLayout(LayoutKind.Sequential)]
+public struct PacketVector3
+{
+	public float x;
+	public float y;
+	public float z;
+
+	public Vector3 GetVec3()
+    {
+		return new Vector3(x, y, z);
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct InGameEnterSuccess
+{
+	public int m_iInteractionIndex;
+	public eInteractionType m_eType;
+};
 public class Packet
 {
-	private static T BufferToPacket<T>(byte[] _buffer, int _startIndex) where T : struct
+	public static T BufferToPacket<T>(byte[] _buffer, int _startIndex) where T : struct
     {
 		int size = Marshal.SizeOf(typeof(T));
 		IntPtr ptr = Marshal.AllocHGlobal(size);
@@ -175,61 +213,14 @@ public class Packet
 			if (packetHeader.m_iSize < _iBufferSize)
 				return false;
 		}
-		string packet = string.Empty;
-		// 패킷에 따라 함수 호출해주기... 먼가 이상하다
-		{
-			switch (packetHeader.m_PakcetType)
-			{
-				case ePacketType.SToC_Chatting:
-					V2ChattingPacket Chatting = BufferToPacket<V2ChattingPacket>(_buffer, iHearSize);
-					LobbyController.Instance.ReceiveChattingMessage(Chatting);
-					break;
-				case ePacketType.SToC_PacketResult:
-					PacketResult Result = BufferToPacket<PacketResult>(_buffer, iHearSize);
-					PacketResult(Result);
-					packet = Result.m_eResult.ToString() + ", " + Result.m_eTargetPakcetType.ToString() + ", " + Result.m_SignalType.ToString();
-					break;
-				case ePacketType.SToC_LoginResult:
-					LoginResultPacket LoginResult = BufferToPacket<LoginResultPacket>(_buffer, iHearSize);
-					LobbyController.Instance.ReceiveLoginResult(LoginResult);
-					break;
-			}
-		}
-		if (packetHeader.m_PakcetType != ePacketType.SToC_PacketResult)
-        {
-			packet = packetHeader.m_PakcetType.ToString();
-		}
-		Debug.Log(packet);
+
+		// 패킷 
+		PacketHandler.PacketHandling(iHearSize, _buffer, packetHeader);
+		
 		return true;
 	}
 
-	public static void PacketResult(PacketResult _packetResult)
-    {
-		// 간단한 시그널 응답일경우
-		if(_packetResult.m_eTargetPakcetType == ePacketType.Signal &&
-			_packetResult.m_SignalType != ePacketSignal.NONE)
-        {
-            switch (_packetResult.m_SignalType)
-            {
-				case ePacketSignal.Signal_ChattingRoomEnter:
-				case ePacketSignal.Signal_ChattingRoomExit:
-					LobbyController.Instance.ReceiveChattingRoom(_packetResult);
-					break;
-				case ePacketSignal.Signal_InGameEnter:
-				case ePacketSignal.Signal_InGameExit:
-					LobbyController.Instance.ReceiveInGameEnter(_packetResult);
-					break;
 
-			}
-		}
-
-        switch (_packetResult.m_eTargetPakcetType)
-        {
-			case ePacketType.CToS_UserRegister:
-				LobbyController.Instance.ReceiveRegister(_packetResult.m_eResult);
-				break;
-		}
-    }
     public static void SendPacket<T>(T _packet, ePacketType packetType) where T : struct
     {
 		PacketHeader packetHeader = new PacketHeader();

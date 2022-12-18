@@ -5,13 +5,15 @@ using UnityEngine;
 
 public enum SceneType
 {
+    NONE,
     Intro,
     Lobby,
     InGame,
-    SceneChange,
 }
 public class SceneManager : Singleton<SceneManager>
 {
+    private SceneType m_eCurrentScene = SceneType.NONE;
+
     public override void Init()
     {
         m_eManagerState = ManagerState.InitAfter;
@@ -23,7 +25,13 @@ public class SceneManager : Singleton<SceneManager>
 
     public void SceneChange(SceneType _eSceneType)
     {
+        m_eCurrentScene = _eSceneType;
         string SceneName = _eSceneType.ToString();
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+    }
+
+    public SceneType GetCurentScene()
+    {
+        return m_eCurrentScene;
     }
 }

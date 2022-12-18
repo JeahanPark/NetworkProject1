@@ -16,6 +16,7 @@ enum class ePacketType
 	SToC_PacketResult,
 	SToC_LoginResult,
 	SToC_InGameUpdate,
+	SToC_InGameEnter_Success,
 	// 서버에서 클라로
 
 	// 클라에서 서버로

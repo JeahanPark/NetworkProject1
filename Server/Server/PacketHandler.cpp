@@ -117,7 +117,6 @@ SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePack
 	chatting->m_TargetPakcetType = _eTargetPacketType;
 	chatting->m_SignalType = _eSignal;
 
-	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
 }
@@ -191,7 +190,6 @@ SendBuffer* PacketHandler::LoginResultPacketCreate(s_ServerSession _session, ePa
 	}
 
 
-	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
 }
@@ -240,7 +238,16 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 		{
 			// 인게임 진입
 			if (InGameManager().GetInstance()->InsertInGameObject(_session))
-				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+			{
+				pSendBuffer = new SendBuffer(sizeof(InGameEnterSuccess));
+
+				InGameEnterSuccess* packet = (InGameEnterSuccess*)pSendBuffer->GetSendBufferAdress();
+				packet->m_PakcetType = ePacketType::SToC_InGameEnter_Success;
+				packet->m_iSize = sizeof(InGameEnterSuccess);
+
+				packet->m_eType = eInteractionType::User;
+				packet->m_iInteractionIndex = _session->GetUserData()->GetUserIndex();
+			}
 			else // 이미 인게임이다.
 				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 		}
@@ -299,6 +306,5 @@ void PacketHandler::InGameUpdate(const list<InteractionObject*>& _lisInteraction
 		++iArrInteractionIndex;
 	}
 
-	pSendBuffer->WsaBufSetting();
 	_session->RegisterSend(pSendBuffer);
 }

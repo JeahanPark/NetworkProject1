@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UILobby : MonoBehaviour
+public class LobbyUIWorker : MonoBehaviour
 {
     private UIChatting m_Chatting = null;
     private GameObject m_goChattingButton = null;
@@ -19,7 +19,7 @@ public class UILobby : MonoBehaviour
 
     private void Start()
     {
-        LobbyController.Instance.SetUILobby(this);
+        LobbyController.Instance.SetLobbyUIWorker(this);
     }
 
     public void OnClickInGameEnter()

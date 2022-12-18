@@ -8,13 +8,13 @@ public:
 	void virtual Update() = 0;
 
 public:
-	bool GetValidCheck() { return m_bVaildCheck; }
+	bool GetValidLife() { return m_bVaildLife; }
 
 public:
 	void InteractionPacketSetting(InteractionPacketData* _packet);
 
 protected:
-	bool				m_bVaildCheck;
+	bool				m_bVaildLife;
 	int					m_iInteractionIndex;
 	Transform*			m_transform = nullptr;
 	eInteractionType	m_eType;

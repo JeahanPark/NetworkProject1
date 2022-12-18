@@ -9,6 +9,9 @@ InGameObject::InGameObject(s_ServerSession _session, s_UserController _userContr
 InGameObject::~InGameObject()
 {
 	m_session = nullptr;
+
+	m_UserController->SetVaildCheck(false);
+	m_UserController = nullptr;
 }
 
 bool InGameObject::SameSession(int _iUserIndex)

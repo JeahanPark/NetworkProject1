@@ -76,6 +76,8 @@ void Session::RegisterSend(SendBuffer* _sendBuffer)
 	if (m_RegisterDisconnect)
 		return;
 
+	_sendBuffer->WsaBufSetting();
+
 	{
 		LockGuard lock(m_lockSending);
 
