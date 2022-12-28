@@ -9,7 +9,6 @@ public:
 
 public:
 	bool GetValidLife() { return m_bVaildLife; }
-
 public:
 	void InteractionPacketSetting(InteractionPacketData* _packet);
 

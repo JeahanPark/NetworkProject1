@@ -8,7 +8,7 @@ public:
 
 public:
 	void MovePos(const XMFLOAT3& _Dir, float _fSpeed);
-
+	void Update();
 public:
 	const XMFLOAT3& GetPos() { return m_vPos; }
 private:

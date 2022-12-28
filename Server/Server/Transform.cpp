@@ -15,3 +15,7 @@ void Transform::MovePos(const XMFLOAT3& _Dir, float _fSpeed)
 	m_vPos.x += _Dir.x * _fSpeed;
 	m_vPos.z += _Dir.z * _fSpeed;
 }
+
+void Transform::Update()
+{
+}
