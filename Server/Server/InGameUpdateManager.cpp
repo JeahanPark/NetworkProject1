@@ -4,7 +4,7 @@
 #include <algorithm>
 
 InGameUpdateManager::InGameUpdateManager() 
-    : m_fDeltaTime(0.f), m_fSpt(0.f), m_fSptTime(0.f),  m_iFPS(0), m_fFPSTime(0.f)
+    : m_fDeltaTime(0.f), m_fSpt(0.f), m_fSptTime(0.f),  m_iFPS(0), m_fFPSTime(0.f), m_fRealDeltaTime{0.f}
 {
     ZeroMemory(&m_CulTime, sizeof(LARGE_INTEGER));
     ZeroMemory(&m_OldTime, sizeof(LARGE_INTEGER));
@@ -55,38 +55,6 @@ void InGameUpdateManager::InGameUpdate()
         InitFrame();
         // 프레임 렌더 테스트
     }
-
-    //ULONGLONG saveTick = GetTickCount64();
-    //while (true)
-    //{
-    //    double crttick = GetTickCount64() - saveTick;
-
-
-    //    // 업데이트시작
-    //    if (crttick / (double)CLOCKS_PER_SEC >= m_dInteractionUpdateSecond)
-    //    {
-    //        InteractionManager::GetInstance()->AllUpdateInteractionObject();
-    //    }
-
-
-    //    // 클라이언트 패킷 보내기
-    //    if ((double)(crttick - saveClientUpdate) / CLOCKS_PER_SEC >= m_dClientUpdateSecond)
-    //    {
-    //        //모든 Interaction을 인게임에 들어온 세션들한테 패킷전달
-    //        const list<InteractionObject*> InteractionObjects = InteractionManager::GetInstance()->GetInteractionList();
-
-    //        const mapInGame inGames = InGameManager::GetInstance()->GetmapInGame();
-
-    //        for (auto iter : inGames)
-    //        {
-    //            const s_ServerSession session = iter.second->GetSession();
-    //            PacketHandler::InGameUpdate(InteractionObjects, session);
-    //        }
-
-    //        // 시간을 다시 세팅
-    //        saveClientUpdate = GetTickCount64();
-    //    }
-    //}
 }
 
 bool InGameUpdateManager::UpdateClientInteraction()
@@ -108,6 +76,7 @@ bool InGameUpdateManager::FramCheck()
     if (m_fSpt < m_fSptTime)
     {
         ++m_iFPS;
+        m_fRealDeltaTime = m_fSptTime;
         m_fSptTime = 0.f;
         return true;
     }
@@ -120,7 +89,7 @@ void InGameUpdateManager::InitFrame()
 
     if (1.f < m_fFPSTime)
     {
-        //cout << "FPS : " << m_iFPS << endl;
+        cout << "FPS : " << m_iFPS << endl;
         m_iFPS = 0;
         m_fFPSTime = 0.f;
     }

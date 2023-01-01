@@ -31,6 +31,26 @@ public class InGameController : MonoDestroySingleton<InGameController>
         m_InGameMyWorker = _ingameMyWorker;
     }
 
+    public void SetMyInteraction(UserObject _user)
+    {
+        m_InGameMyWorker.SetMyInteraction(_user);
+    }
+
+
+
+    #region PacketSend
+    public void SendMyUserMove(Vector3 _vDir, float _fMoveSpeed)
+    {
+        MyUserMovePacket packet = new MyUserMovePacket();
+        packet.m_vDir = _vDir;
+        packet.m_fMoveSpeed = _fMoveSpeed;
+
+        Packet.SendPacket<MyUserMovePacket>(packet, ePacketType.CToS_MyUserMove);
+    }
+
+    #endregion
+
+    #region PacketReceive
     public void ReceiveInGameUpdate(InGameUpdatePacket _packet)
     {
         if (m_InteractionWorker == null)
@@ -38,9 +58,5 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
         m_InteractionWorker.UpdateInteraction(_packet);
     }
-
-    public void SetMyCameraTarget(Transform _target)
-    {
-        m_InGameMyWorker.SetTarget(_target);
-    }
+    #endregion
 }

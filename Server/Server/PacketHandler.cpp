@@ -26,7 +26,7 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 		SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
 			break;
 	case ePacketType::CToS_MyUserMove:
-		Register(_session, _packetData);
+		MyUserMove(_session, _packetData);
 		SESSION_LOG(_session->GetSessionNumber(), "CToS_MyUserMove")
 			break;
 #pragma endregion

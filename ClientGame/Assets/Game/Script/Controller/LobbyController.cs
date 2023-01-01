@@ -18,7 +18,23 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     private IEnumerator LobbyEnter()
     {
         yield return null;
+
+        AutoLogin();
     }
+
+    // 테스트 코드
+    private void AutoLogin()
+    {
+        if (DataManager.Instance.IsLogin())
+            return;
+
+        Debug.Log("자동 테스트 로그인");
+
+        SendLogIn("pdwer3376", "123123");
+    }
+
+
+    // 테스트 코드
 
     public void SetLobbyUIWorker(LobbyUIWorker lobby)
     {

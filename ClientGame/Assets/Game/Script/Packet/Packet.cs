@@ -183,6 +183,12 @@ public struct InGameEnterSuccess
 	public int m_iInteractionIndex;
 	public eInteractionType m_eType;
 };
+[StructLayout(LayoutKind.Sequential)]
+public struct MyUserMovePacket
+{
+	public Vector3 m_vDir;
+	public float m_fMoveSpeed;
+};
 public class Packet
 {
 	public static T BufferToPacket<T>(byte[] _buffer, int _startIndex) where T : struct

@@ -51,7 +51,7 @@ public static class PacketHandler
 			strPacket = _header.m_PakcetType.ToString();
 		}
 
-		Debug.Log(strPacket);
+		//Debug.Log(strPacket);
 	}
 
 	private static void PacketResult(PacketResult _packetResult)

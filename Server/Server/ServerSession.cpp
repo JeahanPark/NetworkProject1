@@ -25,8 +25,11 @@ void ServerSession::DeleteSession()
 
 	ServerSessionManager().GetInstance()->DeleteSession(serverSession);
 
-	InGameManager::GetInstance()->DeleteInGameObject(serverSession);
 
-	delete m_userData;
-	m_userData = nullptr;
+	if (m_userData != nullptr)
+	{
+		InGameManager::GetInstance()->DeleteInGameObject(serverSession);
+		delete m_userData;
+		m_userData = nullptr;
+	}
 }

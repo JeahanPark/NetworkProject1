@@ -11,6 +11,7 @@ public:
 
 public:
 	void InGameUpdate();
+	float GetDeltaTime() { return m_fRealDeltaTime; }
 
 private:
 	bool UpdateClientInteraction();
@@ -22,6 +23,7 @@ private:
 	LARGE_INTEGER m_CpuTick;
 
 	float m_fDeltaTime;
+	float m_fRealDeltaTime;
 	float m_fSpt;
 	float m_fSptTime;
 

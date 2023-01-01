@@ -129,15 +129,18 @@ public class PopupManager : MonoSingleton<PopupManager>
     }
 
 
-    private void CanvasCreat()
+    private void CanvasCreate()
     {
         // 팝업 부모 오브젝트생성
         m_goPopupParent = new GameObject("PopupParent", typeof(RectTransform));
         m_goPopupParent.transform.SetParent(this.transform);
+        m_goPopupParent.layer = LayerMask.NameToLayer("UI");
+
 
         //캔버스 컴포넌트를 붙인다.
         Canvas canvas = m_goPopupParent.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.sortingOrder = 1;
 
         CanvasScaler canvasScaler = m_goPopupParent.AddComponent<CanvasScaler>();
         canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -161,6 +164,8 @@ public class PopupManager : MonoSingleton<PopupManager>
             camera.depth = m_nPopupCamearaDepth;
             // 캔버스에 카메라 세팅
             canvas.worldCamera = camera;
+
+            camera.cullingMask = LayerMask.GetMask("UI");
         }
 
 
@@ -170,7 +175,7 @@ public class PopupManager : MonoSingleton<PopupManager>
     {
         m_eManagerState = ManagerState.InitBefore;
 
-        CanvasCreat();
+        CanvasCreate();
 
         IList<IResourceLocation> lisResult = null;
 

@@ -7,11 +7,13 @@ public:
 	~Transform();
 
 public:
-	void MovePos(const XMFLOAT3& _Dir, float _fSpeed);
+	void SetUserMove(const XMFLOAT3& _Dir, float _fMoveSpeed);
 	void Update();
 public:
 	const XMFLOAT3& GetPos() { return m_vPos; }
 private:
+	float m_fMoveSpeed;
+
 	// À§Ä¡
 	XMFLOAT3 m_vPos;
 

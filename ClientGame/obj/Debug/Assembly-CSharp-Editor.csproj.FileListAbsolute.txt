@@ -317,4 +317,3 @@ C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInp
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.dll
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.pdb
-C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp-Editor.csproj.AssemblyReference.cache

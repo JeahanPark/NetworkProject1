@@ -11,7 +11,8 @@ struct InGameEnterSuccess : PacketData
 
 struct MyUserMovePacket : PacketData
 {
-	XMFLOAT3 m_vDir;
+	XMFLOAT3	m_vDir;
+	float		m_fMoveSpeed;
 };
 
 struct InteractionPacketData

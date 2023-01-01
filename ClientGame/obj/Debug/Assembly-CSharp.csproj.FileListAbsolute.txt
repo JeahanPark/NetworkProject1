@@ -305,4 +305,8 @@ C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cac
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.dll
 C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.pdb
-C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\NetworkTest\ClientGame\Temp\Bin\Debug\nunit.framework.dll
+C:\NetworkTest\ClientGame\Temp\Bin\Debug\unityplastic.dll
+C:\NetworkTest\ClientGame\Temp\Bin\Debug\Unity.Plastic.Newtonsoft.Json.dll
+C:\NetworkTest\ClientGame\Temp\Bin\Debug\Unity.Plastic.Antlr3.Runtime.dll
+C:\NetworkTest\ClientGame\obj\Debug\Assembly-CSharp.csproj.AssemblyReference.cache
