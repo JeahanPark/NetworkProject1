@@ -20,4 +20,6 @@ void InteractionObject::InteractionPacketSetting(InteractionPacketData* _packet)
 	_packet->m_eType = m_eType;
 	_packet->m_iInteractionIndex = m_iInteractionIndex;
 	_packet->m_vPos = m_transform->GetPos();
+	_packet->m_fMoveSpeed = m_transform->GetMoveSpeed();
+	_packet->m_vDir = m_transform->GetYAxisDir();
 }

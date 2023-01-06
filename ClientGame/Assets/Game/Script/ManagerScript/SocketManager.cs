@@ -207,7 +207,7 @@ public class SocketManager : MonoSingleton<SocketManager>
         }
 
         int size = m_socket.EndSend(asyncResult);
-        Debug.Log("Size Leng :" + size);
+        //Debug.Log("Size Leng :" + size);
         m_strMessage = string.Empty;
         
     }

@@ -152,7 +152,9 @@ public struct InteractionPacketData
 	public int							m_iInteractionIndex;
 	public eInteractionType				m_eType;
 	public bool							m_ValidLife;
-	public PacketVector3				m_vPos;
+	public Vector3						m_vPos;
+	public Vector3						m_vDir;
+	public float						m_fMoveSpeed;
 };
 
 [StructLayout(LayoutKind.Sequential)]
@@ -163,19 +165,6 @@ public struct InGameUpdatePacket
 	[MarshalAs(UnmanagedType.ByValArray, SizeConst = EnumType.maxInteractionCount)]
 	public InteractionPacketData[] m_arrInteraction;
 };
-
-[StructLayout(LayoutKind.Sequential)]
-public struct PacketVector3
-{
-	public float x;
-	public float y;
-	public float z;
-
-	public Vector3 GetVec3()
-    {
-		return new Vector3(x, y, z);
-    }
-}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct InGameEnterSuccess

@@ -27,7 +27,7 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 			break;
 	case ePacketType::CToS_MyUserMove:
 		MyUserMove(_session, _packetData);
-		SESSION_LOG(_session->GetSessionNumber(), "CToS_MyUserMove")
+		//SESSION_LOG(_session->GetSessionNumber(), "CToS_MyUserMove")
 			break;
 #pragma endregion
 
@@ -44,7 +44,7 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 		SESSION_LOG(_session->GetSessionNumber(), "SToC_LoginResult")
 			break;
 	case ePacketType::SToC_InGameUpdate:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_InGameUpdate")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_InGameUpdate")
 			break;
 	default:
 		break;

@@ -13,6 +13,8 @@ public class IntroController : MonoBehaviour
 
     private IEnumerator IntroProcees()
     {
+        GameSetting();
+
         // 어드레서블 매니저가 성공할때까지 대기
         {
             AddressableManager.Instance.Init();
@@ -46,5 +48,10 @@ public class IntroController : MonoBehaviour
         yield return SceneManager.Instance.InitSuccessWait();
 
         SceneManager.Instance.SceneChange(SceneType.Lobby);
+    }
+
+    private void GameSetting()
+    {
+        Application.targetFrameRate = 60;
     }
 }

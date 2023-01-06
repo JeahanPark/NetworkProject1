@@ -46,7 +46,7 @@ public class InteractionWorker : MonoBehaviour
                     interaction = iter.Value;
 
                     // Update
-                    interaction.UpdatePos(data.m_vPos.GetVec3());
+                    interaction.UpdateInteraction(data);
                     
                     // ªË¡¶
                     if (interaction.IsDelete())
@@ -89,7 +89,7 @@ public class InteractionWorker : MonoBehaviour
         interactionObject.Initialize(_data.m_eType, _data.m_iInteractionIndex);
 
         // Update
-        interactionObject.UpdatePos(_data.m_vPos.GetVec3());
+        interactionObject.UpdateInteraction(_data);
 
         interactionObject.gameObject.SetActive(true);
 

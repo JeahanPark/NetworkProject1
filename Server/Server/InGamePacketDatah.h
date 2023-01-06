@@ -20,8 +20,9 @@ struct InteractionPacketData
 	int						m_iInteractionIndex;
 	eInteractionType		m_eType;
 	bool					m_ValidLife;
-
 	XMFLOAT3				m_vPos;
+	XMFLOAT3				m_vDir;
+	float					m_fMoveSpeed;
 };
 
 struct InGameUpdatePacket : PacketData

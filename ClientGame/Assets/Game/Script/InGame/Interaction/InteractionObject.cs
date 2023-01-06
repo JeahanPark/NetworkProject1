@@ -10,6 +10,8 @@ public class InteractionObject : MonoBehaviour
     protected Vector3 m_vMoveDir;
     protected float m_fMoveSpeed;
 
+    protected Vector3 m_vMoveTarget;
+
     public eInteractionType GetInteractionType
     {
         get { return m_eInteractionType; }
@@ -44,13 +46,12 @@ public class InteractionObject : MonoBehaviour
 
     }
 
-    public void UpdatePos(Vector3 _vPos)
+    public void UpdateInteraction(InteractionPacketData _InteractionData)
     {
-        if(_vPos.z != 0)
-        {
-            int a = 0;
-        }
-        transform.position = _vPos;
+        transform.position = _InteractionData.m_vPos;
+        m_vMoveTarget = _InteractionData.m_vPos;
+        m_vMoveDir = _InteractionData.m_vDir;
+        m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
     }
 
 
@@ -64,9 +65,10 @@ public class InteractionObject : MonoBehaviour
 
     private void Update()
     {
-        if(m_fMoveSpeed > 0)
+        if (m_fMoveSpeed > 0)
         {
             transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
+
 
             m_fMoveSpeed -= 1 * Time.deltaTime;
         }

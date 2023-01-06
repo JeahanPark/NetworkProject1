@@ -89,7 +89,7 @@ void InGameUpdateManager::InitFrame()
 
     if (1.f < m_fFPSTime)
     {
-        cout << "FPS : " << m_iFPS << endl;
+        //cout << "FPS : " << m_iFPS << endl;
         m_iFPS = 0;
         m_fFPSTime = 0.f;
     }

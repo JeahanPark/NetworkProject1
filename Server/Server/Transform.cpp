@@ -15,7 +15,7 @@ void Transform::SetUserMove(const XMFLOAT3& _Dir, float _fSpeed)
 	XMVECTOR vDir = XMLoadFloat3(&_Dir);
 	XMVECTOR vMyDir = XMLoadFloat3(&m_vYAxisDir);
 	vMyDir += vDir;
-	XMVector3Normalize(vMyDir);
+	vMyDir = XMVector3Normalize(vMyDir);
 
 	XMStoreFloat3(&m_vYAxisDir, vMyDir);
 
@@ -30,7 +30,10 @@ void Transform::Update()
 	{
 		XMVECTOR vMyDir = XMLoadFloat3(&m_vYAxisDir);
 		XMVECTOR vPos = XMLoadFloat3(&m_vPos);
-		vPos += vMyDir * (m_fMoveSpeed * InGameUpdateManager::GetInstance()->GetDeltaTime());
+
+		XMVECTOR speedMove = vMyDir * (m_fMoveSpeed * InGameUpdateManager::GetInstance()->GetDeltaTime());
+
+		vPos += speedMove;
 
 		XMStoreFloat3(&m_vPos, vPos);
 
