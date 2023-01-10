@@ -33,7 +33,7 @@ public class IntroController : MonoBehaviour
         // 소켓 연결
         {
             bool bResult = false;
-            LobbyController.Instance.ServerConnect((result) =>
+            ServerConnect((result) =>
             {
                 bResult = result;
             });
@@ -41,6 +41,8 @@ public class IntroController : MonoBehaviour
             while (!bResult)
                 yield return null;
         }
+
+
 
 
         // 끝났을경우 씬전환
@@ -53,5 +55,13 @@ public class IntroController : MonoBehaviour
     private void GameSetting()
     {
         Application.targetFrameRate = 60;
+    }
+
+    public void ServerConnect(System.Action<bool> _funResult)
+    {
+        SocketManager.Instance.ServerConnect((result) =>
+        {
+            _funResult(result);
+        });
     }
 }

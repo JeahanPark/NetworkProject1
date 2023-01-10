@@ -2,6 +2,7 @@
 ClientGame/Logs/
 ClientGame/Assets/ImageResource/
 ClientGame/Temp/
+ClientBuild/
 # Visual Studio cache directory
 .vs/
 *x64

@@ -19,7 +19,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     {
         yield return null;
 
-        AutoLogin();
+        //AutoLogin();
     }
 
     // 테스트 코드
@@ -41,13 +41,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         m_LobbyUI = lobby;
     }
 
-    public void ServerConnect(System.Action<bool> _funResult)
-    {
-        SocketManager.Instance.ServerConnect((result) => 
-        {
-            _funResult(result);
-        });
-    }
+
 
     public void ReceiveChattingMessage(V2ChattingPacket _packet)
     {
