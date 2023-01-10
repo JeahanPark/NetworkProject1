@@ -12,7 +12,7 @@ public class InGameMyWorker : MonoBehaviour
     private MyController m_MyController;
 
 
-    private void Start()
+    private void Awake()
     {
         m_MyController = GetComponent<MyController>();
 

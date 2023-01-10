@@ -6,6 +6,8 @@ public class InGameController : MonoDestroySingleton<InGameController>
 {
     private InteractionWorker m_InteractionWorker = null;
     private InGameMyWorker m_InGameMyWorker = null;
+    private InGameUIWorker m_InGameUIWorker = null;
+
     public override void Destroy()
     {
         base.Destroy();
@@ -34,6 +36,11 @@ public class InGameController : MonoDestroySingleton<InGameController>
     public void SetMyInteraction(UserObject _user)
     {
         m_InGameMyWorker.SetMyInteraction(_user);
+    }
+
+    public void SetInGameUIWorker(InGameUIWorker _ingameUIWorker)
+    {
+        m_InGameUIWorker = _ingameUIWorker;
     }
 
 
