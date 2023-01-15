@@ -5,11 +5,14 @@ using UnityEngine.UI;
 public class UIUser : MonoBehaviour
 {
     private Text m_txtNickName = null;
+    
+    
     private Transform m_tranTarget = null;
+    private InfoCom m_infoCom = null;
 
-    public void SetTarget(string _strNickName, Transform _target)
+    public void Initialize(Transform _target, InfoCom _infoCom)
     {
-        m_txtNickName.text = _strNickName;
+        m_infoCom = _infoCom;
         m_tranTarget = _target;
     }
 
@@ -24,5 +27,15 @@ public class UIUser : MonoBehaviour
             return;
 
         transform.position = Camera.main.WorldToScreenPoint(m_tranTarget.position);
+    }
+
+    private void InitializeUI()
+    {
+        //m_txtNickName.text = 
+    }
+
+    private void RefreshUI()
+    {
+
     }
 }

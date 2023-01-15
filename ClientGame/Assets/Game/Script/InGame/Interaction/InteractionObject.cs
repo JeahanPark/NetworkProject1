@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class InteractionObject : MonoBehaviour
 {
+    public InteractionObject()
+    {
+
+    }
+
+    protected List<BaseInteractionComponent> m_lisInteractionComponent = new List<BaseInteractionComponent>();
+
     protected eInteractionType m_eInteractionType = eInteractionType.None;
     protected int m_iInteractionIndex = EnumType.InteractionIndexNone;
 
@@ -23,6 +30,11 @@ public class InteractionObject : MonoBehaviour
         {
             return m_iInteractionIndex;
         }
+    }
+
+    protected virtual void CraeteComponent()
+    {
+        m_lisInteractionComponent.Add(new InfoCom());
     }
 
     public bool IsSameInteraction(InteractionPacketData _interactionPacketData)
