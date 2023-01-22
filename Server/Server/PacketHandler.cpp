@@ -283,27 +283,40 @@ void PacketHandler::MyUserMove(s_ServerSession _session, PacketData* _packetData
 
 void PacketHandler::InGameUpdate(const list<InteractionObject*>& _lisInteraction, s_ServerSession _session)
 {
-	const int interactionCount = _lisInteraction.size();
+	const int interactionCount = (int)_lisInteraction.size();
 
 	if (interactionCount == 0)
 		return;
 
-	SendBuffer* pSendBuffer = new SendBuffer(sizeof(InGameUpdatePacket));
+	int interactionPacketSize = sizeof(InteractionPacketData);
+	int iInGameUpdatePacketSize = sizeof(InGameUpdatePacket);
+
+	int iTotalInteractionPacket = interactionPacketSize * interactionCount;
+	int iTotalPacketSize = iInGameUpdatePacketSize + iTotalInteractionPacket;
+
+	SendBuffer* pSendBuffer = new SendBuffer(iTotalPacketSize);
 	
 	InGameUpdatePacket* InGameUpdate = (InGameUpdatePacket*)pSendBuffer->GetSendBufferAdress();
 	InGameUpdate->m_PakcetType = ePacketType::SToC_InGameUpdate;
-	InGameUpdate->m_iSize = sizeof(InGameUpdatePacket);
-	
+	InGameUpdate->m_iSize = iTotalPacketSize;
 	InGameUpdate->m_iInteractionCount = interactionCount;
+
+
 
 	int iArrInteractionIndex = 0;
 
 	for (InteractionObject* interaction : _lisInteraction)
 	{
-		// 패킷을 넘겨줘서 세팅해달라고 한다.
-		interaction->InteractionPacketSetting(
-			&InGameUpdate->m_arrInteraction[iArrInteractionIndex]);
+		int startBuffer = iInGameUpdatePacketSize + iArrInteractionIndex * interactionPacketSize;
+
+		InteractionPacketData* obejct = (InteractionPacketData*)pSendBuffer->GetSendBufferAdress(startBuffer);
+		interaction->InteractionPacketSetting(obejct);
 		++iArrInteractionIndex;
+
+		// 패킷을 넘겨줘서 세팅해달라고 한다.
+		//interaction->InteractionPacketSetting(
+		//	&InGameUpdate->m_arrInteraction[iArrInteractionIndex]);
+		//++iArrInteractionIndex;
 	}
 
 	_session->RegisterSend(pSendBuffer);

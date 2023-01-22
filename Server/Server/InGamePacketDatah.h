@@ -28,5 +28,5 @@ struct InteractionPacketData
 struct InGameUpdatePacket : PacketData
 {
 	int						m_iInteractionCount;
-	InteractionPacketData	m_arrInteraction[maxInteractionCount];
+	// 이뒤에 바이트 데이터가 있다.
 };

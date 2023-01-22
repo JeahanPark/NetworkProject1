@@ -162,8 +162,7 @@ public struct InGameUpdatePacket
 {
 	public int m_iInteractionCount;
 
-	[MarshalAs(UnmanagedType.ByValArray, SizeConst = EnumType.maxInteractionCount)]
-	public InteractionPacketData[] m_arrInteraction;
+	//public InteractionPacketData[] m_arrInteraction;
 };
 
 [StructLayout(LayoutKind.Sequential)]

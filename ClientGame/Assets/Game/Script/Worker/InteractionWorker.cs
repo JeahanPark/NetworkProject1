@@ -30,7 +30,7 @@ public class InteractionWorker : MonoBehaviour
 
     public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket)
     {
-        InteractionPacketData[] interactionPacketDatas = _inGameUpdatePacket.m_arrInteraction;
+        InteractionPacketData[] interactionPacketDatas = null;// _inGameUpdatePacket.m_arrInteraction;
 
         for ( int i = 0; i < _inGameUpdatePacket.m_iInteractionCount; ++i)
         {

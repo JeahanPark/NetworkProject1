@@ -19,7 +19,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     {
         yield return null;
 
-        //AutoLogin();
+        AutoLogin();
     }
 
     // 테스트 코드

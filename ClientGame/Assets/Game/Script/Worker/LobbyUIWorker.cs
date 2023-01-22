@@ -15,7 +15,6 @@ public class LobbyUIWorker : MonoBehaviour
 
         m_Chatting.gameObject.SetActive(false);
         ChattingButtonOn(true);
-        SygnalManager.Instance.Register(SygnalEventType.TEST, Fire1);
     }
 
     private void Start()
@@ -36,13 +35,11 @@ public class LobbyUIWorker : MonoBehaviour
     public void OnClickLogin()
     {
         UILogIn.ShowPopup();
-        SygnalManager.Instance.Fire(SygnalEventType.TEST);
     }
 
     public void OnClickRegister()
     {
         UIRegister.ShowPopup();
-        SygnalManager.Instance.Unregister(SygnalEventType.TEST, Fire1);
     }
 
     public void OnClickChattingRoomEnter()
@@ -71,12 +68,4 @@ public class LobbyUIWorker : MonoBehaviour
         m_Chatting.ReceiveChattingMessage(strMessage);
     }
 
-    private void Fire1()
-    {
-        Debug.Log("Fire1");
-    }
-    private void Fire2()
-    {
-        Debug.Log("Fire2");
-    }
 }

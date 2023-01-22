@@ -10,8 +10,6 @@ SendBuffer* PacketCreate::ChattingPacketCreate(WCHAR* _content, ePacketType _ePa
 	chatting->m_PakcetType = _ePacketType;
 	chatting->m_iSize = sizeof(ChattingPacket);
 	wcscpy_s(chatting->m_chattingContent, _content);
- 
-	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
 }

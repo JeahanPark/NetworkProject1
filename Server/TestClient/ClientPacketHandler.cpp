@@ -68,8 +68,6 @@ SendBuffer* ClientPacketHandler::Send_Login()
 	wcscpy_s(login->m_UserID, L"servertest01");
 	wcscpy_s(login->m_Password, L"123123");
 
-	pSendBuffer->WsaBufSetting();
-
 	return pSendBuffer;
 }
 
@@ -83,8 +81,6 @@ SendBuffer* ClientPacketHandler::Send_ChattingEnter()
 	login->m_ePacketSignal = ePacketSignal::Signal_ChattingRoomEnter;
 
 	login->m_iSize = sizeof(SignalPacket);
-
-	pSendBuffer->WsaBufSetting();
 
 	return pSendBuffer;
 }

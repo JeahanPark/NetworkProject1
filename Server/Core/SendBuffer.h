@@ -6,7 +6,7 @@ public:
     ~SendBuffer();
 public:
     WSABUF* GetWSABuf();
-    char* GetSendBufferAdress();
+    char* GetSendBufferAdress(int _startBuffer = 0);
     void WsaBufSetting();
 private:
     int         m_BufferSize;
