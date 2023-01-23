@@ -28,13 +28,11 @@ public class InteractionWorker : MonoBehaviour
         m_ActiveObject = new LinkedList<InteractionObject>();
     }
 
-    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket)
+    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionPacketData[] _interactionPacketDatas)
     {
-        InteractionPacketData[] interactionPacketDatas = null;// _inGameUpdatePacket.m_arrInteraction;
-
-        for ( int i = 0; i < _inGameUpdatePacket.m_iInteractionCount; ++i)
+        for ( int i = 0; i < _interactionPacketDatas.Length; ++i)
         {
-            InteractionPacketData data = interactionPacketDatas[i];
+            InteractionPacketData data = _interactionPacketDatas[i];
             var begine = m_ActiveObject.First;
 
             InteractionObject interaction = null;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class PacketHandler
 {
-    public static void PacketHandling(int _iHearSize, byte[] _buffer, PacketHeader _header)
+    public static void PacketHandling(int _iHeaderSize, byte[] _buffer, PacketHeader _header)
     {
 		string strPacket = string.Empty;
 		// 패킷에 따라 함수 호출해주기... 먼가 이상하다
@@ -15,8 +15,8 @@ public static class PacketHandler
 			switch(_header.m_PakcetType)
             {
 				case ePacketType.SToC_InGameUpdate:
-					InGameUpdatePacket packet = Packet.BufferToPacket<InGameUpdatePacket>(_buffer, _iHearSize);
-					InGameController.Instance.ReceiveInGameUpdate(packet);
+					var packet = Packet.BufferToPacket<InGameUpdatePacket, InteractionPacketData>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
 					break;
             }
 		}
@@ -27,20 +27,20 @@ public static class PacketHandler
 			switch (_header.m_PakcetType)
 			{
 				case ePacketType.SToC_Chatting:
-					V2ChattingPacket Chatting = Packet.BufferToPacket<V2ChattingPacket>(_buffer, _iHearSize);
+					V2ChattingPacket Chatting = Packet.BufferToPacket<V2ChattingPacket>(_buffer, _iHeaderSize);
 					LobbyController.Instance.ReceiveChattingMessage(Chatting);
 					break;
 				case ePacketType.SToC_PacketResult:
-					PacketResult Result = Packet.BufferToPacket<PacketResult>(_buffer, _iHearSize);
+					PacketResult Result = Packet.BufferToPacket<PacketResult>(_buffer, _iHeaderSize);
 					PacketResult(Result);
 					strPacket = Result.m_eResult.ToString() + ", " + Result.m_eTargetPakcetType.ToString() + ", " + Result.m_SignalType.ToString();
 					break;
 				case ePacketType.SToC_LoginResult:
-					LoginResultPacket LoginResult = Packet.BufferToPacket<LoginResultPacket>(_buffer, _iHearSize);
+					LoginResultPacket LoginResult = Packet.BufferToPacket<LoginResultPacket>(_buffer, _iHeaderSize);
 					LobbyController.Instance.ReceiveLoginResult(LoginResult);
 					break;
 				case ePacketType.STOC_InGameEnter_Success:
-					InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHearSize);
+					InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHeaderSize);
 					LobbyController.Instance.ReceiveInGameEnter(inGameEnterSuccess);
 					break;
 			}

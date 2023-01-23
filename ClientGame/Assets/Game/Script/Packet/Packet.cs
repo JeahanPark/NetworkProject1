@@ -69,6 +69,11 @@ public enum ePacketSignal
 	Signal_InGameExit,
 };
 
+public interface PacketListCount
+{
+	int GetListCount();
+}
+
 // 아... 나눌껄....
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct PacketHeader
@@ -158,13 +163,15 @@ public struct InteractionPacketData
 };
 
 [StructLayout(LayoutKind.Sequential)]
-public struct InGameUpdatePacket
+public struct InGameUpdatePacket : PacketListCount
 {
 	public int m_iInteractionCount;
 
-	//public InteractionPacketData[] m_arrInteraction;
-};
-
+    public int GetListCount()
+    {
+        return m_iInteractionCount;
+    }
+}
 [StructLayout(LayoutKind.Sequential)]
 public struct InGameEnterSuccess
 {
@@ -179,24 +186,56 @@ public struct MyUserMovePacket
 };
 public class Packet
 {
-	public static T BufferToPacket<T>(byte[] _buffer, int _startIndex) where T : struct
-    {
+	public static T BufferToPacket<T>(byte[] _buffer, int _iHeaderSize) where T : struct
+    { 
 		int size = Marshal.SizeOf(typeof(T));
 		IntPtr ptr = Marshal.AllocHGlobal(size);
-		Marshal.Copy(_buffer, _startIndex, ptr, size);
+		Marshal.Copy(_buffer, _iHeaderSize, ptr, size);
 		T packet = (T)Marshal.PtrToStructure(ptr, typeof(T));
 		Marshal.FreeHGlobal(ptr);
 
 		return packet;
 	}
-
-	public static bool ReceviePacketHandle(byte[] _buffer, int _iBufferSize)
+    public static (T, U[]) BufferToPacket<T, U>(byte[] _buffer, int _iHeaderSize) where T : struct where U : struct
     {
-		int iHearSize = 0;
+        int sizeT = Marshal.SizeOf(typeof(T));
+        int sizeU = Marshal.SizeOf(typeof(U));
+
+		// 패킷 만들기
+        IntPtr ptrT = Marshal.AllocHGlobal(sizeT);
+        Marshal.Copy(_buffer, _iHeaderSize, ptrT, sizeT);
+		T packetT = (T)Marshal.PtrToStructure(ptrT, typeof(T));
+		Marshal.FreeHGlobal(ptrT);
+
+
+		// 패킷의 리스트 만들기
+		PacketListCount count = packetT as PacketListCount;
+		int iTotalCountU = count.GetListCount();
+
+		int iListStartIndex = sizeT + _iHeaderSize;
+
+		U[] list = new U[iTotalCountU];
+		IntPtr ptrU = Marshal.AllocHGlobal(sizeU);
+
+		for ( int i = 0; i < iTotalCountU; ++i)
+        {
+			iListStartIndex += i * sizeU;
+
+			Marshal.Copy(_buffer, iListStartIndex, ptrU, sizeU);
+			list[i] = (U)Marshal.PtrToStructure(ptrU, typeof(U));
+		}
+		Marshal.FreeHGlobal(ptrU);
+
+
+		return (packetT, list);
+    }
+    public static bool ReceviePacketHandle(byte[] _buffer, int _iBufferSize)
+    {
+		int iHeaderSize = 0;
 		// 패킷 헤더 사이즈 체크
 		{
-			iHearSize = Marshal.SizeOf(typeof(PacketHeader));
-			if (_iBufferSize < iHearSize)
+			iHeaderSize = Marshal.SizeOf(typeof(PacketHeader));
+			if (_iBufferSize < iHeaderSize)
 				return false;
 		}
 
@@ -209,7 +248,7 @@ public class Packet
 		}
 
 		// 패킷 
-		PacketHandler.PacketHandling(iHearSize, _buffer, packetHeader);
+		PacketHandler.PacketHandling(iHeaderSize, _buffer, packetHeader);
 		
 		return true;
 	}

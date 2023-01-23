@@ -58,12 +58,9 @@ public class InGameController : MonoDestroySingleton<InGameController>
     #endregion
 
     #region PacketReceive
-    public void ReceiveInGameUpdate(InGameUpdatePacket _packet)
+    public void ReceiveInGameUpdate(InGameUpdatePacket _packet, InteractionPacketData[] _interactionPacketDatas)
     {
-        if (m_InteractionWorker == null)
-            return;
-
-        m_InteractionWorker.UpdateInteraction(_packet);
+        m_InteractionWorker.UpdateInteraction(_packet, _interactionPacketDatas);
     }
     #endregion
 }
