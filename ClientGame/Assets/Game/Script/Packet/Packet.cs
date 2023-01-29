@@ -21,7 +21,7 @@ public enum ePacketType
 	SToC_PacketResult,
 	SToC_LoginResult,
 	SToC_InGameUpdate,
-	STOC_InGameEnter_Success,
+	//STOC_InGameEnter_Success,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -67,6 +67,8 @@ public enum ePacketSignal
 	// 인게임 입장, 나가기 결과
 	Signal_InGameEnter,
 	Signal_InGameExit,
+
+	Signal_InitialInGameData
 };
 
 public interface PacketListCount
@@ -75,7 +77,7 @@ public interface PacketListCount
 }
 
 // 아... 나눌껄....
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
+[StructLayout(LayoutKind.Sequential)]
 public struct PacketHeader
 {
 	public ePacketType m_PakcetType;
@@ -110,7 +112,7 @@ public struct UserRegistPacket
 	public int Score;
 };
 
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential)]
 public struct InGameEnterPacket
 {
 	public int m_UserIndex;

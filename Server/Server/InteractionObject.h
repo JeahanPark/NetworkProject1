@@ -8,10 +8,11 @@ public:
 	void virtual Update() = 0;
 
 public:
-	bool GetValidLife() { return m_bVaildLife; }
+	bool					GetValidLife() { return m_bVaildLife; }
+	const eInteractionType& GetInteractionType() { return m_eType; }
+	int						GetInteractionIndex() { return m_iInteractionIndex; }
 public:
-	void InteractionPacketSetting(InteractionPacketData* _packet);
-
+	void SettingInteractionPacket(InteractionPacketData* _packet);
 protected:
 	bool				m_bVaildLife;
 	int					m_iInteractionIndex;

@@ -4,12 +4,12 @@
 #include "UserController.h"
 #include "Transform.h"
 
-UserObject::UserObject(s_UserController _uerController, int _iUserIndex)
+UserObject::UserObject(s_UserController _uerController, const UserData* _userData)
 	:	m_userController(_uerController),
-		m_state(new State())
+		m_state(new State()),
+		m_UserData(*_userData)
 {
 	m_eType = eInteractionType::User;
-	m_iInteractionIndex = _iUserIndex;
 }
 
 UserObject::~UserObject()
@@ -43,4 +43,11 @@ void UserObject::Update()
 	m_transform->Update();
 
 	
+}
+
+void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
+{
+
+
+	SettingInteractionPacket(_packet);
 }

@@ -65,11 +65,20 @@ void InGameManager::CreateInGameObject(s_ServerSession _session)
     s_InGameObject ingame = make_shared<InGameObject>(_session, userController);
     m_mapInGame.insert(std::make_pair(_session->GetUserData()->GetUserIndex(), ingame));
 
-    InteractionManager().GetInstance()->AddUserInteractionObject(_session->GetUserData()->GetUserIndex(), userController);
+    //InteractionManager().GetInstance()->AddUserInteractionObject(_session->GetUserData()->GetUserIndex(), userController);
 }
 const mapInGame InGameManager::GetmapInGame()
 {
     LockGuard lock(m_lockInGame);
 
     return m_mapInGame;
+}
+
+void InGameManager::GetlistInGame(list<s_InGameObject>& _lisInGame)
+{
+    for (mapInGame::value_type inGameObject : m_mapInGame)
+    {
+        if (inGameObject.second->GetUserInteraction() != nullptr)
+            _lisInGame.push_back(inGameObject.second);
+    }
 }

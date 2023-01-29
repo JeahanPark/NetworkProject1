@@ -16,7 +16,8 @@ enum class ePacketType
 	SToC_PacketResult,
 	SToC_LoginResult,
 	SToC_InGameUpdate,
-	SToC_InGameEnter_Success,
+	SToC_InitialInGameData,
+	SToC_NewUserInteraction,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -62,6 +63,8 @@ enum class ePacketSignal
 	// 인게임 입장, 나가기 결과
 	Signal_InGameEnter,
 	Signal_InGameExit,
+
+	Signal_InitialInGameData,
 };
 
 struct PacketData

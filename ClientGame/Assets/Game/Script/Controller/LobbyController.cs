@@ -92,13 +92,20 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
             UIMessageBox.ShowPopup("내가 방에 없다?");
     }
 
-    public void ReceiveInGameEnter(InGameEnterSuccess _packet)
+    public void ReceiveInGameEnter(PacketResult _packetResult)
     {
         // 데이터 세팅
-        DataManager.Instance.SetInteractionUserData(_packet.m_iInteractionIndex, _packet.m_eType);
+        //DataManager.Instance.SetInteractionUserData (_packet.m_iInteractionIndex, _packet.m_eType);
 
-        // 인게임 진입
-        SceneManager.Instance.SceneChange(SceneType.InGame);
+        if(_packetResult.m_eResult == ePacketResult.Success)
+        {
+            // 인게임 진입
+            SceneManager.Instance.SceneChange(SceneType.InGame);
+        }
+        else
+        {
+            // 실패
+        }
     }
 
     public void ReceiveInGameFaile(PacketResult _packetResult)

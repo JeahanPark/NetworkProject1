@@ -3,6 +3,7 @@
 #include "UserData.h"
 #include "InGameObject.h"
 #include "InteractionObject.h"
+#include "UserObject.h"
 #define SESSION_LOG(SessionNumber, LogName) cout << SessionNumber << " , " << LogName << endl;
 
 void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packetData)
@@ -67,6 +68,10 @@ void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetDa
 	case ePacketSignal::Signal_InGameExit:
 		InGameEnterProcess(_session, packetSignal->m_ePacketSignal);
 		SESSION_LOG(_session->GetSessionNumber(), "InGame," + (int)packetSignal->m_ePacketSignal)
+		break;
+	case ePacketSignal::Signal_InitialInGameData:
+		InitialInGame(_session);
+		SESSION_LOG(_session->GetSessionNumber(), "InitialInGameData," + (int)packetSignal->m_ePacketSignal)
 		break;
 	}
 }
@@ -239,14 +244,7 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 			// 인게임 진입
 			if (InGameManager().GetInstance()->InsertInGameObject(_session))
 			{
-				pSendBuffer = new SendBuffer(sizeof(InGameEnterSuccess));
-
-				InGameEnterSuccess* packet = (InGameEnterSuccess*)pSendBuffer->GetSendBufferAdress();
-				packet->m_PakcetType = ePacketType::SToC_InGameEnter_Success;
-				packet->m_iSize = sizeof(InGameEnterSuccess);
-
-				packet->m_eType = eInteractionType::User;
-				packet->m_iInteractionIndex = _session->GetUserData()->GetUserIndex();
+				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 			}
 			else // 이미 인게임이다.
 				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
@@ -281,9 +279,9 @@ void PacketHandler::MyUserMove(s_ServerSession _session, PacketData* _packetData
 	inGameObject->MyUserMove(packetData);
 }
 
-void PacketHandler::InGameUpdate(const list<InteractionObject*>& _lisInteraction, s_ServerSession _session)
+void PacketHandler::InGameUpdate(const list<s_InteractionObejct>& _lisInteraction, s_ServerSession _session)
 {
-	const int interactionCount = (int)_lisInteraction.size();
+	int interactionCount = (int)_lisInteraction.size();
 
 	if (interactionCount == 0)
 		return;
@@ -301,23 +299,91 @@ void PacketHandler::InGameUpdate(const list<InteractionObject*>& _lisInteraction
 	InGameUpdate->m_iSize = iTotalPacketSize;
 	InGameUpdate->m_iInteractionCount = interactionCount;
 
-
-
 	int iArrInteractionIndex = 0;
 
-	for (InteractionObject* interaction : _lisInteraction)
+	for (s_InteractionObejct interaction : _lisInteraction)
 	{
 		int startBuffer = iInGameUpdatePacketSize + iArrInteractionIndex * interactionPacketSize;
 
 		InteractionPacketData* obejct = (InteractionPacketData*)pSendBuffer->GetSendBufferAdress(startBuffer);
-		interaction->InteractionPacketSetting(obejct);
+		interaction->SettingInteractionPacket(obejct);
 		++iArrInteractionIndex;
-
-		// 패킷을 넘겨줘서 세팅해달라고 한다.
-		//interaction->InteractionPacketSetting(
-		//	&InGameUpdate->m_arrInteraction[iArrInteractionIndex]);
-		//++iArrInteractionIndex;
 	}
+
+	_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::InitialInGame(s_ServerSession _session)
+{
+	// 나의 interactionObject를 생성한다.
+	int iMyUserIndex = _session->GetUserData()->GetUserIndex();
+	s_InGameObject myIngameObject = InGameManager::GetInstance()->GetInGameObject(iMyUserIndex);
+	s_InteractionObejct user = InteractionManager::GetInstance()->CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
+
+	myIngameObject->SetUser(user);
+	// s_InteractionObejct를 생성하고 바로 리스트에 넣으면 Update에서 보낼수도있어서 안됌
+
+	// 나한테 데이터 전달
+	// SToC_InitialInGameData
+	list<s_InGameObject> lisInGameObject;
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+
+
+	int iDataCount = (int)lisInGameObject.size();
+
+	int iInitialInGameDataSize = sizeof(InitialInGameData);
+	int iInitialInGameDataPacketSize = sizeof(InitialInGameDataPacket);
+
+	int iTotalData = iInitialInGameDataSize * iDataCount;
+	int iTotalPacketSize = iInitialInGameDataPacketSize + iTotalData;
+
+	SendBuffer* pSendBuffer = new SendBuffer(iTotalPacketSize);
+
+	InitialInGameDataPacket* InGameUpdate = (InitialInGameDataPacket*)pSendBuffer->GetSendBufferAdress();
+	InGameUpdate->m_PakcetType = ePacketType::SToC_InitialInGameData;
+	InGameUpdate->m_iSize = iTotalPacketSize;
+	InGameUpdate->m_iUserCount = iDataCount;
+	InGameUpdate->m_iMyInteractionIndex = user->GetInteractionIndex();
+
+	int ingameIndex = 0;
+	for (auto iter : lisInGameObject)
+	{
+		int startBuffer = iInitialInGameDataPacketSize + ingameIndex * iInitialInGameDataSize;
+
+		InitialInGameData* packet = (InitialInGameData*)pSendBuffer->GetSendBufferAdress(startBuffer);
+
+		UserObject* user = (UserObject*)iter.get();
+		user->SettingInitialInGameDataPacket(packet);
+
+		++ingameIndex;
+	}
+
+	_session->RegisterSend(pSendBuffer);
+
+	InteractionManager::GetInstance()->AddInteractionObject(user);
+
+
+	// 현재 인게임에 접속중인 유저한테
+	// SToC_AddUserInteraction
+
+	for (auto iter : lisInGameObject)
+	{
+		// 내꺼 제외하고 보내기
+		if (!iter->SameSession(iMyUserIndex))
+			AddUserInteraction(myIngameObject, iter->GetSession());
+	}
+
+}
+
+void PacketHandler::AddUserInteraction(s_InGameObject _newUser, s_ServerSession _session)
+{
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(NewUserPacket));
+
+	NewUserPacket* packet = (NewUserPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_NewUserInteraction;
+	packet->m_iSize = sizeof(NewUserPacket);
+
+	_newUser->GetUserInteraction()->SettingInteractionPacket(&packet->InitData);
 
 	_session->RegisterSend(pSendBuffer);
 }

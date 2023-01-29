@@ -7,16 +7,35 @@ InteractionManager::~InteractionManager()
 	m_lisInteraction.clear();
 }
 
-void InteractionManager::AddUserInteractionObject(int _userIndex, s_UserController _userController)
+s_InteractionObejct InteractionManager::CreateUserInteraction(s_UserController _userController, const UserData* _userData)
+{
+	s_InteractionObejct interaction = make_shared<UserObject>(_userController, _userData);
+
+	return interaction;
+}
+
+void InteractionManager::AddInteractionObject(s_InteractionObejct _interaction)
 {
 	LockGuard lock(m_lockInteraction);
 
-	UserObject* object = new UserObject(_userController, _userIndex);
-
-	m_lisInteraction.push_back(object);
+	m_lisInteraction.push_back(_interaction);
 }
 
-void InteractionManager::AddDeleteInteraction(list<InteractionObject*>& _InteractionObjects)
+void InteractionManager::GetUserInteractionList(list<s_InteractionObejct>& _lisUserInteracction)
+{
+	LockGuard lock(m_lockInteraction);
+
+	for (auto iter : m_lisInteraction)
+	{
+		if (iter->GetInteractionType() == eInteractionType::User)
+		{
+			_lisUserInteracction.push_back(iter);
+		}
+	}
+	
+}
+
+void InteractionManager::AddDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects)
 {
 	for (auto iter : m_lisDeleteInteraction)
 	{
@@ -26,21 +45,16 @@ void InteractionManager::AddDeleteInteraction(list<InteractionObject*>& _Interac
 
 void InteractionManager::ClearDeleteInteraction()
 {
-	for (auto iter : m_lisDeleteInteraction)
-	{
-		delete iter;
-	}
 	m_lisDeleteInteraction.clear();
 }
 
-//일부로 &안붙임 &해서 꺼내서 쓰다가 추가되면 안돼서
 void InteractionManager::AllUpdateInteractionObject()
 {
 	LockGuard lock(m_lockInteraction);
 	auto iter = m_lisInteraction.begin();
 	while (iter != m_lisInteraction.end())
 	{
-		InteractionObject* object = *iter;
+		s_InteractionObejct object = *iter;
 		object->Update();
 
 		// 삭제해야될 오브젝트일경우 생명주기가 끝나거나 등등

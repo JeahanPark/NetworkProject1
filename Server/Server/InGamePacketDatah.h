@@ -2,12 +2,6 @@
 #include "pch.h"
 
 
-struct InGameEnterSuccess : PacketData
-{
-	int						m_iInteractionIndex;
-	eInteractionType		m_eType;
-};
-
 
 struct MyUserMovePacket : PacketData
 {
@@ -28,5 +22,22 @@ struct InteractionPacketData
 struct InGameUpdatePacket : PacketData
 {
 	int						m_iInteractionCount;
-	// 이뒤에 바이트 데이터가 있다.
+	// 이뒤에 바이트 데이터 InteractionPacketData 가 있다.
+};
+
+struct InitialInGameData : InteractionPacketData
+{
+	WCHAR					m_UserID[USER_ID_LENGTH] = {};
+};
+
+struct InitialInGameDataPacket : PacketData
+{
+	int						m_iMyInteractionIndex;
+	int						m_iUserCount;
+	// 이뒤에 바이트 데이터 InitialInGameData 가 있다.
+};
+
+struct NewUserPacket : PacketData
+{
+	InitialInGameData InitData;
 };

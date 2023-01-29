@@ -6,16 +6,18 @@ public:
 	~InteractionManager();
 
 public:
-	void AddUserInteractionObject(int _userIndex, s_UserController _userController);
-	list<InteractionObject*> GetInteractionList() { return m_lisInteraction; }
-
-	void AddDeleteInteraction(list<InteractionObject*>& _InteractionObjects);
+	s_InteractionObejct CreateUserInteraction(s_UserController _userController, const UserData* _userData);
+	void AddInteractionObject(s_InteractionObejct _interaction);
+	list<s_InteractionObejct> GetInteractionList() { return m_lisInteraction; }
+	void GetUserInteractionList(list<s_InteractionObejct>& _lisUserInteracction);
+ 
+	void AddDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
 	void ClearDeleteInteraction();
 	void AllUpdateInteractionObject();
 
 private:
-	list<InteractionObject*>		m_lisInteraction;
-	list<InteractionObject*>		m_lisDeleteInteraction;
+	list<s_InteractionObejct>		m_lisInteraction;
+	list<s_InteractionObejct>		m_lisDeleteInteraction;
 	mutex							m_lockInteraction;
 };
 

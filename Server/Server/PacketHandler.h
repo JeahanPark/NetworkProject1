@@ -23,5 +23,9 @@ public:
 
 	static void MyUserMove(s_ServerSession _session, PacketData* _packetData);
 
-	static void InGameUpdate(const list<InteractionObject*>& _lisInteraction, s_ServerSession _session);
+	static void InGameUpdate(const list<s_InteractionObejct>& _lisInteraction, s_ServerSession _session);
+
+	static void InitialInGame(s_ServerSession _session);
+
+	static void AddUserInteraction(s_InGameObject _newUser, s_ServerSession _session);
 };

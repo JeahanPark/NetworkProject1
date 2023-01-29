@@ -10,40 +10,31 @@ public static class PacketHandler
 		// 패킷에 따라 함수 호출해주기... 먼가 이상하다
 		
 		// 인게임에서 호출할경우
-		if (SceneManager.Instance.GetCurentScene() == SceneType.InGame)
-		{
-			switch(_header.m_PakcetType)
-            {
-				case ePacketType.SToC_InGameUpdate:
-					var packet = Packet.BufferToPacket<InGameUpdatePacket, InteractionPacketData>(_buffer, _iHeaderSize);
-					InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
-					break;
-            }
-		}
 
 		// 로비일경우에만 호출해준다.
-		if (SceneManager.Instance.GetCurentScene() == SceneType.Lobby)
+		switch (_header.m_PakcetType)
 		{
-			switch (_header.m_PakcetType)
-			{
-				case ePacketType.SToC_Chatting:
-					V2ChattingPacket Chatting = Packet.BufferToPacket<V2ChattingPacket>(_buffer, _iHeaderSize);
-					LobbyController.Instance.ReceiveChattingMessage(Chatting);
-					break;
-				case ePacketType.SToC_PacketResult:
-					PacketResult Result = Packet.BufferToPacket<PacketResult>(_buffer, _iHeaderSize);
-					PacketResult(Result);
-					strPacket = Result.m_eResult.ToString() + ", " + Result.m_eTargetPakcetType.ToString() + ", " + Result.m_SignalType.ToString();
-					break;
-				case ePacketType.SToC_LoginResult:
-					LoginResultPacket LoginResult = Packet.BufferToPacket<LoginResultPacket>(_buffer, _iHeaderSize);
-					LobbyController.Instance.ReceiveLoginResult(LoginResult);
-					break;
-				case ePacketType.STOC_InGameEnter_Success:
-					InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHeaderSize);
-					LobbyController.Instance.ReceiveInGameEnter(inGameEnterSuccess);
-					break;
-			}
+			case ePacketType.SToC_Chatting:
+				V2ChattingPacket Chatting = Packet.BufferToPacket<V2ChattingPacket>(_buffer, _iHeaderSize);
+				LobbyController.Instance.ReceiveChattingMessage(Chatting);
+				break;
+			case ePacketType.SToC_PacketResult:
+				PacketResult Result = Packet.BufferToPacket<PacketResult>(_buffer, _iHeaderSize);
+				PacketResult(Result);
+				strPacket = Result.m_eResult.ToString() + ", " + Result.m_eTargetPakcetType.ToString() + ", " + Result.m_SignalType.ToString();
+				break;
+			case ePacketType.SToC_LoginResult:
+				LoginResultPacket LoginResult = Packet.BufferToPacket<LoginResultPacket>(_buffer, _iHeaderSize);
+				LobbyController.Instance.ReceiveLoginResult(LoginResult);
+				break;
+			case ePacketType.SToC_InGameUpdate:
+				var packet = Packet.BufferToPacket<InGameUpdatePacket, InteractionPacketData>(_buffer, _iHeaderSize);
+				InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
+				break;
+				//case ePacketType.STOC_InGameEnter_Success:
+				//	InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHeaderSize);
+				//	LobbyController.Instance.ReceiveInGameEnter(inGameEnterSuccess);
+				//	break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)
@@ -68,6 +59,9 @@ public static class PacketHandler
 					break;
 				case ePacketSignal.Signal_InGameExit:
 					LobbyController.Instance.ReceiveInGameFaile(_packetResult);
+					break;
+				case ePacketSignal.Signal_InGameEnter:
+					LobbyController.Instance.ReceiveInGameEnter(_packetResult);
 					break;
 
 			}

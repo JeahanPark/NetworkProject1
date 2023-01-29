@@ -12,6 +12,8 @@ InGameObject::~InGameObject()
 
 	m_UserController->SetVaildCheck(false);
 	m_UserController = nullptr;
+
+	m_userInteraction = nullptr;
 }
 
 bool InGameObject::SameSession(int _iUserIndex)
@@ -26,4 +28,9 @@ bool InGameObject::SameSession(int _iUserIndex)
 void InGameObject::MyUserMove(MyUserMovePacket* _packetData)
 {
 	m_UserController->SetUserMove(_packetData);
+}
+
+void InGameObject::SetUser(s_InteractionObejct _user)
+{
+	m_userInteraction = _user;
 }

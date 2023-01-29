@@ -15,7 +15,11 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
     public override void Init()
     {
+        // 모든 worker세팅은 awake시점에서 세팅한다.
+        SignalPacket packet = new SignalPacket();
+        packet.m_ePacketSignal = ePacketSignal.Signal_InitialInGameData;
 
+        Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
     }
 
     private void Start()

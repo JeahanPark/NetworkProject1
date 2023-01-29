@@ -35,7 +35,7 @@ void InGameUpdateManager::InGameUpdate()
             if (UpdateClientInteraction())
             {
                 //모든 Interaction을 인게임에 들어온 세션들한테 패킷전달
-                list<InteractionObject*> InteractionObjects = InteractionManager::GetInstance()->GetInteractionList();
+                list<s_InteractionObejct> InteractionObjects = InteractionManager::GetInstance()->GetInteractionList();
 
                 // 삭제할 interaction을 클라에 전달할 리스트에 추가한다.
                 InteractionManager::GetInstance()->AddDeleteInteraction(InteractionObjects);

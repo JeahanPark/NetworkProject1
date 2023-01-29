@@ -15,7 +15,7 @@ InteractionObject::~InteractionObject()
 	delete m_transform;
 }
 
-void InteractionObject::InteractionPacketSetting(InteractionPacketData* _packet)
+void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)
 {
 	_packet->m_eType = m_eType;
 	_packet->m_iInteractionIndex = m_iInteractionIndex;
