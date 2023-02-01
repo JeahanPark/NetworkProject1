@@ -11,7 +11,7 @@ public class InteractionObject : MonoBehaviour
 
     protected Dictionary<eInteractionCom, BaseInteractionComponent> m_dicInteractionComponent = new Dictionary<eInteractionCom, BaseInteractionComponent>();
 
-    public Dictionary<eInteractionCom, BaseInteractionComponent> InteractionComponents
+    public Dictionary<eInteractionCom, BaseInteractionComponent> dicInteractionComponents
     {
         get
         {
@@ -27,6 +27,14 @@ public class InteractionObject : MonoBehaviour
 
     protected Vector3 m_vMoveTarget;
 
+    public T GetInteractionCom<T>(eInteractionCom _eInteractionCom) where T : BaseInteractionComponent
+    {
+        BaseInteractionComponent baseInteractionComponent = null;
+        if (dicInteractionComponents.TryGetValue(_eInteractionCom, out baseInteractionComponent))
+            return baseInteractionComponent as T;
+
+        return null;
+    }
     public eInteractionType GetInteractionType
     {
         get { return m_eInteractionType; }
@@ -65,6 +73,10 @@ public class InteractionObject : MonoBehaviour
     // 더이상 사용하지않아 풀로 들어갈때 함수호출
     public virtual void Clear()
     {
+        foreach( var item in m_dicInteractionComponent)
+        {
+            item.Value.ClearComponent();
+        }
     }
 
     public void UpdateInteraction(InteractionData _InteractionData)

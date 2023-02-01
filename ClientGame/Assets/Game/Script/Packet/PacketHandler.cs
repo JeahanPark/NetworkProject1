@@ -42,6 +42,7 @@ public static class PacketHandler
 			case ePacketType.SToC_InitialInGameData:
                 {
 					var packet = Packet.BufferToPacket<InitialInGameDataPacket, InitialInGameData>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReceiveInitialInGameData(packet.Item1, packet.Item2);
 				}
 				break;
 				//case ePacketType.STOC_InGameEnter_Success:

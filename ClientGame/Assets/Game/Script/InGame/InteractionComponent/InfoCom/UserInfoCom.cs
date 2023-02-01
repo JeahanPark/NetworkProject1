@@ -15,4 +15,9 @@ public class UserInfoCom : InfoCom
     {
         m_strNickName = _nickName;
     }
+
+    public override void InitComponent()
+    {
+        base.InitComponent();
+    }
 }

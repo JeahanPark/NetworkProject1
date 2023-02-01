@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class UICom : BaseInteractionComponent
 {
-    private UserInfoCom _userInfo = null;
-
+    private UserUI m_UserUI = null;
     public UICom(InteractionObject _ownerInteraction) : base(_ownerInteraction)
     {
         m_eInteractionCom = eInteractionCom.UI;
@@ -14,5 +13,22 @@ public class UICom : BaseInteractionComponent
     public override void InitComponent()
     {
         base.InitComponent();
+
+        m_UserUI = InGameController.Instance.GetInGameUIWorker.CreateUIUser(m_ownerInteraction);
+    }
+
+    public override void ClearComponent()
+    {
+        base.ClearComponent();
+    }
+
+    public void InitUI(string _strNickName)
+    {
+        m_UserUI.InitializeUI(_strNickName);
+    }
+
+    public void RefreshUI()
+    {
+
     }
 }

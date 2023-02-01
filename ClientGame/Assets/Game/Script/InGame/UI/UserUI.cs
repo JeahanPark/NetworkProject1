@@ -2,23 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UIUser : MonoBehaviour
+public class UserUI : MonoBehaviour
 {
     private Text m_txtNickName = null;
-    
-    
     private Transform m_tranTarget = null;
-    private InfoCom m_infoCom = null;
 
-    public void Initialize(Transform _target, InfoCom _infoCom)
+    public void Initialize(Transform _target)
     {
-        m_infoCom = _infoCom;
         m_tranTarget = _target;
     }
 
     private void Awake()
     {
-        m_txtNickName = transform.Find<Text>("txt_NickName");
+        m_txtNickName = transform.Find<Text>("Text_NickName");
     }
 
     private void Update()
@@ -29,9 +25,9 @@ public class UIUser : MonoBehaviour
         transform.position = Camera.main.WorldToScreenPoint(m_tranTarget.position);
     }
 
-    private void InitializeUI()
+    public void InitializeUI(string _strNickName)
     {
-        //m_txtNickName.text = 
+        m_txtNickName.text = _strNickName;
     }
 
     private void RefreshUI()

@@ -137,7 +137,7 @@ public class InteractionWorker : MonoBehaviour
             return null;
 
         UserObject user = Instantiate<UserObject>(m_originUser);
-
+        user.gameObject.SetActive(true);
         return user;
     }
 

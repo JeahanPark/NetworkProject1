@@ -196,10 +196,15 @@ public struct InitialInGameData
 	public string m_strNickName;
 };
 [StructLayout(LayoutKind.Sequential)]
-public struct InitialInGameDataPacket
+public struct InitialInGameDataPacket : PacketListCount
 {
 	public int m_iMyInteractionIndex;
 	public int m_iUserCount;
+
+	public int GetListCount()
+	{
+		return m_iUserCount;
+	}
 };
 [StructLayout(LayoutKind.Sequential)]
 public struct NewUserPacket

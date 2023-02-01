@@ -24,16 +24,11 @@ public class UserObject : InteractionObject
 
     public void SetInitialUserData(string _strNickName)
     {
-        BaseInteractionComponent info = null;
-        InteractionComponents.TryGetValue(eInteractionCom.UserInfo, out info);
+        UserInfoCom info = GetInteractionCom<UserInfoCom>(eInteractionCom.UserInfo);
+        info.InitData(_strNickName);
 
-        if(info != null)
-        {
-            UserInfoCom userinfo = info as UserInfoCom;
-            userinfo.InitData(_strNickName);
-        }
-
-        //InGameController.Instance.
+        UICom ui = GetInteractionCom<UICom>(eInteractionCom.UI);
+        ui.InitUI(_strNickName);
     }
     public override void Clear()
     {
@@ -66,6 +61,7 @@ public class UserObject : InteractionObject
     {
         base.CreateComponent();
         AddDicInteractionComponent(new UserInfoCom(this));
+        AddDicInteractionComponent(new UICom(this));
     }
 
     protected override void Update()

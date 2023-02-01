@@ -26,10 +26,16 @@ public class BaseInteractionComponent
     }
 
     /// <summary>
-    /// 오너가 자신의 컴포넌트를 다 세팅한 상태에서 호출
-    /// 컴포넌트가 오너의 데이터 안전하게 사용하기위해 호출
+    /// 오너가 자신의 컴포넌트를 다 세팅한 상태에서 호출한다.
+    /// 컴포넌트가 오너의 데이터 안전하게 세팅하기위해 사용한다.
+    /// 그리고 여기서 데이터를 초기화 한다.
     /// </summary>
     public virtual void InitComponent()
+    {
+
+    }
+
+    public virtual void ClearComponent()
     {
 
     }

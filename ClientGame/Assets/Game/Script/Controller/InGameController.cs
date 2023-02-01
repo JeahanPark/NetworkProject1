@@ -7,6 +7,13 @@ public class InGameController : MonoDestroySingleton<InGameController>
     private InteractionWorker m_InteractionWorker = null;
     private InGameMyWorker m_InGameMyWorker = null;
     private InGameUIWorker m_InGameUIWorker = null;
+    public InGameUIWorker GetInGameUIWorker
+    {
+        get
+        {
+            return m_InGameUIWorker;
+        }
+    }
 
     public override void Destroy()
     {
@@ -47,7 +54,6 @@ public class InGameController : MonoDestroySingleton<InGameController>
         m_InGameUIWorker = _ingameUIWorker;
     }
 
-
     #region PacketSend
     public void SendMyUserMove(Vector3 _vDir, float _fMoveSpeed)
     {
@@ -68,7 +74,7 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
     public void ReceiveInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)
     {
-
+        m_InteractionWorker.SetInitialInGameData(_packet, _interationInitDatas);
     }
     #endregion
 }

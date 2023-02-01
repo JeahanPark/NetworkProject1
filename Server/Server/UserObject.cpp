@@ -47,7 +47,5 @@ void UserObject::Update()
 
 void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 {
-
-
 	SettingInteractionPacket(_packet);
 }
