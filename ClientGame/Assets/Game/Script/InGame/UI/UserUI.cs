@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class UserUI : MonoBehaviour
 {
-    private Text m_txtNickName = null;
+    private TextMeshProUGUI m_txtNickName = null;
     private Transform m_tranTarget = null;
 
     public void Initialize(Transform _target)
@@ -14,7 +15,7 @@ public class UserUI : MonoBehaviour
 
     private void Awake()
     {
-        m_txtNickName = transform.Find<Text>("Text_NickName");
+        m_txtNickName = transform.Find<TextMeshProUGUI>("Text_NickName");
     }
 
     private void Update()

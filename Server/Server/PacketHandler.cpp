@@ -352,7 +352,9 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 
 		InitialInGameData* packet = (InitialInGameData*)pSendBuffer->GetSendBufferAdress(startBuffer);
 
-		UserObject* user = (UserObject*)iter->GetUserInteraction().get();
+		s_InteractionObejct object = iter->GetUserInteraction();
+
+		UserObject* user = static_cast<UserObject*>(object.get());
 		user->SettingInitialInGameDataPacket(packet);
 
 		++ingameIndex;
