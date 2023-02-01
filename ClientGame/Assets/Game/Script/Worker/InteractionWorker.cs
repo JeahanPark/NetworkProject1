@@ -27,12 +27,49 @@ public class InteractionWorker : MonoBehaviour
 
         m_ActiveObject = new LinkedList<InteractionObject>();
     }
+    public void SetInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)
+    {
+        for (int i = 0; i < _interationInitDatas.Length; ++i)
+        {
+            InteractionData data = _interationInitDatas[i].m_UserData;
+            var begine = m_ActiveObject.First;
 
-    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionPacketData[] _interactionPacketDatas)
+            InteractionObject interaction = null;
+            for (var iter = begine; iter != null;)
+            {
+                // 같은 
+                if (iter.Value.IsSameInteraction(data))
+                {
+                    interaction = iter.Value;
+
+                    // Update
+                    interaction.UpdateInteraction(data);
+
+                    break;
+                }
+
+                iter = iter.Next;
+            }
+
+            if (interaction == null)
+            {
+                // 없으면 만들어줘야됌
+                interaction = CreateInteraction(data);
+            }
+
+            UserObject user = interaction as UserObject;
+
+            user.SetInitialUserData(_interationInitDatas[i].m_strNickName);
+
+        }
+    }
+
+
+    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionData[] _interactionPacketDatas)
     {
         for ( int i = 0; i < _interactionPacketDatas.Length; ++i)
         {
-            InteractionPacketData data = _interactionPacketDatas[i];
+            InteractionData data = _interactionPacketDatas[i];
             var begine = m_ActiveObject.First;
 
             InteractionObject interaction = null;
@@ -66,7 +103,7 @@ public class InteractionWorker : MonoBehaviour
         }
     }
 
-    private InteractionObject CreateInteraction(InteractionPacketData _data)
+    private InteractionObject CreateInteraction(InteractionData _data)
     {
         InteractionObject interactionObject = null;
 
@@ -75,7 +112,7 @@ public class InteractionWorker : MonoBehaviour
             case eInteractionType.User:
                 {
                     if(m_poolUserObject.Count == 0)
-                        interactionObject = Instantiate<UserObject>(m_originUser);
+                        interactionObject = CreateUser();
                     else
                         interactionObject = m_poolUserObject.Dequeue();
                 }
@@ -92,6 +129,16 @@ public class InteractionWorker : MonoBehaviour
         interactionObject.gameObject.SetActive(true);
 
         return interactionObject;
+    }
+
+    private UserObject CreateUser()
+    {
+        if (m_originUser == null)
+            return null;
+
+        UserObject user = Instantiate<UserObject>(m_originUser);
+
+        return user;
     }
 
     private void DeleteInteraction(LinkedListNode<InteractionObject> _interaction)

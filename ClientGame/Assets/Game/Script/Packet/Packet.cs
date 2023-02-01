@@ -21,7 +21,8 @@ public enum ePacketType
 	SToC_PacketResult,
 	SToC_LoginResult,
 	SToC_InGameUpdate,
-	//STOC_InGameEnter_Success,
+	SToC_InitialInGameData,
+	SToC_NewUserInteraction,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -154,7 +155,7 @@ public struct SignalPacket
 };
 
 [StructLayout(LayoutKind.Sequential)]
-public struct InteractionPacketData
+public struct InteractionData
 {
 	public int							m_iInteractionIndex;
 	public eInteractionType				m_eType;
@@ -182,6 +183,26 @@ public struct InGameEnterSuccess
 };
 [StructLayout(LayoutKind.Sequential)]
 public struct MyUserMovePacket
+{
+	public Vector3 m_vDir;
+	public float m_fMoveSpeed;
+};
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public struct InitialInGameData
+{
+	public InteractionData m_UserData;
+
+	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+	public string m_strNickName;
+};
+[StructLayout(LayoutKind.Sequential)]
+public struct InitialInGameDataPacket
+{
+	public int m_iMyInteractionIndex;
+	public int m_iUserCount;
+};
+[StructLayout(LayoutKind.Sequential)]
+public struct NewUserPacket
 {
 	public Vector3 m_vDir;
 	public float m_fMoveSpeed;

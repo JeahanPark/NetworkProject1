@@ -48,7 +48,6 @@ public class InGameController : MonoDestroySingleton<InGameController>
     }
 
 
-
     #region PacketSend
     public void SendMyUserMove(Vector3 _vDir, float _fMoveSpeed)
     {
@@ -62,9 +61,14 @@ public class InGameController : MonoDestroySingleton<InGameController>
     #endregion
 
     #region PacketReceive
-    public void ReceiveInGameUpdate(InGameUpdatePacket _packet, InteractionPacketData[] _interactionPacketDatas)
+    public void ReceiveInGameUpdate(InGameUpdatePacket _packet, InteractionData[] _interactionPacketDatas)
     {
         m_InteractionWorker.UpdateInteraction(_packet, _interactionPacketDatas);
+    }
+
+    public void ReceiveInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)
+    {
+
     }
     #endregion
 }

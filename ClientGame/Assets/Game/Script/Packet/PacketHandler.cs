@@ -28,8 +28,21 @@ public static class PacketHandler
 				LobbyController.Instance.ReceiveLoginResult(LoginResult);
 				break;
 			case ePacketType.SToC_InGameUpdate:
-				var packet = Packet.BufferToPacket<InGameUpdatePacket, InteractionPacketData>(_buffer, _iHeaderSize);
-				InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
+                {
+					var packet = Packet.BufferToPacket<InGameUpdatePacket, InteractionData>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
+				}
+				break;
+			case ePacketType.SToC_NewUserInteraction:
+                {
+
+					//InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
+				}
+				break;
+			case ePacketType.SToC_InitialInGameData:
+                {
+					var packet = Packet.BufferToPacket<InitialInGameDataPacket, InitialInGameData>(_buffer, _iHeaderSize);
+				}
 				break;
 				//case ePacketType.STOC_InGameEnter_Success:
 				//	InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHeaderSize);

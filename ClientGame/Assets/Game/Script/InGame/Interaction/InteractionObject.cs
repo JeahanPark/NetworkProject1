@@ -9,7 +9,15 @@ public class InteractionObject : MonoBehaviour
 
     }
 
-    protected List<BaseInteractionComponent> m_lisInteractionComponent = new List<BaseInteractionComponent>();
+    protected Dictionary<eInteractionCom, BaseInteractionComponent> m_dicInteractionComponent = new Dictionary<eInteractionCom, BaseInteractionComponent>();
+
+    public Dictionary<eInteractionCom, BaseInteractionComponent> InteractionComponents
+    {
+        get
+        {
+            return m_dicInteractionComponent;
+        }
+    }
 
     protected eInteractionType m_eInteractionType = eInteractionType.None;
     protected int m_iInteractionIndex = EnumType.InteractionIndexNone;
@@ -32,12 +40,14 @@ public class InteractionObject : MonoBehaviour
         }
     }
 
-    protected virtual void CraeteComponent()
+    private void Awake()
     {
-        m_lisInteractionComponent.Add(new InfoCom());
+        CreateComponent();
+
+        InitComponent();
     }
 
-    public bool IsSameInteraction(InteractionPacketData _interactionPacketData)
+    public bool IsSameInteraction(InteractionData _interactionPacketData)
     {
         //Debug.Log(_interactionPacketData.m_eType.ToString() + ","
         //    + GetInteractionType.ToString() + "," 
@@ -55,10 +65,9 @@ public class InteractionObject : MonoBehaviour
     // 더이상 사용하지않아 풀로 들어갈때 함수호출
     public virtual void Clear()
     {
-
     }
 
-    public void UpdateInteraction(InteractionPacketData _InteractionData)
+    public void UpdateInteraction(InteractionData _InteractionData)
     {
         transform.position = _InteractionData.m_vPos;
         m_vMoveTarget = _InteractionData.m_vPos;
@@ -66,7 +75,22 @@ public class InteractionObject : MonoBehaviour
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
     }
 
+    protected virtual void CreateComponent()
+    {
+    }
 
+    private void InitComponent()
+    {
+        foreach (var data in m_dicInteractionComponent)
+        {
+            data.Value.InitComponent();
+        }
+    }
+
+    protected void AddDicInteractionComponent(BaseInteractionComponent _baseInteractionComponent)
+    {
+        m_dicInteractionComponent.Add(_baseInteractionComponent.InteractionComType, _baseInteractionComponent);
+    }
 
     public bool IsDelete()
     {
@@ -75,7 +99,7 @@ public class InteractionObject : MonoBehaviour
 
     
 
-    private void Update()
+    protected virtual void Update()
     {
         if (m_fMoveSpeed > 0)
         {
