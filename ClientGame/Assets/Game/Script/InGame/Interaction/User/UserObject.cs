@@ -12,16 +12,6 @@ public class UserObject : InteractionObject
         }
     }
 
-    public override void Initialize(eInteractionType _eInteractionType, int _iInteractionIndex)
-    {
-        base.Initialize(_eInteractionType, _iInteractionIndex);
-
-        if(MyInteraction)
-        {
-            InGameController.Instance.SetMyInteraction(this);
-        }
-    }
-
     public void SetInitialUserData(string _strNickName)
     {
         UserInfoCom info = GetInteractionCom<UserInfoCom>(eInteractionCom.UserInfo);

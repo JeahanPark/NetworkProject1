@@ -12,6 +12,16 @@ public class UserUI : MonoBehaviour
     {
         m_tranTarget = _target;
     }
+    public void InitializeUI(string _strNickName)
+    {
+        m_txtNickName.text = _strNickName;
+    }
+
+    public void ClearData()
+    {
+        m_tranTarget = null;
+        m_txtNickName.text = string.Empty;
+    }
 
     private void Awake()
     {
@@ -26,10 +36,7 @@ public class UserUI : MonoBehaviour
         transform.position = Camera.main.WorldToScreenPoint(m_tranTarget.position);
     }
 
-    public void InitializeUI(string _strNickName)
-    {
-        m_txtNickName.text = _strNickName;
-    }
+
 
     private void RefreshUI()
     {

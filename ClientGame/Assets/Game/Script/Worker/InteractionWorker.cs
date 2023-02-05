@@ -61,6 +61,12 @@ public class InteractionWorker : MonoBehaviour
 
             user.SetInitialUserData(_interationInitDatas[i].m_strNickName);
 
+            // 내꺼다
+            if(user.GetInteractionIndex == _packet.m_iMyInteractionIndex)
+            {
+                // 워커에 세팅해준다.
+                InGameController.Instance.SetMyInteraction(user);
+            }
         }
     }
 

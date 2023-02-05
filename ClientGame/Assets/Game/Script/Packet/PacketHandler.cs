@@ -45,10 +45,6 @@ public static class PacketHandler
 					InGameController.Instance.ReceiveInitialInGameData(packet.Item1, packet.Item2);
 				}
 				break;
-				//case ePacketType.STOC_InGameEnter_Success:
-				//	InGameEnterSuccess inGameEnterSuccess = Packet.BufferToPacket<InGameEnterSuccess>(_buffer, _iHeaderSize);
-				//	LobbyController.Instance.ReceiveInGameEnter(inGameEnterSuccess);
-				//	break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)

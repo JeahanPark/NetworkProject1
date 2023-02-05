@@ -14,7 +14,9 @@ public class UICom : BaseInteractionComponent
     {
         base.InitComponent();
 
-        m_UserUI = InGameController.Instance.GetInGameUIWorker.CreateUIUser(m_ownerInteraction);
+        m_UserUI = InGameController.Instance.GetInGameUIWorker.CreateUIUser(m_ownerInteraction.GetInteractionIndex);
+
+        m_UserUI.Initialize(m_ownerInteraction.transform);
     }
 
     public override void ClearComponent()

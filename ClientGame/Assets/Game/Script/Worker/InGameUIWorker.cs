@@ -5,7 +5,8 @@ using UnityEngine;
 public class InGameUIWorker : MonoBehaviour
 {
     private UserUI m_uiUserOgirin = null;
-    private RectTransform m_tranWorldUIParent = null;
+    private Transform m_tranWorldUIParent = null;
+    private Transform m_tranUnUseUIParent = null;
 
     private Queue<UserUI> m_poolUserUI = null;
     private Dictionary<int, UserUI> m_dicActiveUserUI = null;
@@ -15,14 +16,17 @@ public class InGameUIWorker : MonoBehaviour
         InGameController.Instance.SetInGameUIWorker(this);
 
         m_uiUserOgirin = transform.Find<UserUI>("OriginUI/OriginUserUI");
+        m_uiUserOgirin.gameObject.SetActive(false);
 
-        m_tranWorldUIParent = transform as RectTransform;
+        m_tranWorldUIParent = transform;
+        m_tranUnUseUIParent = transform.Find<Transform>("UnUseUI");
+        m_tranUnUseUIParent.gameObject.SetActive(false);
 
         m_poolUserUI = new Queue<UserUI>();
         m_dicActiveUserUI = new Dictionary<int, UserUI>();
     }
 
-    public UserUI CreateUIUser(InteractionObject _userObject)
+    public UserUI CreateUIUser(int _iUserInteraction)
     {
         UserUI uIUser = null;
 
@@ -36,8 +40,19 @@ public class InGameUIWorker : MonoBehaviour
 
         
 
-        m_dicActiveUserUI.Add(_userObject.GetInteractionIndex, uIUser);
+        m_dicActiveUserUI.Add(_iUserInteraction, uIUser);
 
         return uIUser;
+    }
+
+    public void PopUIUser(int _iUserInteraction)
+    {
+        UserUI ui = null;
+        if(m_dicActiveUserUI.TryGetValue(_iUserInteraction, out ui))
+        {
+            m_dicActiveUserUI.Remove(_iUserInteraction);
+            m_poolUserUI.Enqueue(ui);
+            ui.transform.parent = m_tranUnUseUIParent;
+        }
     }
 }

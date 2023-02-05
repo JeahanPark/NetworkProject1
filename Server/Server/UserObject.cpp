@@ -48,5 +48,6 @@ void UserObject::Update()
 
 void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 {
+	wcscpy_s(_packet->m_UserID, USER_ID_LENGTH, m_UserData.GetUserID());
 	SettingInteractionPacket(_packet);
 }

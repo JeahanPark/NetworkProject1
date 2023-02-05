@@ -26,6 +26,9 @@ public class InGameMyWorker : MonoBehaviour
 
         // 카메라 타겟 세팅
         m_MyCamera.SetTarget(_user == null ? null : _user.transform);
+
+        // 데이터 세팅
+        DataManager.Instance.SetInteractionUserData(_user.GetInteractionIndex, _user.GetInteractionType);
     }
 
     public void UserMove(Vector3 _vDir, float _fMoveSpeed)
