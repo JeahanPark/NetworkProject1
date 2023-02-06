@@ -27,6 +27,8 @@ public class InteractionObject : MonoBehaviour
 
     protected Vector3 m_vMoveTarget;
 
+    protected bool m_bValidLife = false;
+
     public T GetInteractionCom<T>(eInteractionCom _eInteractionCom) where T : BaseInteractionComponent
     {
         BaseInteractionComponent baseInteractionComponent = null;
@@ -40,19 +42,20 @@ public class InteractionObject : MonoBehaviour
         get { return m_eInteractionType; }
     }
 
+    public bool GetValidLife
+    {
+        get
+        {
+            return m_bValidLife;
+        }
+    }
+
     public int GetInteractionIndex
     {
         get
         {
             return m_iInteractionIndex;
         }
-    }
-
-    private void Awake()
-    {
-        CreateComponent();
-
-        InitComponent();
     }
 
     public bool IsSameInteraction(InteractionData _interactionPacketData)
@@ -68,6 +71,12 @@ public class InteractionObject : MonoBehaviour
     {
         m_eInteractionType = _eInteractionType;
         m_iInteractionIndex = _iInteractionIndex;
+
+        // 컴포넌트가 비어있으면 생성해준다.
+        if(dicInteractionComponents.Count == 0)
+            CreateComponent();
+
+        InitComponent();
     }
 
     // 더이상 사용하지않아 풀로 들어갈때 함수호출
@@ -85,6 +94,8 @@ public class InteractionObject : MonoBehaviour
         m_vMoveTarget = _InteractionData.m_vPos;
         m_vMoveDir = _InteractionData.m_vDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
+
+        m_bValidLife = _InteractionData.m_ValidLife;
     }
 
     protected virtual void CreateComponent()
@@ -102,11 +113,6 @@ public class InteractionObject : MonoBehaviour
     protected void AddDicInteractionComponent(BaseInteractionComponent _baseInteractionComponent)
     {
         m_dicInteractionComponent.Add(_baseInteractionComponent.InteractionComType, _baseInteractionComponent);
-    }
-
-    public bool IsDelete()
-    {
-        return false;
     }
 
     

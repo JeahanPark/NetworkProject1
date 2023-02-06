@@ -33,7 +33,10 @@ public class UserUI : MonoBehaviour
         if (m_tranTarget == null)
             return;
 
-        transform.position = Camera.main.WorldToScreenPoint(m_tranTarget.position);
+
+        Vector3 dir = (m_tranTarget.position - Camera.main.transform.position).normalized;
+
+        transform.position = Camera.main.transform.position + dir * 1;
     }
 
 

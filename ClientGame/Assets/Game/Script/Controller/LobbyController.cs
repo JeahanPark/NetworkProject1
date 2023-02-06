@@ -19,7 +19,9 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     {
         yield return null;
 
+#if UNITY_EDITOR
         AutoLogin();
+#endif
     }
 
     // 테스트 코드

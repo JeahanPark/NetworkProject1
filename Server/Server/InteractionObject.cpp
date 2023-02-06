@@ -22,4 +22,5 @@ void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)
 	_packet->m_vPos = m_transform->GetPos();
 	_packet->m_fMoveSpeed = m_transform->GetMoveSpeed();
 	_packet->m_vDir = m_transform->GetYAxisDir();
+	_packet->m_bValidLife = m_bVaildLife;
 }

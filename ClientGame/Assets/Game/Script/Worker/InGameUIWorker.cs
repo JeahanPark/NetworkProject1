@@ -18,8 +18,8 @@ public class InGameUIWorker : MonoBehaviour
         m_uiUserOgirin = transform.Find<UserUI>("OriginUI/OriginUserUI");
         m_uiUserOgirin.gameObject.SetActive(false);
 
-        m_tranWorldUIParent = transform;
-        m_tranUnUseUIParent = transform.Find<Transform>("UnUseUI");
+        m_tranWorldUIParent = transform.Find("WorldUI");
+        m_tranUnUseUIParent = transform.Find("UnUseUI");
         m_tranUnUseUIParent.gameObject.SetActive(false);
 
         m_poolUserUI = new Queue<UserUI>();

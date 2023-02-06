@@ -22,6 +22,10 @@ public class UICom : BaseInteractionComponent
     public override void ClearComponent()
     {
         base.ClearComponent();
+
+        InGameController.Instance.GetInGameUIWorker.PopUIUser(m_ownerInteraction.GetInteractionIndex);
+        m_UserUI.ClearData();
+        m_UserUI = null;
     }
 
     public void InitUI(string _strNickName)

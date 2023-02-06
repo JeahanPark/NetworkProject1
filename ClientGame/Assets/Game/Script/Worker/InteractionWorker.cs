@@ -89,9 +89,10 @@ public class InteractionWorker : MonoBehaviour
                     // Update
                     interaction.UpdateInteraction(data);
                     
-                    // 삭제
-                    if (interaction.IsDelete())
+                    // 더이상 유효하지 않은 객체다.
+                    if (!interaction.GetValidLife)
                     {
+                        // 삭제
                         DeleteInteraction(iter);
                     }
                     break;
