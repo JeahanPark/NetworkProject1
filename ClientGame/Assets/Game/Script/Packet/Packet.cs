@@ -159,10 +159,19 @@ public struct InteractionData
 {
 	public int							m_iInteractionIndex;
 	public eInteractionType				m_eType;
-	public bool							m_ValidLife;
+	private byte						m_ValidLife;
 	public Vector3						m_vPos;
 	public Vector3						m_vDir;
 	public float						m_fMoveSpeed;
+
+	public bool	VaildLife
+    {
+		get
+        {
+			return m_ValidLife == 0 ? false : true;
+
+		}
+    }
 };
 
 [StructLayout(LayoutKind.Sequential)]
@@ -209,8 +218,7 @@ public struct InitialInGameDataPacket : PacketListCount
 [StructLayout(LayoutKind.Sequential)]
 public struct NewUserPacket
 {
-	public Vector3 m_vDir;
-	public float m_fMoveSpeed;
+	public InitialInGameData InitData;
 };
 public class Packet
 {

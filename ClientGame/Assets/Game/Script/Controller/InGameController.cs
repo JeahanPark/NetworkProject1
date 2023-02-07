@@ -76,5 +76,10 @@ public class InGameController : MonoDestroySingleton<InGameController>
     {
         m_InteractionWorker.SetInitialInGameData(_packet, _interationInitDatas);
     }
+
+    public void ReceiveNewUser(NewUserPacket _packet)
+    {
+        m_InteractionWorker.AddNewUser(_packet);
+    }
     #endregion
 }

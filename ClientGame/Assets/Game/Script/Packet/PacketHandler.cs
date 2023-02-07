@@ -35,10 +35,10 @@ public static class PacketHandler
 				break;
 			case ePacketType.SToC_NewUserInteraction:
                 {
-
-					//InGameController.Instance.ReceiveInGameUpdate(packet.Item1, packet.Item2);
-				}
-				break;
+					var packet = Packet.BufferToPacket<NewUserPacket>(_buffer, _iHeaderSize);
+                    InGameController.Instance.ReceiveNewUser(packet);
+                }
+                break;
 			case ePacketType.SToC_InitialInGameData:
                 {
 					var packet = Packet.BufferToPacket<InitialInGameDataPacket, InitialInGameData>(_buffer, _iHeaderSize);

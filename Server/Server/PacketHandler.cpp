@@ -385,7 +385,10 @@ void PacketHandler::AddUserInteraction(s_InGameObject _newUser, s_ServerSession 
 	packet->m_PakcetType = ePacketType::SToC_NewUserInteraction;
 	packet->m_iSize = sizeof(NewUserPacket);
 
-	_newUser->GetUserInteraction()->SettingInteractionPacket(&packet->InitData);
+	s_InteractionObejct object = _newUser->GetUserInteraction();
+
+	UserObject* user = static_cast<UserObject*>(object.get());
+	user->SettingInitialInGameDataPacket(&packet->InitData);
 
 	_session->RegisterSend(pSendBuffer);
 }

@@ -52,7 +52,7 @@ public class InGameUIWorker : MonoBehaviour
         {
             m_dicActiveUserUI.Remove(_iUserInteraction);
             m_poolUserUI.Enqueue(ui);
-            ui.transform.parent = m_tranUnUseUIParent;
+            ui.transform.SetParent(m_tranUnUseUIParent, false);
         }
     }
 }

@@ -95,7 +95,7 @@ public class InteractionObject : MonoBehaviour
         m_vMoveDir = _InteractionData.m_vDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
 
-        m_bValidLife = _InteractionData.m_ValidLife;
+        m_bValidLife = _InteractionData.VaildLife;
     }
 
     protected virtual void CreateComponent()

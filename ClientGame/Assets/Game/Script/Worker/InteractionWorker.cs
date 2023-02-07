@@ -27,6 +27,39 @@ public class InteractionWorker : MonoBehaviour
 
         m_ActiveObject = new LinkedList<InteractionObject>();
     }
+    public void AddNewUser(NewUserPacket _packet)
+    {
+        InteractionData data = _packet.InitData.m_UserData;
+        var begine = m_ActiveObject.First;
+
+        InteractionObject interaction = null;
+        for (var iter = begine; iter != null;)
+        {
+            // 같은 
+            if (iter.Value.IsSameInteraction(data))
+            {
+                interaction = iter.Value;
+
+                // Update
+                interaction.UpdateInteraction(data);
+
+                break;
+            }
+
+            iter = iter.Next;
+        }
+
+        if (interaction == null)
+        {
+            // 없으면 만들어줘야됌
+            interaction = CreateInteraction(data);
+        }
+
+        UserObject user = interaction as UserObject;
+
+        user.SetInitialUserData(_packet.InitData.m_strNickName);
+    }
+
     public void SetInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)
     {
         for (int i = 0; i < _interationInitDatas.Length; ++i)
