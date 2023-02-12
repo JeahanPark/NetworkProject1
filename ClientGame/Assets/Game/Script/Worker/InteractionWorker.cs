@@ -40,9 +40,6 @@ public class InteractionWorker : MonoBehaviour
             {
                 interaction = iter.Value;
 
-                // Update
-                interaction.UpdateInteraction(data);
-
                 break;
             }
 
@@ -54,6 +51,8 @@ public class InteractionWorker : MonoBehaviour
             // 없으면 만들어줘야됌
             interaction = CreateInteraction(data);
         }
+
+        interaction.UpdateInteraction(data, 0);
 
         UserObject user = interaction as UserObject;
 
@@ -74,10 +73,6 @@ public class InteractionWorker : MonoBehaviour
                 if (iter.Value.IsSameInteraction(data))
                 {
                     interaction = iter.Value;
-
-                    // Update
-                    interaction.UpdateInteraction(data);
-
                     break;
                 }
 
@@ -89,6 +84,8 @@ public class InteractionWorker : MonoBehaviour
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
             }
+
+            interaction.UpdateInteraction(data, 0);
 
             UserObject user = interaction as UserObject;
 
@@ -104,7 +101,7 @@ public class InteractionWorker : MonoBehaviour
     }
 
 
-    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionData[] _interactionPacketDatas)
+    public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionData[] _interactionPacketDatas, float _fUpdateLatency)
     {
         for ( int i = 0; i < _interactionPacketDatas.Length; ++i)
         {
@@ -118,9 +115,6 @@ public class InteractionWorker : MonoBehaviour
                 if (iter.Value.IsSameInteraction(data))
                 {
                     interaction = iter.Value;
-
-                    // Update
-                    interaction.UpdateInteraction(data);
                     
                     // 더이상 유효하지 않은 객체다.
                     if (!interaction.GetValidLife)
@@ -140,6 +134,8 @@ public class InteractionWorker : MonoBehaviour
                 interaction = CreateInteraction(data);
             }
 
+            // Update
+            interaction.UpdateInteraction(data, _fUpdateLatency);
         }
     }
 
@@ -162,9 +158,6 @@ public class InteractionWorker : MonoBehaviour
 
         // 초기화
         interactionObject.Initialize(_data.m_eType, _data.m_iInteractionIndex);
-
-        // Update
-        interactionObject.UpdateInteraction(_data);
 
         interactionObject.gameObject.SetActive(true);
 

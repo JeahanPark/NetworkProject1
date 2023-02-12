@@ -27,13 +27,19 @@ public class InGameController : MonoDestroySingleton<InGameController>
         packet.m_ePacketSignal = ePacketSignal.Signal_InitialInGameData;
 
         Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
+
+        _fUpdateLatency = 0;
     }
 
     private void Start()
     {
         Init();
     }
-
+    private float _fUpdateLatency = 0;
+    private void Update()
+    {
+        _fUpdateLatency += Time.deltaTime;
+    }
     public void SetInteractionWorker(InteractionWorker _interactionWorker)
     {
         m_InteractionWorker = _interactionWorker;
@@ -69,7 +75,8 @@ public class InGameController : MonoDestroySingleton<InGameController>
     #region PacketReceive
     public void ReceiveInGameUpdate(InGameUpdatePacket _packet, InteractionData[] _interactionPacketDatas)
     {
-        m_InteractionWorker.UpdateInteraction(_packet, _interactionPacketDatas);
+        m_InteractionWorker.UpdateInteraction(_packet, _interactionPacketDatas, _fUpdateLatency * 0.5f);
+        _fUpdateLatency = 0;
     }
 
     public void ReceiveInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)

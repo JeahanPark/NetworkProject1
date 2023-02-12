@@ -25,10 +25,12 @@ public class InteractionObject : MonoBehaviour
     protected Vector3 m_vMoveDir;
     protected float m_fMoveSpeed;
 
-    protected Vector3 m_vMoveTarget;
-
     protected bool m_bValidLife = false;
 
+    protected bool m_bDeadRackoningMove = false;
+    protected Vector3 m_vDeadRackoningPos;
+    protected Vector3 m_vDeadRackoningDir;
+    protected const float m_fDeadRackoningDeltaTime = 0.1f;
     public T GetInteractionCom<T>(eInteractionCom _eInteractionCom) where T : BaseInteractionComponent
     {
         BaseInteractionComponent baseInteractionComponent = null;
@@ -69,6 +71,8 @@ public class InteractionObject : MonoBehaviour
     }
     public virtual void Initialize(eInteractionType _eInteractionType, int _iInteractionIndex)
     {
+        m_bDeadRackoningMove = false;
+
         m_eInteractionType = _eInteractionType;
         m_iInteractionIndex = _iInteractionIndex;
 
@@ -88,14 +92,18 @@ public class InteractionObject : MonoBehaviour
         }
     }
 
-    public void UpdateInteraction(InteractionData _InteractionData)
+    public virtual void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
     {
-        transform.position = _InteractionData.m_vPos;
-        m_vMoveTarget = _InteractionData.m_vPos;
+        //transform.position = _InteractionData.m_vPos;
         m_vMoveDir = _InteractionData.m_vDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
 
         m_bValidLife = _InteractionData.VaildLife;
+
+        m_bDeadRackoningMove = true;
+        m_vDeadRackoningPos = _InteractionData.m_vPos + m_vMoveDir * _fUpdateLatency;
+        m_vDeadRackoningDir = m_vDeadRackoningPos - transform.position;
+        m_vDeadRackoningDir.Normalize();
     }
 
     protected virtual void CreateComponent()
@@ -119,12 +127,28 @@ public class InteractionObject : MonoBehaviour
 
     protected virtual void Update()
     {
+        // 이동해야한다.
         if (m_fMoveSpeed > 0)
         {
-            transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
+            // 데드레커닝 이동이 우선
+            if (m_bDeadRackoningMove)
+            {
+                // 데드레커닝으로 구한 위치로 움직인다.
+                transform.position += m_vDeadRackoningDir * m_fDeadRackoningDeltaTime;
 
-
-            m_fMoveSpeed -= 1 * Time.deltaTime;
+                if ((transform.position - m_vDeadRackoningPos).magnitude < 1f)
+                {
+                    m_bDeadRackoningMove = false;
+                }
+            }
+            else
+            {
+                transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
+                m_fMoveSpeed -= 1 * Time.deltaTime;
+            }
         }
+        else
+            m_bDeadRackoningMove = false;
+
     }
 }
