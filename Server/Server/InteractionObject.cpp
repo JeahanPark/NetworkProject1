@@ -1,18 +1,23 @@
 #include "pch.h"
 #include "InteractionObject.h"
 #include "Transform.h"
+#include "Collision.h"
+
+static int m_gInteractionIndex = 0;
 
 InteractionObject::InteractionObject() : 
 	m_eType(eInteractionType::None),
 	m_transform(new Transform()),
-	m_iInteractionIndex{-1},
-	m_bVaildLife(true)
+	m_iInteractionIndex{m_gInteractionIndex++},
+	m_bVaildLife(true),
+	m_collision(new Collision(shared_from_this()))
 {
 }
 
 InteractionObject::~InteractionObject()
 {
 	delete m_transform;
+	delete m_collision;
 }
 
 void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)

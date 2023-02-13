@@ -6,7 +6,7 @@ public:
 	~State();
 
 public:
-	const float& GetSpeed() { return m_fSpeed; }
+	const float&	GetSpeed() { return m_fSpeed; }
 
 private:
 	float m_fSpeed;

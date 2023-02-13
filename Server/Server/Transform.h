@@ -11,8 +11,8 @@ public:
 	void Update();
 public:
 	const XMFLOAT3& GetPos() { return m_vPos; }
-	const float& GetMoveSpeed() { return m_fMoveSpeed; }
 	const XMFLOAT3& GetYAxisDir() { return m_vYAxisDir; }
+	float GetMoveSpeed() { return m_fMoveSpeed; }
 private:
 	float m_fMoveSpeed;
 

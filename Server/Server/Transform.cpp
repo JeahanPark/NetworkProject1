@@ -2,7 +2,7 @@
 #include "Transform.h"
 
 Transform::Transform() :
-	m_vPos{0,0,0}, m_fScale{0}, m_vYAxisDir{0,0,0}, m_fMoveSpeed{0}
+	m_vPos{0,0,0}, m_fScale{2}, m_vYAxisDir{0,0,0}, m_fMoveSpeed{0}
 {
 }
 

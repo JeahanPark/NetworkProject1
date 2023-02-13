@@ -13,6 +13,8 @@ public:
  
 	void AddDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
 	void ClearDeleteInteraction();
+
+	void AllCollisionUpdate();
 	void AllUpdateInteractionObject();
 
 private:

@@ -2,6 +2,8 @@
 #include "InteractionManager.h"
 #include "InteractionObject.h"
 #include "UserObject.h"
+#include "Collision.h"
+
 InteractionManager::~InteractionManager()
 {
 	m_lisInteraction.clear();
@@ -48,10 +50,30 @@ void InteractionManager::ClearDeleteInteraction()
 	m_lisDeleteInteraction.clear();
 }
 
+void InteractionManager::AllCollisionUpdate()
+{
+	LockGuard lock(m_lockInteraction);
+	auto iter = m_lisInteraction.begin();
+	while (iter != m_lisInteraction.end())
+	{
+
+	}
+}
+
 void InteractionManager::AllUpdateInteractionObject()
 {
 	LockGuard lock(m_lockInteraction);
 	auto iter = m_lisInteraction.begin();
+	// 충돌 검사하기
+	while (iter != m_lisInteraction.end())
+	{
+		s_InteractionObejct object = *iter;
+
+		object->GetCollision()->Update(m_lisInteraction);
+	}
+
+	iter = m_lisInteraction.begin();
+	// 인터렉션 Update할것들 하기
 	while (iter != m_lisInteraction.end())
 	{
 		s_InteractionObejct object = *iter;

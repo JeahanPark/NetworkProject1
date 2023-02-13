@@ -10,7 +10,6 @@ UserObject::UserObject(s_UserController _uerController, const UserData* _userDat
 		m_UserData(*_userData)
 {
 	m_eType = eInteractionType::User;
-	m_iInteractionIndex = m_UserData.GetUserIndex();
 }
 
 UserObject::~UserObject()

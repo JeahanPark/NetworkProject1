@@ -50,6 +50,9 @@
     <ClCompile Include="State.cpp">
       <Filter>InGame\Component\State</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>InGame\Component\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -102,6 +105,9 @@
       <Filter>InGame\Component\State</Filter>
     </ClInclude>
     <ClInclude Include="InGamePacketDatah.h" />
+    <ClInclude Include="Collision.h">
+      <Filter>InGame\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
@@ -136,6 +142,9 @@
     </Filter>
     <Filter Include="Session">
       <UniqueIdentifier>{48b05756-bba2-4309-aab3-1b8d036ac60d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\Collision">
+      <UniqueIdentifier>{df9fca3a-5072-4c2d-ade3-e56b574761f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
