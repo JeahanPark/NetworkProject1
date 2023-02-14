@@ -318,7 +318,7 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	// 나의 interactionObject를 생성한다.
 	int iMyUserIndex = _session->GetUserData()->GetUserIndex();
 	s_InGameObject myIngameObject = InGameManager::GetInstance()->GetInGameObject(iMyUserIndex);
-	s_InteractionObejct user = InteractionManager::GetInstance()->CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
+	s_InteractionObejct user = InteractionManager::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
 
 	myIngameObject->SetUser(user);
 	// s_InteractionObejct를 생성하고 바로 리스트에 넣으면 Update에서 보낼수도있어서 안됌

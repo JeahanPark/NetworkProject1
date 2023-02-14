@@ -8,6 +8,8 @@ class InteractionObject : public enable_shared_from_this<InteractionObject>
 public:
 	InteractionObject();
 	virtual ~InteractionObject();
+
+	void Init();
 	void virtual Update() = 0;
 
 public:

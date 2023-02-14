@@ -50,6 +50,8 @@ public class InteractionWorker : MonoBehaviour
         {
             // 없으면 만들어줘야됌
             interaction = CreateInteraction(data);
+            if (interaction == null)
+                return;
         }
 
         interaction.UpdateInteraction(data, 0);
@@ -83,6 +85,8 @@ public class InteractionWorker : MonoBehaviour
             {
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
+                if (interaction == null)
+                    continue;
             }
 
             interaction.UpdateInteraction(data, 0);
@@ -132,6 +136,8 @@ public class InteractionWorker : MonoBehaviour
             {
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
+                if (interaction == null)
+                    continue;
             }
 
             // Update
@@ -153,7 +159,16 @@ public class InteractionWorker : MonoBehaviour
                         interactionObject = m_poolUserObject.Dequeue();
                 }
                 break;
+            case eInteractionType.AttackDummy:
+                {
+                    Instantiate<UserObject>(m_originUser);
+                }
+                break;
         }
+
+        if (interactionObject == null)
+            return null;
+
         m_ActiveObject.AddLast(interactionObject);
 
         // 초기화

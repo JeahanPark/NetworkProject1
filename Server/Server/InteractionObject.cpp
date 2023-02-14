@@ -9,9 +9,10 @@ InteractionObject::InteractionObject() :
 	m_transform(new Transform()),
 	m_iInteractionIndex{m_gInteractionIndex++},
 	m_bVaildLife(true),
-	m_collision(new Collision(shared_from_this())),
-	m_state(new State())
+	m_state(new State()),
+	m_collision(nullptr)
 {
+	
 }
 
 InteractionObject::~InteractionObject()
@@ -19,6 +20,11 @@ InteractionObject::~InteractionObject()
 	delete m_transform;
 	delete m_collision;
 	delete m_state;
+}
+
+void InteractionObject::Init()
+{
+	m_collision = new Collision(shared_from_this());
 }
 
 void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)

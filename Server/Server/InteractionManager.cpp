@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "InteractionManager.h"
 #include "InteractionObject.h"
-#include "UserObject.h"
 #include "Collision.h"
+
+#include "UserObject.h"
+#include "AttackDummy.h"
 
 InteractionManager::~InteractionManager()
 {
@@ -12,6 +14,15 @@ InteractionManager::~InteractionManager()
 s_InteractionObejct InteractionManager::CreateUserInteraction(s_UserController _userController, const UserData* _userData)
 {
 	s_InteractionObejct interaction = make_shared<UserObject>(_userController, _userData);
+	interaction->Init();
+
+	return interaction;
+}
+
+s_InteractionObejct InteractionManager::CreateDummyInteraction(const XMFLOAT3& _startPos)
+{
+	s_InteractionObejct interaction = make_shared<AttackDummy>(_startPos);
+	interaction->Init();
 
 	return interaction;
 }
@@ -21,6 +32,16 @@ void InteractionManager::AddInteractionObject(s_InteractionObejct _interaction)
 	LockGuard lock(m_lockInteraction);
 
 	m_lisInteraction.push_back(_interaction);
+}
+
+void InteractionManager::AddListInteractionObejct(const list<s_InteractionObejct>& _lisInteraction)
+{
+	LockGuard lock(m_lockInteraction);
+	for (auto iter : _lisInteraction)
+	{
+		m_lisInteraction.push_back(iter);
+	}
+	
 }
 
 void InteractionManager::GetUserInteractionList(list<s_InteractionObejct>& _lisUserInteracction)
@@ -60,6 +81,8 @@ void InteractionManager::AllUpdateInteractionObject()
 		s_InteractionObejct object = *iter;
 
 		object->GetCollision()->Update(m_lisInteraction);
+
+		++iter;
 	}
 
 	iter = m_lisInteraction.begin();

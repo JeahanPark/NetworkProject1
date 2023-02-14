@@ -4,7 +4,8 @@ using UnityEngine;
 public enum eInteractionType
 {
     None,
-    User
+    User,
+    AttackDummy
 }
 
 public static class EnumType

@@ -16,4 +16,5 @@
 #include "InGameManager.h"
 #include "InteractionManager.h"
 #include "InGameUpdateManager.h"
+#include "ContentsManager.h"
 // 서버 코드

@@ -120,10 +120,16 @@ int main()
             SocketUtil::SocketEventHandle(iocpHandle);
         });
     }
+    
+    // 업데이트 실행
     g_ThreadManager->Run([&iocpHandle]
     {
         InGameUpdateManager::GetInstance()->InGameUpdate();
     });
+
+    // 컨텐츠 매니저 세팅
+    ContentsManager::GetInstance()->InitContents();
+
     // 여기서 클라이언트에서 연결을 받는다.
     while (true)
     {
