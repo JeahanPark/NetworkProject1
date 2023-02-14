@@ -9,7 +9,16 @@ using mapInGame = std::map<int, s_InGameObject>;
 enum class eInteractionType
 {
 	None,
-	User
+	User,
+	AttackDummy
 };
+
+enum class eCollisionType
+{
+	None = 0,
+	Send = 1,
+	Recive = 2
+};
+
 // 어케해야될지... 모르겟음
 const int maxInteractionCount = 10;

@@ -6,9 +6,13 @@ public:
 	~State();
 
 public:
-	const float&	GetSpeed() { return m_fSpeed; }
+	float	GetSpeed() { return m_fSpeed; }
+	bool	Die() { return m_fHealth <= 0; }
+public:
+	void SubtractedHealth(float _fValue);
 
 private:
 	float m_fSpeed;
+	float m_fHealth;
 };
 

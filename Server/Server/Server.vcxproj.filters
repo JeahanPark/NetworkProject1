@@ -53,6 +53,12 @@
     <ClCompile Include="Collision.cpp">
       <Filter>InGame\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="AttackDummy.cpp">
+      <Filter>InGame\Interaction\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsManager.cpp">
+      <Filter>InGame\ContentsManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -108,6 +114,12 @@
     <ClInclude Include="Collision.h">
       <Filter>InGame\Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="AttackDummy.h">
+      <Filter>InGame\Interaction\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsManager.h">
+      <Filter>InGame\ContentsManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
@@ -145,6 +157,12 @@
     </Filter>
     <Filter Include="InGame\Component\Collision">
       <UniqueIdentifier>{df9fca3a-5072-4c2d-ade3-e56b574761f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\Dummy">
+      <UniqueIdentifier>{2d452924-a6ad-4719-9b66-91e240566064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\ContentsManager">
+      <UniqueIdentifier>{21ca81de-9eba-424c-a2e9-3e4b4187ec63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

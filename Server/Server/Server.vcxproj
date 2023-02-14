@@ -155,9 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackDummy.cpp" />
     <ClCompile Include="ChattingManager.cpp" />
     <ClCompile Include="ChattingObject.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="ContentsManager.cpp" />
     <ClCompile Include="DataBaseManager.cpp" />
     <ClCompile Include="DBObject.cpp" />
     <ClCompile Include="InGameManager.cpp" />
@@ -182,9 +184,11 @@
     <ClCompile Include="UserObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackDummy.h" />
     <ClInclude Include="ChattingManager.h" />
     <ClInclude Include="ChattingObject.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="ContentsManager.h" />
     <ClInclude Include="DataBaseManager.h" />
     <ClInclude Include="DBObject.h" />
     <ClInclude Include="InGameManager.h" />

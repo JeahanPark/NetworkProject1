@@ -9,6 +9,17 @@ Collision::Collision(s_InteractionObejct _owner)
 	m_fCollisionSize(4)
 
 {
+	switch (m_Owner->GetInteractionType())
+	{
+	case eInteractionType::User:
+		m_CollisionType = (int)eCollisionType::Recive;
+		break;
+	case eInteractionType::AttackDummy:
+		m_CollisionType = (int)eCollisionType::Send;
+		break;
+	default:
+		m_CollisionType = (int)eCollisionType::None;
+	}
 }
 
 Collision::~Collision()
@@ -18,6 +29,10 @@ Collision::~Collision()
 
 void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 {
+	// 내가 남한테 충돌하는 놈인지 체크
+	if (!HaveCollisionType(eCollisionType::Send))
+		return;
+
 	for (auto iter : _lisInteractin)
 	{
 		Collision* targetCollision = iter->GetCollision();
@@ -29,6 +44,12 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 			continue;
 		}
 
+		if (!targetCollision->HaveCollisionType(eCollisionType::Recive))
+		{
+			// 맞을수있는애가 아니다.
+			continue;
+		}
+			
 		if (AlreadDamaged(targetIndex))
 		{
 			// 이미 맞았다.
@@ -38,11 +59,22 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 		// 충돌 검사
 		Transform* targetTransform = targetCollision->GetTransform();
 		
-
 		XMVECTOR vTargetPos = XMLoadFloat3(&targetTransform->GetPos());
 		XMVECTOR vMyPos = XMLoadFloat3(&m_Owner->GetTransform()->GetPos());
 
-		vMyPos 
+		XMVECTOR vSub = XMVectorSubtract(vMyPos, vTargetPos);
+		XMVECTOR length = XMVector3Length(vSub);
+
+		float fDistance = 0.0f;
+		XMStoreFloat(&fDistance, length);
+
+		if (fDistance < m_fCollisionSize)
+		{
+			// 충돌 했다.
+
+			targetCollision->RecivedDamage();
+		}
+
 	}
 }
 
@@ -58,9 +90,20 @@ bool Collision::AlreadDamaged(int _iInteractionIndex)
 
 void Collision::RecivedDamage()
 {
+	m_Owner->RecivedDamage();
 }
 
 int Collision::GetInteractionIndex()
 {
 	return m_Owner->GetInteractionIndex();
+}
+
+Transform* Collision::GetTransform()
+{
+	return  m_Owner->GetTransform();
+}
+
+bool Collision::HaveCollisionType(eCollisionType _type)
+{
+	return (m_CollisionType & (int)_type) != 0;
 }

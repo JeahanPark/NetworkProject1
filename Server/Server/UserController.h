@@ -12,7 +12,7 @@ public:
 public:
 	bool GetNeedMoveCheck() { return m_bNeedMoveCheck; }
 	const XMFLOAT3& GetMoveDir() { return m_vMoveDir; }
-	const float& GetMoveSpeed() { return m_fMoveSpeed; }
+	float GetMoveSpeed() { return m_fMoveSpeed; }
 	bool GetVaildCheck() { return m_bValidCheck; }
 
 

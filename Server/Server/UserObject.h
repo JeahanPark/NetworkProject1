@@ -1,7 +1,7 @@
 #pragma once
 #include "InteractionObject.h"
 
-class State;
+
 class UserObject : public InteractionObject
 {
 public:
@@ -16,7 +16,6 @@ public:
 
 private:
 	s_UserController		m_userController = nullptr;
-	State*					m_state = nullptr;
 	UserData				m_UserData;
 };
 

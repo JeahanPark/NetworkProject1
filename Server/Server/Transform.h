@@ -7,6 +7,7 @@ public:
 	~Transform();
 
 public:
+	void SetPos(const XMFLOAT3& _vPos) { m_vPos = _vPos; }
 	void SetUserMove(const XMFLOAT3& _Dir, float _fMoveSpeed);
 	void Update();
 public:

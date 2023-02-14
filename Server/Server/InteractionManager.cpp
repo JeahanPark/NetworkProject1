@@ -50,16 +50,6 @@ void InteractionManager::ClearDeleteInteraction()
 	m_lisDeleteInteraction.clear();
 }
 
-void InteractionManager::AllCollisionUpdate()
-{
-	LockGuard lock(m_lockInteraction);
-	auto iter = m_lisInteraction.begin();
-	while (iter != m_lisInteraction.end())
-	{
-
-	}
-}
-
 void InteractionManager::AllUpdateInteractionObject()
 {
 	LockGuard lock(m_lockInteraction);

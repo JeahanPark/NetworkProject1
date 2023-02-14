@@ -8,3 +8,8 @@ State::State()
 State::~State()
 {
 }
+
+void State::SubtractedHealth(float _fValue)
+{
+	m_fHealth -= _fValue;
+}

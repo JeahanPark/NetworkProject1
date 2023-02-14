@@ -14,7 +14,8 @@ public:
 public:
 	int					GetInteractionIndex();
 	float				GetCollisionSize() { return m_fCollisionSize; }
-	Transform*	GetTransform() { return m_Owner->GetTransform(); }
+	Transform*			GetTransform();
+	bool				HaveCollisionType(eCollisionType _type);
 private:
 	bool AlreadDamaged(int _iInteractionIndex);
 
@@ -26,5 +27,7 @@ private:
 	float m_fCollisionClearTime;
 	float m_fClearCrtTime;
 	float m_fCollisionSize;
+
+	int m_CollisionType;
 };
 

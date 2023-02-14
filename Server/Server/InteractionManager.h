@@ -7,6 +7,7 @@ public:
 
 public:
 	s_InteractionObejct CreateUserInteraction(s_UserController _userController, const UserData* _userData);
+
 	void AddInteractionObject(s_InteractionObejct _interaction);
 	list<s_InteractionObejct> GetInteractionList() { return m_lisInteraction; }
 	void GetUserInteractionList(list<s_InteractionObejct>& _lisUserInteracction);
@@ -14,7 +15,6 @@ public:
 	void AddDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
 	void ClearDeleteInteraction();
 
-	void AllCollisionUpdate();
 	void AllUpdateInteractionObject();
 
 private:
