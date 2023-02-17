@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class UserObject : InteractionObject
 {
+    private MeshRenderer m_meshRenderer = null;
+
+    private void Awake()
+    {
+        m_meshRenderer = GetComponent<MeshRenderer>();
+    }
+
     private bool MyInteraction
     {
         get
@@ -65,6 +72,32 @@ public class UserObject : InteractionObject
             m_vDeadRackoningDir = m_vDeadRackoningPos - transform.position;
             m_vDeadRackoningDir.Normalize();
         }
+    }
+
+    public override void RecivedDamage(float _fDamage)
+    {
+        base.RecivedDamage(_fDamage);
+
+
+        if(m_coDamageAnim != null)
+        {
+            StopCoroutine(m_coDamageAnim);
+            m_coDamageAnim = null;
+        }
+
+        m_coDamageAnim = StartCoroutine(CoDamageAnim());
+    }
+
+    private Coroutine m_coDamageAnim = null;
+    private IEnumerator CoDamageAnim()
+    {
+        m_meshRenderer.material.color = Color.red;
+
+        yield return new WaitForSeconds(0.5f);
+
+        m_meshRenderer.material.color = new Color(251, 206, 277);
+
+        m_coDamageAnim = null;
     }
 
     protected override void CreateComponent()

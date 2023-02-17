@@ -3,7 +3,7 @@
 
 
 
-struct MyUserMovePacket : PacketData
+struct MyUserMovePacket : BasePacket
 {
 	XMFLOAT3	m_vDir;
 	float		m_fMoveSpeed;
@@ -19,7 +19,7 @@ struct InteractionPacketData
 	float					m_fMoveSpeed;
 };
 
-struct InGameUpdatePacket : PacketData
+struct InGameUpdatePacket : BasePacket
 {
 	int						m_iInteractionCount;
 	// 이뒤에 바이트 데이터 InteractionPacketData 가 있다.
@@ -30,14 +30,20 @@ struct InitialInGameData : InteractionPacketData
 	WCHAR					m_UserID[USER_ID_LENGTH] = {};
 };
 
-struct InitialInGameDataPacket : PacketData
+struct InitialInGameDataPacket : BasePacket
 {
 	int						m_iMyInteractionIndex;
 	int						m_iUserCount;
 	// 이뒤에 바이트 데이터 InitialInGameData 가 있다.
 };
 
-struct NewUserPacket : PacketData
+struct NewUserPacket : BasePacket
 {
 	InitialInGameData InitData;
+};
+
+struct RecivedDamagePacket : BasePacket
+{
+	int						m_iInteractionIndex;
+	float					m_fReciveDamage;
 };

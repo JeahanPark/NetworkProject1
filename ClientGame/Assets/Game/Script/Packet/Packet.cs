@@ -23,6 +23,7 @@ public enum ePacketType
 	SToC_InGameUpdate,
 	SToC_InitialInGameData,
 	SToC_NewUserInteraction,
+	SToC_RecivedDamage,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -218,7 +219,14 @@ public struct InitialInGameDataPacket : PacketListCount
 [StructLayout(LayoutKind.Sequential)]
 public struct NewUserPacket
 {
-	public InitialInGameData InitData;
+	public InitialInGameData m_InitData;
+};
+
+[StructLayout(LayoutKind.Sequential)]
+public struct RecivedDamagePacket
+{
+	public int m_iInteractionIndex;
+	public float m_fReciveDamage;
 };
 public class Packet
 {

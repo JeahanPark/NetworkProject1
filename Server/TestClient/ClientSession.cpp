@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ClientSession.h"
 
-void ClientSession::PacketeHandle(PacketData* _Packetdata)
+void ClientSession::PacketeHandle(BasePacket* _Packetdata)
 {
 	s_ClientSession serverSession = std::static_pointer_cast<ClientSession>(shared_from_this());
 

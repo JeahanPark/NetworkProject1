@@ -40,4 +40,6 @@ void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)
 void InteractionObject::RecivedDamage()
 {
 	m_state->SubtractedHealth(-1);
+
+	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
 }

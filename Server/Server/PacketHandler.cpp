@@ -6,7 +6,7 @@
 #include "UserObject.h"
 #define SESSION_LOG(SessionNumber, LogName) cout << SessionNumber << " , " << LogName << endl;
 
-void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packetData)
+void PacketHandler::PacketHandling(s_ServerSession _session, BasePacket* _packetData)
 {
 	switch (_packetData->m_PakcetType)
 	{
@@ -47,13 +47,22 @@ void PacketHandler::PacketHandling(s_ServerSession _session, PacketData* _packet
 	case ePacketType::SToC_InGameUpdate:
 		//SESSION_LOG(_session->GetSessionNumber(), "SToC_InGameUpdate")
 			break;
+	case ePacketType::SToC_InitialInGameData:
+		SESSION_LOG(_session->GetSessionNumber(), "SToC_InitialInGameData")
+			break;
+	case ePacketType::SToC_NewUserInteraction:
+		SESSION_LOG(_session->GetSessionNumber(), "SToC_NewUserInteraction")
+			break;
+	case ePacketType::SToC_RecivedDamage:
+		SESSION_LOG(_session->GetSessionNumber(), "SToC_RecivedDamage")
+			break;
 	default:
 		break;
 #pragma endregion
 	}
 }
 
-void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetData)
+void PacketHandler::PacketSignal(s_ServerSession _session, BasePacket* _packetData)
 {
 	SignalPacket* packetSignal = (SignalPacket*)_packetData;
 
@@ -76,14 +85,14 @@ void PacketHandler::PacketSignal(s_ServerSession _session, PacketData* _packetDa
 	}
 }
 
-void PacketHandler::Chatting(PacketData* _packetData)
+void PacketHandler::Chatting(BasePacket* _packetData)
 {
 	ChattingPacket* packetData = (ChattingPacket*)_packetData;
 
 	ChattingManager().GetInstance()->AllSendChatting(packetData);
 }
 
-void PacketHandler::Register(s_ServerSession _session, PacketData* _packetData)
+void PacketHandler::Register(s_ServerSession _session, BasePacket* _packetData)
 {
 	UserRegistPacket* packetData = (UserRegistPacket*)_packetData;
 
@@ -126,7 +135,7 @@ SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePack
 	return pSendBuffer;
 }
 
-void PacketHandler::Login(s_ServerSession _session, PacketData* _packetData)
+void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 {
 	LoginRequestPacket* packetData = (LoginRequestPacket*)_packetData;
 
@@ -265,7 +274,7 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 		_session->RegisterSend(pSendBuffer);
 }
 
-void PacketHandler::MyUserMove(s_ServerSession _session, PacketData* _packetData)
+void PacketHandler::MyUserMove(s_ServerSession _session, BasePacket* _packetData)
 {
 	MyUserMovePacket* packetData = (MyUserMovePacket*)_packetData;
 
@@ -389,6 +398,33 @@ void PacketHandler::AddUserInteraction(s_InGameObject _newUser, s_ServerSession 
 
 	UserObject* user = static_cast<UserObject*>(object.get());
 	user->SettingInitialInGameDataPacket(&packet->InitData);
+
+	_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::AllUserNotifyRecivedDamage(int _iRecivedDamageIndetractionIndex, int _iDamage)
+{
+	list<s_InGameObject> lisInGameObject;
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+
+	for (auto iter : lisInGameObject)
+	{
+		// 내꺼 제외하고 보내기
+		if (!iter->SameSession(_iRecivedDamageIndetractionIndex))
+			RecivedDamage(iter->GetSession(), _iRecivedDamageIndetractionIndex, _iDamage);
+	}
+}
+
+void PacketHandler::RecivedDamage(s_ServerSession _session, int _iRecivedDamageIndetractionIndex, int _iDamage)
+{
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(RecivedDamagePacket));
+
+	RecivedDamagePacket* InGameUpdate = (RecivedDamagePacket*)pSendBuffer->GetSendBufferAdress();
+	InGameUpdate->m_PakcetType = ePacketType::SToC_RecivedDamage;
+	InGameUpdate->m_iSize = sizeof(RecivedDamagePacket);
+
+	InGameUpdate->m_iInteractionIndex = _iRecivedDamageIndetractionIndex;
+	InGameUpdate->m_fReciveDamage = _iDamage;
 
 	_session->RegisterSend(pSendBuffer);
 }

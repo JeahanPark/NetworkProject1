@@ -76,6 +76,8 @@ const mapInGame InGameManager::GetmapInGame()
 
 void InGameManager::GetlistInGame(list<s_InGameObject>& _lisInGame)
 {
+    LockGuard lock(m_lockInGame);
+
     for (mapInGame::value_type inGameObject : m_mapInGame)
     {
         if (inGameObject.second->GetUserInteraction() != nullptr)

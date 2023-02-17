@@ -11,7 +11,7 @@ using System.Text;
 
 public class SocketManager : MonoSingleton<SocketManager>
 {
-    private const int BUFF_MAX_SIZE = 1024;
+    private const int BUFF_MAX_SIZE = 4096;
 
     private Socket m_socket = null;
 
@@ -144,7 +144,7 @@ public class SocketManager : MonoSingleton<SocketManager>
                 }
                 catch (SocketException e)
                 {
-                    Debug.Log(string.Format("{0} Error Code: {1}.", e.Message, e.ErrorCode));
+                    Debug.Log(string.Format("{0} Error Code: {1}, byte Size = .", e.Message, e.ErrorCode, iTotalRecevieBtye));
 
                     m_socket.EndReceive(async);
                     yield break;

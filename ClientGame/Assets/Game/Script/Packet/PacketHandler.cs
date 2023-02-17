@@ -45,6 +45,12 @@ public static class PacketHandler
 					InGameController.Instance.ReceiveInitialInGameData(packet.Item1, packet.Item2);
 				}
 				break;
+			case ePacketType.SToC_RecivedDamage:
+				{
+					var packet = Packet.BufferToPacket<RecivedDamagePacket>(_buffer, _iHeaderSize);
+					InGameController.Instance.RecivedDamage(packet);
+				}
+				break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)

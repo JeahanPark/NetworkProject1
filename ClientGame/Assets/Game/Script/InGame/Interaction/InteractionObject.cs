@@ -60,14 +60,13 @@ public class InteractionObject : MonoBehaviour
         }
     }
 
-    public bool IsSameInteraction(InteractionData _interactionPacketData)
+    public bool IsSameInteraction(int _iInteractionIndex)
     {
         //Debug.Log(_interactionPacketData.m_eType.ToString() + ","
         //    + GetInteractionType.ToString() + "," 
         //    + _interactionPacketData.m_iInteractionIndex.ToString() + ","
         //    + GetInteractionIndex.ToString());
-        return _interactionPacketData.m_eType == GetInteractionType &&
-            _interactionPacketData.m_iInteractionIndex == GetInteractionIndex;
+        return _iInteractionIndex == GetInteractionIndex;
     }
     public virtual void Initialize(eInteractionType _eInteractionType, int _iInteractionIndex)
     {
@@ -94,9 +93,14 @@ public class InteractionObject : MonoBehaviour
 
     public virtual void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
     {
-        //transform.position = _InteractionData.m_vPos;
         m_vMoveDir = _InteractionData.m_vDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
+
+        if(m_fMoveSpeed <= 0)
+        {
+            // 이동중이지 않는다면 위치를 그냥박자
+            transform.position = _InteractionData.m_vPos;
+        }
 
         m_bValidLife = _InteractionData.VaildLife;
 
@@ -104,6 +108,11 @@ public class InteractionObject : MonoBehaviour
         m_vDeadRackoningPos = _InteractionData.m_vPos + m_vMoveDir * _fUpdateLatency;
         m_vDeadRackoningDir = m_vDeadRackoningPos - transform.position;
         m_vDeadRackoningDir.Normalize();
+    }
+
+    public virtual void RecivedDamage(float _fDamage)
+    {
+
     }
 
     protected virtual void CreateComponent()

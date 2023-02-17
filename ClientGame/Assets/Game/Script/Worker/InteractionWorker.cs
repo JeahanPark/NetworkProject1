@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractionWorker : MonoBehaviour
 {
     private UserObject m_originUser = null;
+    private AttackDummy m_originAttackDummy = null;
 
     private Queue<UserObject> m_poolUserObject = null;
 
@@ -23,20 +24,23 @@ public class InteractionWorker : MonoBehaviour
         m_originUser = transform.Find<UserObject>("OriginUser");
         m_originUser.gameObject.SetActive(false);
 
+        m_originAttackDummy = transform.Find<AttackDummy>("OriginAttackDummy");
+        m_originAttackDummy.gameObject.SetActive(false);
+
         m_poolUserObject = new Queue<UserObject>();
 
         m_ActiveObject = new LinkedList<InteractionObject>();
     }
     public void AddNewUser(NewUserPacket _packet)
     {
-        InteractionData data = _packet.InitData.m_UserData;
+        InteractionData data = _packet.m_InitData.m_UserData;
         var begine = m_ActiveObject.First;
 
         InteractionObject interaction = null;
         for (var iter = begine; iter != null;)
         {
             // 같은 
-            if (iter.Value.IsSameInteraction(data))
+            if (iter.Value.IsSameInteraction(data.m_iInteractionIndex))
             {
                 interaction = iter.Value;
 
@@ -58,7 +62,7 @@ public class InteractionWorker : MonoBehaviour
 
         UserObject user = interaction as UserObject;
 
-        user.SetInitialUserData(_packet.InitData.m_strNickName);
+        user.SetInitialUserData(_packet.m_InitData.m_strNickName);
     }
 
     public void SetInitialInGameData(InitialInGameDataPacket _packet, InitialInGameData[] _interationInitDatas)
@@ -72,7 +76,7 @@ public class InteractionWorker : MonoBehaviour
             for (var iter = begine; iter != null;)
             {
                 // 같은 
-                if (iter.Value.IsSameInteraction(data))
+                if (iter.Value.IsSameInteraction(data.m_iInteractionIndex))
                 {
                     interaction = iter.Value;
                     break;
@@ -116,7 +120,7 @@ public class InteractionWorker : MonoBehaviour
             for ( var iter = begine; iter != null;)
             {
                 // 같은 
-                if (iter.Value.IsSameInteraction(data))
+                if (iter.Value.IsSameInteraction(data.m_iInteractionIndex))
                 {
                     interaction = iter.Value;
                     
@@ -145,6 +149,25 @@ public class InteractionWorker : MonoBehaviour
         }
     }
 
+    public void RecivedDamage(RecivedDamagePacket _packet)
+    {
+        var begine = m_ActiveObject.First;
+
+        InteractionObject interaction = null;
+        for (var iter = begine; iter != null;)
+        {
+            // 같은 
+            if (iter.Value.IsSameInteraction(_packet.m_iInteractionIndex))
+            {
+                interaction = iter.Value;
+                interaction.RecivedDamage(_packet.m_fReciveDamage);
+                break;
+            }
+
+            iter = iter.Next;
+        }
+    }
+
     private InteractionObject CreateInteraction(InteractionData _data)
     {
         InteractionObject interactionObject = null;
@@ -161,7 +184,7 @@ public class InteractionWorker : MonoBehaviour
                 break;
             case eInteractionType.AttackDummy:
                 {
-                    Instantiate<UserObject>(m_originUser);
+                    interactionObject = Instantiate<AttackDummy>(m_originAttackDummy);
                 }
                 break;
         }
@@ -202,9 +225,12 @@ public class InteractionWorker : MonoBehaviour
             case eInteractionType.User:
                 UserObject user = interactionObject as UserObject;
                 m_poolUserObject.Enqueue(user);
+
+                interactionObject.Clear();
+                break;
+            case eInteractionType.AttackDummy:
+                Destroy(interactionObject.gameObject);
                 break;
         }
-
-        interactionObject.Clear();
     }
 }

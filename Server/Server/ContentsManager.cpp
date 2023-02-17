@@ -4,7 +4,7 @@
 #include "AttackDummy.h"
 void ContentsManager::InitContents()
 {
-	CreateDummy();
+	//CreateDummy();
 
 }
 void ContentsManager::CreateDummy()

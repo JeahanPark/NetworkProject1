@@ -128,14 +128,14 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 
 	while (true)
 	{
-		if (sizeof(PacketData) > m_ReceiveBuffer->GetRecvUseBuffer())
+		if (sizeof(BasePacket) > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 최소 패킷헤더보다 작다.
 			break;
 		}
 	
 
-		PacketData* data = (PacketData*)(m_ReceiveBuffer->PacketAdress());
+		BasePacket* data = (BasePacket*)(m_ReceiveBuffer->PacketAdress());
 		if (data->m_iSize > m_ReceiveBuffer->GetRecvUseBuffer())
 		{
 			// 해당 패킷의 크기보다 작다.
@@ -143,6 +143,7 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 		}
 
 		// 패킷 조립
+		// 
 		//PacketHandler::PacketHandling(this, data);
 		PacketeHandle(data);
 
@@ -164,7 +165,7 @@ void Session::ProcessSend(DWORD _bytesTransferred)
 
 	for (SendBuffer* sendBuffer : m_lisProcessSendBuffer)
 	{
-		PacketData* data = (PacketData*)sendBuffer->GetSendBufferAdress();
+		BasePacket* data = (BasePacket*)sendBuffer->GetSendBufferAdress();
 
 		// 패킷조립
 		PacketeHandle(data);
@@ -195,6 +196,7 @@ void Session::SocketEventError(int _iCode)
 
 void Session::Send()
 {
+	int size = 0;
 	vector<WSABUF> vecWSABUF;
 	{
 		LockGuard lock(m_lockSending);
@@ -209,9 +211,15 @@ void Session::Send()
 		for (SendBuffer* sendBuffer : m_lisProcessSendBuffer)
 		{
 			vecWSABUF.push_back(*sendBuffer->GetWSABuf());
+			size += sendBuffer->GetWSABuf()->len;
 		}
 	}
-	
+
+	if (size >= BUF_MAX_SIZE)
+	{
+		cout << "BufferMaxSizeOver" << endl;
+	}
+
 	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, shared_from_this());
 
 	DWORD recvLen = 0;

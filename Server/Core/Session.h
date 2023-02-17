@@ -2,7 +2,7 @@
 
 class ReceiveBuffer;
 class SendBuffer;
-struct PacketData;
+struct BasePacket;
 
 // enable_shared_from_this
 // enable_shared_from_this에서 파생된 개체는 멤버 함수에서 shared_from_this
@@ -36,7 +36,7 @@ public:
     void SocketEventError(int _iCode);
 
 protected:
-    virtual void PacketeHandle(PacketData* _Packetdata) = 0;
+    virtual void PacketeHandle(BasePacket* _Packetdata) = 0;
     virtual void DeleteSession() = 0;
 private:
     void Send();

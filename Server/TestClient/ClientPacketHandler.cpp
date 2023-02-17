@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void ClientPacketHandler::RecievePacketHandling(s_ClientSession _session, PacketData* _packetData)
+void ClientPacketHandler::RecievePacketHandling(s_ClientSession _session, BasePacket* _packetData)
 {
 	switch (_packetData->m_PakcetType)
 	{
@@ -36,7 +36,7 @@ void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 	wcout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
 }
 
-void ClientPacketHandler::PacketSignal(s_ClientSession _session, PacketData* _packetData)
+void ClientPacketHandler::PacketSignal(s_ClientSession _session, BasePacket* _packetData)
 {
 	SignalPacket* packetSignal = (SignalPacket*)_packetData;
 

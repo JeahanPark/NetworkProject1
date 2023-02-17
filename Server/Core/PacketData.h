@@ -18,6 +18,7 @@ enum class ePacketType
 	SToC_InGameUpdate,
 	SToC_InitialInGameData,
 	SToC_NewUserInteraction,
+	SToC_RecivedDamage,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -67,7 +68,7 @@ enum class ePacketSignal
 	Signal_InitialInGameData,
 };
 
-struct PacketData
+struct BasePacket
 {
 public:
 	ePacketType	m_PakcetType;
@@ -75,7 +76,7 @@ public:
 
 };
 
-struct PacketResult : PacketData
+struct PacketResult : BasePacket
 {
 public:
 	ePacketType			m_TargetPakcetType;
@@ -85,7 +86,7 @@ public:
 	ePacketSignal		m_SignalType = ePacketSignal::NONE;
 };
 
-struct UserRegistPacket : PacketData
+struct UserRegistPacket : BasePacket
 {
 public:
 	WCHAR m_UserID[USER_ID_LENGTH] = {};
@@ -93,7 +94,7 @@ public:
 	int m_iScore;
 };
 
-struct LoginRequestPacket : PacketData
+struct LoginRequestPacket : BasePacket
 {
 public:
 	WCHAR m_UserID[64];
@@ -108,13 +109,13 @@ public:
 	int m_iUserIndex;
 };
 
-struct ChattingPacket : PacketData
+struct ChattingPacket : BasePacket
 {
 public:
 	WCHAR m_chattingContent[CHATTING_LENGTH] = {};
 };
 
-struct SignalPacket : PacketData
+struct SignalPacket : BasePacket
 {
 public:
 	ePacketSignal m_ePacketSignal;

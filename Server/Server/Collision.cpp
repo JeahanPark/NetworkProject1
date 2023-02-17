@@ -6,7 +6,7 @@ Collision::Collision(s_InteractionObejct _owner)
 	: m_Owner(_owner),
 	m_fClearCrtTime(0),
 	m_fCollisionClearTime(0),
-	m_fCollisionSize(4)
+	m_fCollisionSize(1)
 
 {
 	switch (m_Owner->GetInteractionType())

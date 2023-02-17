@@ -12,7 +12,7 @@ UserData* ServerSession::GetUserData()
 	return m_userData;
 }
 
-void ServerSession::PacketeHandle(PacketData* _Packetdata)
+void ServerSession::PacketeHandle(BasePacket* _Packetdata)
 {
 	s_ServerSession serverSession = std::static_pointer_cast<ServerSession>(shared_from_this());
 

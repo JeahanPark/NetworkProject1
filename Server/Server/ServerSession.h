@@ -7,7 +7,7 @@ public:
 	bool IsLogin() { return m_userData != nullptr; }
 
 protected:
-	virtual void PacketeHandle(PacketData* _Packetdata) override;
+	virtual void PacketeHandle(BasePacket* _Packetdata) override;
 	virtual void DeleteSession() override;
 private:
 	UserData* m_userData = nullptr;

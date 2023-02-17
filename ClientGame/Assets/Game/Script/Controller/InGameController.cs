@@ -88,5 +88,10 @@ public class InGameController : MonoDestroySingleton<InGameController>
     {
         m_InteractionWorker.AddNewUser(_packet);
     }
+
+    public void RecivedDamage(RecivedDamagePacket _packet)
+    {
+        m_InteractionWorker.RecivedDamage(_packet);
+    }
     #endregion
 }
