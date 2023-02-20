@@ -83,6 +83,8 @@ public interface PacketListCount
 public struct PacketHeader
 {
 	public ePacketType m_PakcetType;
+
+	//	헤더 패킷 + 내용 패킷
 	public int m_iSize;
 }
 
@@ -259,13 +261,13 @@ public class Packet
 		int iListStartIndex = sizeT + _iHeaderSize;
 
 		U[] list = new U[iTotalCountU];
-		IntPtr ptrU = Marshal.AllocHGlobal(sizeU);
+		IntPtr ptrU = Marshal.AllocHGlobal(sizeU * iTotalCountU);
 
 		for ( int i = 0; i < iTotalCountU; ++i)
         {
-			iListStartIndex += i * sizeU;
+			int size = iListStartIndex + sizeU * iTotalCountU;
 
-			Marshal.Copy(_buffer, iListStartIndex, ptrU, sizeU);
+			Marshal.Copy(_buffer, size, ptrU, sizeU);
 			list[i] = (U)Marshal.PtrToStructure(ptrU, typeof(U));
 		}
 		Marshal.FreeHGlobal(ptrU);
@@ -273,26 +275,32 @@ public class Packet
 
 		return (packetT, list);
     }
-    public static bool ReceviePacketHandle(byte[] _buffer, int _iBufferSize)
+    public static bool ReceviePacketHandle(ReceiveBuffer _buffer)
     {
 		int iHeaderSize = 0;
 		// 패킷 헤더 사이즈 체크
 		{
 			iHeaderSize = Marshal.SizeOf(typeof(PacketHeader));
-			if (_iBufferSize < iHeaderSize)
+			if (_buffer.m_iReadPos < iHeaderSize)
 				return false;
 		}
 
 		// 패킷 사이즈가 부족하다.
 		PacketHeader packetHeader;
 		{
-			packetHeader = BufferToPacket<PacketHeader>(_buffer, 0);
-			if (packetHeader.m_iSize < _iBufferSize)
+			packetHeader = BufferToPacket<PacketHeader>(_buffer.m_recvBuffer, 0);
+			if (_buffer.m_iReadPos < packetHeader.m_iSize)
+            {
+				Debug.Log("Fail packetType = " + packetHeader.m_PakcetType.ToString() + ", Size = " + packetHeader.m_iSize);
 				return false;
+			}
+				
 		}
+		Debug.Log("Success packetType = " + packetHeader.m_PakcetType.ToString() + ", Size = " + packetHeader.m_iSize);
+		byte[] buffer = _buffer.PopPacketByte(packetHeader.m_iSize);
 
 		// 패킷 
-		PacketHandler.PacketHandling(iHeaderSize, _buffer, packetHeader);
+		PacketHandler.PacketHandling(iHeaderSize, buffer, packetHeader);
 		
 		return true;
 	}

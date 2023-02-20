@@ -319,6 +319,11 @@ void PacketHandler::InGameUpdate(const list<s_InteractionObejct>& _lisInteractio
 		++iArrInteractionIndex;
 	}
 
+	if (interactionCount >= 3)
+	{
+		int a = 0;
+	}
+
 	_session->RegisterSend(pSendBuffer);
 }
 
@@ -369,6 +374,10 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 		++ingameIndex;
 	}
 
+	if (iDataCount > 2)
+	{
+		int a = 0;
+	}
 	_session->RegisterSend(pSendBuffer);
 
 	InteractionManager::GetInstance()->AddInteractionObject(user);

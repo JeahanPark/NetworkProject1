@@ -93,8 +93,6 @@ public class InteractionWorker : MonoBehaviour
                     continue;
             }
 
-            interaction.UpdateInteraction(data, 0);
-
             UserObject user = interaction as UserObject;
 
             user.SetInitialUserData(_interationInitDatas[i].m_strNickName);
@@ -195,7 +193,7 @@ public class InteractionWorker : MonoBehaviour
         m_ActiveObject.AddLast(interactionObject);
 
         // √ ±‚»≠
-        interactionObject.Initialize(_data.m_eType, _data.m_iInteractionIndex);
+        interactionObject.Initialize(_data);
 
         interactionObject.gameObject.SetActive(true);
 

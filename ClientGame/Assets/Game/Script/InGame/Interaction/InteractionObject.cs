@@ -68,18 +68,29 @@ public class InteractionObject : MonoBehaviour
         //    + GetInteractionIndex.ToString());
         return _iInteractionIndex == GetInteractionIndex;
     }
-    public virtual void Initialize(eInteractionType _eInteractionType, int _iInteractionIndex)
+    public virtual void Initialize(InteractionData _data)
     {
         m_bDeadRackoningMove = false;
 
-        m_eInteractionType = _eInteractionType;
-        m_iInteractionIndex = _iInteractionIndex;
+        m_eInteractionType = _data.m_eType;
+        m_iInteractionIndex = _data.m_iInteractionIndex;
 
         // 컴포넌트가 비어있으면 생성해준다.
         if(dicInteractionComponents.Count == 0)
             CreateComponent();
 
         InitComponent();
+
+
+        InitInteraction(_data);
+    }
+
+    private void InitInteraction(InteractionData _data)
+    {
+        transform.position = _data.m_vPos;
+        m_vMoveDir = _data.m_vDir;
+        m_fMoveSpeed = _data.m_fMoveSpeed;
+        m_bValidLife = _data.VaildLife;
     }
 
     // 더이상 사용하지않아 풀로 들어갈때 함수호출

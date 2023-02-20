@@ -76,6 +76,11 @@ void Session::RegisterSend(SendBuffer* _sendBuffer)
 	if (m_RegisterDisconnect)
 		return;
 
+	if (m_iSessionNumber == 2)
+	{
+		int a = 0;
+	}
+
 	_sendBuffer->WsaBufSetting();
 
 	{
