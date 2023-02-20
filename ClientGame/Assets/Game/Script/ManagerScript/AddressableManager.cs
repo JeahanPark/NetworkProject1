@@ -10,6 +10,7 @@ namespace AddreesableManager
     public enum AddressableLabelName
     {
         Popup,
+        Effect,
         LABEL_MAX,
     }
 
@@ -44,6 +45,14 @@ namespace AddreesableManager
         public void InstanceIResourceLocation(IResourceLocation _resourceLocation, Transform _trParent, System.Action<GameObject> _fnResult)
         {
             Addressables.InstantiateAsync(_resourceLocation, _trParent, false).Completed += (handle) =>
+            {
+                _fnResult(handle.Result);
+            };
+        }
+
+        public void AssetIResourceLocation<T>(IResourceLocation _resourceLocation, System.Action<T> _fnResult)
+        {
+            Addressables.LoadAssetAsync<T>(_resourceLocation).Completed += (handle) => 
             {
                 _fnResult(handle.Result);
             };

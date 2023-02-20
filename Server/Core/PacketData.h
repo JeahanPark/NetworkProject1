@@ -67,7 +67,7 @@ enum class ePacketSignal
 
 	Signal_InitialInGameData,
 };
-
+#pragma pack(1)
 struct BasePacket
 {
 public:
@@ -75,7 +75,7 @@ public:
 	int			m_iSize;
 
 };
-
+#pragma pack(1)
 struct PacketResult : BasePacket
 {
 public:
@@ -85,7 +85,7 @@ public:
 	// m_TargetPakcetType이 Signal일경우 쓴다.
 	ePacketSignal		m_SignalType = ePacketSignal::NONE;
 };
-
+#pragma pack(1)
 struct UserRegistPacket : BasePacket
 {
 public:
@@ -93,14 +93,14 @@ public:
 	WCHAR m_Password[PASSWORD_LENGTH] = {};
 	int m_iScore;
 };
-
+#pragma pack(1)
 struct LoginRequestPacket : BasePacket
 {
 public:
 	WCHAR m_UserID[64];
 	WCHAR m_Password[64];
 };
-
+#pragma pack(1)
 struct LoginResultPacket : PacketResult
 {
 public:
@@ -108,18 +108,19 @@ public:
 	int m_iScore;
 	int m_iUserIndex;
 };
-
+#pragma pack(1)
 struct ChattingPacket : BasePacket
 {
 public:
 	WCHAR m_chattingContent[CHATTING_LENGTH] = {};
 };
-
+#pragma pack(1)
 struct SignalPacket : BasePacket
 {
 public:
 	ePacketSignal m_ePacketSignal;
 };
+
 class PacketCreate
 {
 public:

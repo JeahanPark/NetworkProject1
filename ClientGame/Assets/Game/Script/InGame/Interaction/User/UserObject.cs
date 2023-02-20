@@ -6,9 +6,25 @@ public class UserObject : InteractionObject
 {
     private MeshRenderer m_meshRenderer = null;
 
+
+    private static Material m_matNormalBody = null;
+    private static Material m_matDamageBody = null;
     private void Awake()
     {
         m_meshRenderer = GetComponent<MeshRenderer>();
+
+        if(m_matNormalBody == null)
+        {
+            EffectManager.Instance.GetEffect<Material>(EffectID.UserBody_Normal, (mat) =>
+            {
+                m_matNormalBody = mat;
+            });
+
+            EffectManager.Instance.GetEffect<Material>(EffectID.UserBody_Damage, (mat) =>
+            {
+                m_matDamageBody = mat;
+            });
+        }
     }
 
     private bool MyInteraction
@@ -35,6 +51,8 @@ public class UserObject : InteractionObject
         {
             InGameController.Instance.SetMyInteraction(null);
         }
+
+        ReturnBodyMaterial();
     }
 
     public float GetMoveSpeed
@@ -91,13 +109,18 @@ public class UserObject : InteractionObject
     private Coroutine m_coDamageAnim = null;
     private IEnumerator CoDamageAnim()
     {
-        m_meshRenderer.material.color = Color.red;
+        m_meshRenderer.material = m_matDamageBody;
 
         yield return new WaitForSeconds(0.5f);
 
-        m_meshRenderer.material.color = new Color(251, 206, 277);
+        ReturnBodyMaterial();
 
         m_coDamageAnim = null;
+    }
+
+    private void ReturnBodyMaterial()
+    {
+        m_meshRenderer.material = m_matNormalBody;
     }
 
     protected override void CreateComponent()

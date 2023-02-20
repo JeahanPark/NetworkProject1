@@ -6,6 +6,7 @@ using AddreesableManager;
 using UnityEngine.UI;
 public enum PopupID
 {
+    NONE,
     UIFadeInOut,
     UIMessageBox,
     UINickNameSetting,

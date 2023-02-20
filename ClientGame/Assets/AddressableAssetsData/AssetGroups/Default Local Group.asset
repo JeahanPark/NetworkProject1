@@ -32,6 +32,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Popup
+  - m_GUID: 90dd9358dca6a6442a26baacf32cbc75
+    m_Address: UserBody_Damage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
+  - m_GUID: d0d2fc8a37e9d5544954583f3f03a39b
+    m_Address: UserBody_Normal
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d5227b445983c6848ab06a31e870170a, type: 2}
   m_SchemaSet:

@@ -79,7 +79,7 @@ public interface PacketListCount
 }
 
 // 아... 나눌껄....
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct PacketHeader
 {
 	public ePacketType m_PakcetType;
@@ -97,7 +97,7 @@ public struct PacketHeader
 // LayoutKind.Sequential = 순서대로 정렬한다. 원래는 지멋대로 정렬함
 // Pack = 멤버변수 사이즈를 최소를 1바이트로 잡아둠
 // CharSet = 샬링된 문자열이 사용할 문자 집합을 지정합니다.
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct V2ChattingPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
@@ -105,7 +105,7 @@ public struct V2ChattingPacket
 }
 
 
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct UserRegistPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -116,13 +116,13 @@ public struct UserRegistPacket
 	public int Score;
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct InGameEnterPacket
 {
 	public int m_UserIndex;
 };
 
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct LogInPacket
 {
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -130,7 +130,7 @@ public struct LogInPacket
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_Password;
 };
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct LoginResultPacket
 {
 	public ePacketType m_eTargetPakcetType;
@@ -142,7 +142,7 @@ public struct LoginResultPacket
 	public int m_iUserIndex;
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct PacketResult
 {
 	public ePacketType		m_eTargetPakcetType;
@@ -151,13 +151,13 @@ public struct PacketResult
 	public ePacketSignal	m_SignalType;
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct SignalPacket
 {
 	public ePacketSignal m_ePacketSignal;
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct InteractionData
 {
 	public int							m_iInteractionIndex;
@@ -177,7 +177,7 @@ public struct InteractionData
     }
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct InGameUpdatePacket : PacketListCount
 {
 	public int m_iInteractionCount;
@@ -187,19 +187,19 @@ public struct InGameUpdatePacket : PacketListCount
         return m_iInteractionCount;
     }
 }
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct InGameEnterSuccess
 {
 	public int m_iInteractionIndex;
 	public eInteractionType m_eType;
 };
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct MyUserMovePacket
 {
 	public Vector3 m_vDir;
 	public float m_fMoveSpeed;
 };
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct InitialInGameData
 {
 	public InteractionData m_UserData;
@@ -207,7 +207,7 @@ public struct InitialInGameData
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 	public string m_strNickName;
 };
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct InitialInGameDataPacket : PacketListCount
 {
 	public int m_iMyInteractionIndex;
@@ -218,13 +218,13 @@ public struct InitialInGameDataPacket : PacketListCount
 		return m_iUserCount;
 	}
 };
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct NewUserPacket
 {
 	public InitialInGameData m_InitData;
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct RecivedDamagePacket
 {
 	public int m_iInteractionIndex;
@@ -265,7 +265,7 @@ public class Packet
 
 		for ( int i = 0; i < iTotalCountU; ++i)
         {
-			int size = iListStartIndex + sizeU * iTotalCountU;
+			int size = iListStartIndex + sizeU * i;
 
 			Marshal.Copy(_buffer, size, ptrU, sizeU);
 			list[i] = (U)Marshal.PtrToStructure(ptrU, typeof(U));
