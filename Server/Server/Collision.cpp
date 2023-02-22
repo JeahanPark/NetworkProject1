@@ -4,8 +4,7 @@
 #include "Transform.h"
 Collision::Collision(s_InteractionObejct _owner)
 	: m_Owner(_owner),
-	m_fClearCrtTime(0),
-	m_fCollisionClearTime(0),
+	m_fCollisionClearTime(1),
 	m_fCollisionSize(1)
 
 {
@@ -29,6 +28,9 @@ Collision::~Collision()
 
 void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 {
+	// 쿨타임 끝난 애들 없애기
+	CleanUpCollisionList();
+
 	// 내가 남한테 충돌하는 놈인지 체크
 	if (!HaveCollisionType(eCollisionType::Send))
 		return;
@@ -49,7 +51,7 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 			// 맞을수있는애가 아니다.
 			continue;
 		}
-			
+
 		if (AlreadDamaged(targetIndex))
 		{
 			// 이미 맞았다.
@@ -71,7 +73,7 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 		if (fDistance < m_fCollisionSize)
 		{
 			// 충돌 했다.
-
+			m_lisCollision.push_back({targetIndex, InGameUpdateManager::GetInstance()->GetCulTime()});
 			targetCollision->RecivedDamage();
 		}
 
@@ -82,10 +84,30 @@ bool Collision::AlreadDamaged(int _iInteractionIndex)
 {
 	for (auto iter : m_lisCollision)
 	{
-		if (iter == _iInteractionIndex)
+		// 같은 인덱스인지 확인
+		if (iter.m_interactionIndex == _iInteractionIndex)
 			return true;
 	}
 	return false;
+}
+
+void Collision::CleanUpCollisionList()
+{
+	auto iter = m_lisCollision.begin();
+
+	LONGLONG crtTime = InGameUpdateManager::GetInstance()->GetCulTime().QuadPart;
+	// 인터렉션 Update할것들 하기
+	while (iter != m_lisCollision.end())
+	{
+		// 시간체크를 해서 쿨타임이 지났으면 없앤다.
+		if (crtTime - iter->m_CollisionTimeRecord.QuadPart > m_fCollisionClearTime)
+		{
+			iter = m_lisCollision.erase(iter);
+			continue;
+		}
+		else
+			++iter;
+	}
 }
 
 void Collision::RecivedDamage()

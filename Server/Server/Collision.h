@@ -3,6 +3,13 @@
 class Transform;
 class Collision
 {
+private:
+	struct collisionInfo
+	{
+		int m_interactionIndex;
+		LARGE_INTEGER m_CollisionTimeRecord;
+	};
+
 public :
 	Collision(s_InteractionObejct _owner);
 	~Collision();
@@ -18,14 +25,14 @@ public:
 	bool				HaveCollisionType(eCollisionType _type);
 private:
 	bool AlreadDamaged(int _iInteractionIndex);
+	void CleanUpCollisionList();
 
 private:
 	s_InteractionObejct m_Owner;
 
 	// interactionIndex를 들고있다
-	list<int> m_lisCollision;
+	list<collisionInfo> m_lisCollision;
 	float m_fCollisionClearTime;
-	float m_fClearCrtTime;
 	float m_fCollisionSize;
 
 	int m_CollisionType;

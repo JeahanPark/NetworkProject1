@@ -12,7 +12,7 @@ public:
 public:
 	void InGameUpdate();
 	float GetDeltaTime() { return m_fRealDeltaTime; }
-
+	LARGE_INTEGER GetCulTime() { return m_CulTime;}
 private:
 	bool UpdateClientInteraction();
 	bool FramCheck();
