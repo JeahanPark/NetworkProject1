@@ -4,7 +4,7 @@
 #include <algorithm>
 
 InGameUpdateManager::InGameUpdateManager() 
-    : m_fDeltaTime(0.f), m_fSpt(0.f), m_fSptTime(0.f),  m_iFPS(0), m_fFPSTime(0.f), m_fRealDeltaTime{0.f}
+    : m_fDeltaTime(0.f), m_fSpt(0.f), m_fSptTime(0.f), m_iFPS(0), m_fFPSTime(0.f), m_fRealDeltaTime{ 0.f }, m_dTotalDeltaTime{0}
 {
     ZeroMemory(&m_CulTime, sizeof(LARGE_INTEGER));
     ZeroMemory(&m_OldTime, sizeof(LARGE_INTEGER));
@@ -77,6 +77,7 @@ bool InGameUpdateManager::FramCheck()
     {
         ++m_iFPS;
         m_fRealDeltaTime = m_fSptTime;
+        m_dTotalDeltaTime += m_fRealDeltaTime;
         m_fSptTime = 0.f;
         return true;
     }

@@ -11,6 +11,15 @@ public class InGameUIWorker : MonoBehaviour
     private Queue<UserUI> m_poolUserUI = null;
     private Dictionary<int, UserUI> m_dicActiveUserUI = null;
 
+    private Canvas m_canvas = null;
+    public Canvas GetCanvas
+    {
+        get
+        {
+            return m_canvas;
+        }
+    }
+
     private void Awake()
     {
         InGameController.Instance.SetInGameUIWorker(this);
@@ -24,6 +33,8 @@ public class InGameUIWorker : MonoBehaviour
 
         m_poolUserUI = new Queue<UserUI>();
         m_dicActiveUserUI = new Dictionary<int, UserUI>();
+
+        m_canvas = GetComponent<Canvas>();
     }
 
     public UserUI CreateUIUser(int _iUserInteraction)

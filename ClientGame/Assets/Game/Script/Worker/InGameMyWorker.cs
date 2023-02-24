@@ -16,7 +16,7 @@ public class InGameMyWorker : MonoBehaviour
     {
         m_MyController = GetComponent<MyController>();
 
-        InGameController.Instance.SetInGameWorker(this);
+        InGameController.Instance.SetInGameMyWorker(this);
     }
 
     public void SetMyInteraction(UserObject _user)

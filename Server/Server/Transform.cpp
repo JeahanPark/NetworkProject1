@@ -2,7 +2,7 @@
 #include "Transform.h"
 
 Transform::Transform() :
-	m_vPos{0,0,0}, m_fScale{2}, m_vYAxisDir{0,0,0}, m_fMoveSpeed{0}
+	m_vPos{0,0,0}, m_fScale{2}, m_vYAxisDir{0,0,0}, m_fMoveSpeed{0}, m_fMoveSpeedIncrease{3}
 {
 }
 
@@ -19,8 +19,23 @@ void Transform::SetUserMove(const XMFLOAT3& _Dir, float _fSpeed)
 
 	XMStoreFloat3(&m_vYAxisDir, vMyDir);
 
-	m_fMoveSpeed += _fSpeed;
-	m_fMoveSpeed = m_fMoveSpeed > 3 ? 3 : m_fMoveSpeed;
+	IncreaseSpeed(_fSpeed);
+}
+
+void Transform::SetAxisPos(eAxisType _eAxis, float _fValue)
+{
+	switch (_eAxis)
+	{
+	case eAxisType::Axis_X:
+		m_vPos.x = _fValue;
+		break;
+	case eAxisType::Axis_Y:
+		m_vPos.y = _fValue;
+		break;
+	case eAxisType::Axis_Z:
+		m_vPos.z = _fValue;
+		break;
+	}
 }
 
 void Transform::Update()
@@ -40,4 +55,17 @@ void Transform::Update()
 		// 속도가 점점 떨어진다.
 		m_fMoveSpeed -= 1 * InGameUpdateManager::GetInstance()->GetDeltaTime();
 	}
+}
+
+void Transform::MovePos(const XMFLOAT3& _vDir)
+{
+	m_vYAxisDir = _vDir;
+
+	IncreaseSpeed(m_fMoveSpeedIncrease * InGameUpdateManager::GetInstance()->GetDeltaTime());
+}
+
+void Transform::IncreaseSpeed(float _fValue)
+{
+	m_fMoveSpeed += _fValue;
+	m_fMoveSpeed = m_fMoveSpeed > 3 ? 3 : m_fMoveSpeed;
 }

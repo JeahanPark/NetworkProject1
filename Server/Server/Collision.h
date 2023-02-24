@@ -7,7 +7,7 @@ private:
 	struct collisionInfo
 	{
 		int m_interactionIndex;
-		LARGE_INTEGER m_CollisionTimeRecord;
+		double m_dRecordTotalDeltaTime;
 	};
 
 public :

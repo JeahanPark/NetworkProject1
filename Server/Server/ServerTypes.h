@@ -20,5 +20,21 @@ enum class eCollisionType
 	Recive = 2
 };
 
+enum class eAxisType
+{
+	Axis_X,
+	Axis_Y,
+	Axis_Z,
+};
+
 // 어케해야될지... 모르겟음
 const int maxInteractionCount = 10;
+
+const XMFLOAT3 RightVector = { 1,0,0 };
+const XMFLOAT3 LeftVector = { -1,0,0 };
+
+const XMFLOAT3 UpVector = { 0,1,0 };
+const XMFLOAT3 DownVector = { 0,-1,0 };
+
+const XMFLOAT3 FowardVector = { 0,0,1 };
+const XMFLOAT3 BackVector = { 0,0,-1 };

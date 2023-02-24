@@ -45,7 +45,7 @@ public class InGameController : MonoDestroySingleton<InGameController>
         m_InteractionWorker = _interactionWorker;
     }
 
-    public void SetInGameWorker(InGameMyWorker _ingameMyWorker)
+    public void SetInGameMyWorker(InGameMyWorker _ingameMyWorker)
     {
         m_InGameMyWorker = _ingameMyWorker;
     }

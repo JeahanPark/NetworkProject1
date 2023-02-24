@@ -12,7 +12,7 @@ public:
 public:
 	void InGameUpdate();
 	float GetDeltaTime() { return m_fRealDeltaTime; }
-	LARGE_INTEGER GetCulTime() { return m_CulTime;}
+	double GetTotalDeltaTime() { return m_dTotalDeltaTime; }
 private:
 	bool UpdateClientInteraction();
 	bool FramCheck();
@@ -24,6 +24,7 @@ private:
 
 	float m_fDeltaTime;
 	float m_fRealDeltaTime;
+	double m_dTotalDeltaTime;
 	float m_fSpt;
 	float m_fSptTime;
 

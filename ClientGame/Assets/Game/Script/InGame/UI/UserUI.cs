@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UserUI : MonoBehaviour
+public class UserUI : BaseUI
 {
     private TextMeshProUGUI m_txtNickName = null;
     private Transform m_tranTarget = null;
@@ -17,14 +17,15 @@ public class UserUI : MonoBehaviour
         m_txtNickName.text = _strNickName;
     }
 
-    public void ClearData()
+    public override void ClearData()
     {
         m_tranTarget = null;
         m_txtNickName.text = string.Empty;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         m_txtNickName = transform.Find<TextMeshProUGUI>("Text_NickName");
     }
 
@@ -34,9 +35,7 @@ public class UserUI : MonoBehaviour
             return;
 
 
-        Vector3 dir = (m_tranTarget.position - Camera.main.transform.position).normalized;
-
-        transform.position = Camera.main.transform.position + dir * 1;
+        transform.position = ChangePosWorldToUI(m_tranTarget.position);
     }
 
 

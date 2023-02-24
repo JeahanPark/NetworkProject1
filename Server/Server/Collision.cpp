@@ -73,7 +73,7 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 		if (fDistance < m_fCollisionSize)
 		{
 			// 충돌 했다.
-			m_lisCollision.push_back({targetIndex, InGameUpdateManager::GetInstance()->GetCulTime()});
+			m_lisCollision.push_back({targetIndex, InGameUpdateManager::GetInstance()->GetTotalDeltaTime()});
 			targetCollision->RecivedDamage();
 		}
 
@@ -95,12 +95,12 @@ void Collision::CleanUpCollisionList()
 {
 	auto iter = m_lisCollision.begin();
 
-	LONGLONG crtTime = InGameUpdateManager::GetInstance()->GetCulTime().QuadPart;
+	double totalDeltaTime = InGameUpdateManager::GetInstance()->GetTotalDeltaTime();
 	// 인터렉션 Update할것들 하기
 	while (iter != m_lisCollision.end())
 	{
 		// 시간체크를 해서 쿨타임이 지났으면 없앤다.
-		if (crtTime - iter->m_CollisionTimeRecord.QuadPart > m_fCollisionClearTime)
+		if (totalDeltaTime - iter->m_dRecordTotalDeltaTime > m_fCollisionClearTime)
 		{
 			iter = m_lisCollision.erase(iter);
 			continue;
