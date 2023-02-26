@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 203062600}
   - component: {fileID: 203062601}
+  - component: {fileID: 203062602}
   m_Layer: 5
   m_Name: OriginDamageUI
   m_TagString: Untagged
@@ -204,6 +205,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e00adc7339a3b4ba154816001eaa64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &203062602
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203062599}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &233902225
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9f41f094de93f469b51b83a4d133ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bTestFun: 0
 --- !u!1 &1502186329
 GameObject:
   m_ObjectHideFlags: 0

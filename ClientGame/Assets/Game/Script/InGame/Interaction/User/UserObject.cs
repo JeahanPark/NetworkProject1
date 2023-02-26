@@ -102,13 +102,13 @@ public class UserObject : InteractionObject
             StopCoroutine(m_coDamageAnim);
             m_coDamageAnim = null;
         }
-
         m_coDamageAnim = StartCoroutine(CoDamageAnim());
     }
 
     private Coroutine m_coDamageAnim = null;
     private IEnumerator CoDamageAnim()
     {
+        
         m_meshRenderer.material = m_matDamageBody;
 
         yield return new WaitForSeconds(0.5f);

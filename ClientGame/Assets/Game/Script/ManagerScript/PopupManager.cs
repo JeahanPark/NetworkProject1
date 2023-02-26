@@ -201,7 +201,7 @@ public class PopupManager : MonoSingleton<PopupManager>
             {
                 foreach (PopupID id in System.Enum.GetValues(typeof(PopupID)))
                 {
-                    if (id.ToString() == lisResult[i].PrimaryKey)
+                    if (id.ToString() == lisResult[i].PrimaryKey && !m_dicResourceLocaation.ContainsKey(id))
                     {
                         m_dicResourceLocaation.Add(id, lisResult[i]);
                         break;

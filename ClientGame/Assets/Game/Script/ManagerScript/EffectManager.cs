@@ -53,7 +53,7 @@ public class EffectManager : MonoSingleton<EffectManager>
             {
                 foreach (EffectID id in System.Enum.GetValues(typeof(EffectID)))
                 {
-                    if (id.ToString() == lisResult[i].PrimaryKey)
+                    if (id.ToString() == lisResult[i].PrimaryKey && !m_dicResourceLocaation.ContainsKey(id))
                     {
                         m_dicResourceLocaation.Add(id, lisResult[i]);
                         break;
