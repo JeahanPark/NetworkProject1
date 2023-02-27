@@ -55,6 +55,12 @@ public class UserObject : InteractionObject
         ReturnBodyMaterial();
     }
 
+    public void Die()
+    {
+
+        Clear();
+    }
+
     public float GetMoveSpeed
     {
         get

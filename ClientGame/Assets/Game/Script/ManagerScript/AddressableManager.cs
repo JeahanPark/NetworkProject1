@@ -50,13 +50,14 @@ namespace AddreesableManager
             };
         }
 
-        public void AssetIResourceLocation<T>(IResourceLocation _resourceLocation, System.Action<T> _fnResult)
+        public void AssetAsyncIResourceLocation<T>(IResourceLocation _resourceLocation, System.Action<T> _fnResult)
         {
             Addressables.LoadAssetAsync<T>(_resourceLocation).Completed += (handle) => 
             {
                 _fnResult(handle.Result);
             };
         }
+
         public override void Destroy()
         {
 

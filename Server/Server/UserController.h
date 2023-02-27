@@ -14,8 +14,6 @@ public:
 	const XMFLOAT3& GetMoveDir() { return m_vMoveDir; }
 	float GetMoveSpeed() { return m_fMoveSpeed; }
 	bool GetVaildCheck() { return m_bValidCheck; }
-
-
 public:
 	void ClearUserCommand();
 

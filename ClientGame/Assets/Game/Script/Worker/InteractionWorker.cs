@@ -224,7 +224,7 @@ public class InteractionWorker : MonoBehaviour
                 UserObject user = interactionObject as UserObject;
                 m_poolUserObject.Enqueue(user);
 
-                interactionObject.Clear();
+                user.Die();
                 break;
             case eInteractionType.AttackDummy:
                 Destroy(interactionObject.gameObject);

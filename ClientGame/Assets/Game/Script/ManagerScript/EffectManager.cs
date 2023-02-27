@@ -9,6 +9,9 @@ public enum EffectID
     NONE,
     UserBody_Normal,
     UserBody_Damage,
+
+    PrefabEffect,
+    DieEffect,
     Effect_MAX
 }
 
@@ -16,6 +19,12 @@ public enum EffectID
 public class EffectManager : MonoSingleton<EffectManager>
 {
     private Dictionary<EffectID, IResourceLocation> m_dicResourceLocaation = null;
+
+    private Dictionary<EffectID, BaseEffect> m_originEffect = null;
+
+    private Dictionary<EffectID, Queue<BaseEffect>> m_PoolBaseEffect = null;
+
+    private GameObject m_poolParent = null;
 
     public override void Destroy()
     {
@@ -62,6 +71,26 @@ public class EffectManager : MonoSingleton<EffectManager>
             }
         }
 
+        m_originEffect = new Dictionary<EffectID, BaseEffect>();
+        m_PoolBaseEffect = new Dictionary<EffectID, Queue<BaseEffect>>();
+
+        int startIndex = (int)EffectID.PrefabEffect;
+        int endIndex = (int)EffectID.Effect_MAX;
+        for ( int i = startIndex; i < endIndex; ++i)
+        {
+            EffectID effectID = (EffectID)i;
+            AddressableManager.Instance.InstanceIResourceLocation(m_dicResourceLocaation[effectID], transform, (_Result) => 
+            {
+                m_PoolBaseEffect.Add(effectID, new Queue<BaseEffect>());
+
+                BaseEffect effect = _Result.GetComponent<BaseEffect>();
+                m_originEffect.Add(effectID, effect);
+            });
+        }
+
+        m_poolParent = new GameObject("EffectPool");
+        m_poolParent.transform.SetParent(transform);
+        m_poolParent.SetActive(false);
 
         m_eManagerState = ManagerState.InitSuccess;
     }
@@ -77,6 +106,39 @@ public class EffectManager : MonoSingleton<EffectManager>
             return;
         }
 
-        AddressableManager.Instance.AssetIResourceLocation<T>(resourceLocation, _fnAsyncResult);
+        AddressableManager.Instance.AssetAsyncIResourceLocation<T>(resourceLocation, _fnAsyncResult);
+    }
+
+    public BaseEffect GetEffect(EffectID _id, Transform _parent = null)
+    {
+        BaseEffect effect = CreateEffect(_id);
+
+        if (effect != null && _parent != null)
+            effect.transform.SetParent(_parent);
+
+        return effect;
+    }
+
+    public void UnUseEffect(BaseEffect _effect)
+    {
+    }
+    private BaseEffect CreateEffect(EffectID _id)
+    {
+        if (!m_originEffect.ContainsKey(_id))
+            return null;
+
+        BaseEffect effect = null;
+        Queue<BaseEffect> pool = m_PoolBaseEffect[_id];
+
+        if(pool.Count == 0)
+        {
+            effect = Instantiate(m_originEffect[_id], m_poolParent.transform, false);
+        }
+        else
+        {
+            effect = pool.Dequeue();
+        }
+
+        return effect;
     }
 }

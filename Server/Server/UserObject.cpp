@@ -24,6 +24,13 @@ void UserObject::Update()
 		return;
 	}
 
+	// 죽었다.
+	if (m_state->Die())
+	{
+		m_bVaildLife = false;
+		return;
+	}
+
 	// 유저 입력받을 정보가 있냐???
 	if (m_userController->GetNeedMoveCheck())
 	{
