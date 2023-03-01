@@ -13,14 +13,14 @@ public class InGameEffectWorker : MonoBehaviour
 
     private Dictionary<EffectType, Queue<BaseEffect>> m_PoolBaseEffect = null;
 
-    private GameObject m_poolParent = null;
-
+    private Transform m_poolParent = null;
+    private Transform m_originParent = null;
     private void Awake()
     {
         InGameController.Instance.SetInGameEffectWorker(this);
 
-        m_poolParent = transform.Find("UnUsePool").gameObject;
-
+        m_poolParent = transform.Find<Transform>("UnUsePool");
+        m_originParent = transform.Find<Transform>("OriginEffect");
     }
 
 
@@ -66,13 +66,21 @@ public class InGameEffectWorker : MonoBehaviour
         for ( int i = startIndex; i < endIndex; ++i)
         {
             EffectType effectID = (EffectType)i;
+            bool resourceLoad = false;
+
             AddressableManager.Instance.InstanceIResourceLocation(m_dicResourceLocaation[effectID], transform, (_Result) => 
             {
                 m_PoolBaseEffect.Add(effectID, new Queue<BaseEffect>());
 
                 BaseEffect effect = _Result.GetComponent<BaseEffect>();
                 m_originEffect.Add(effectID, effect);
+                _Result.transform.SetParent(m_originParent);
+
+                resourceLoad = true;
             });
+
+            while (!resourceLoad)
+                yield return null;
         }
     }
 
@@ -98,7 +106,11 @@ public class InGameEffectWorker : MonoBehaviour
         {
             effect.transform.position = _vPos;
         }
-            
+
+        if(effect == null)
+        {
+            Debug.Log(string.Format("{0} ¾øÀ½",_id.ToString()));
+        }
 
         return effect;
     }
@@ -120,7 +132,7 @@ public class InGameEffectWorker : MonoBehaviour
 
         if(pool.Count == 0)
         {
-            effect = Instantiate(m_originEffect[_id], m_poolParent.transform, false);
+            effect = Instantiate(m_originEffect[_id], m_poolParent, false);
         }
         else
         {

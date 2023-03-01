@@ -70,6 +70,7 @@ public enum ePacketSignal
 	Signal_InGameEnter,
 	Signal_InGameExit,
 
+	// 이거를 받아으면 그뒤로 인게임 패킷을 받기 시작한다.
 	Signal_InitialInGameData
 };
 

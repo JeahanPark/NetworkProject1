@@ -80,8 +80,6 @@ public class InteractionObject : MonoBehaviour
             CreateComponent();
 
         InitComponent();
-
-
         InitInteraction(_data);
     }
 

@@ -106,35 +106,27 @@ public class InteractionWorker : MonoBehaviour
         }
     }
 
-
     public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionData[] _interactionPacketDatas, float _fUpdateLatency)
     {
         for ( int i = 0; i < _interactionPacketDatas.Length; ++i)
         {
             InteractionData data = _interactionPacketDatas[i];
-            var begine = m_ActiveObject.First;
 
             InteractionObject interaction = null;
-            for ( var iter = begine; iter != null;)
+            var iter = m_ActiveObject.First;
+            for ( ;iter != null;)
             {
                 // 같은 
                 if (iter.Value.IsSameInteraction(data.m_iInteractionIndex))
                 {
                     interaction = iter.Value;
-                    
-                    // 더이상 유효하지 않은 객체다.
-                    if (!interaction.GetValidLife)
-                    {
-                        // 삭제
-                        DeleteInteraction(iter);
-                    }
                     break;
                 }
 
                 iter = iter.Next;
             }
 
-            if(interaction == null)
+            if (interaction == null)
             {
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
@@ -144,6 +136,13 @@ public class InteractionWorker : MonoBehaviour
 
             // Update
             interaction.UpdateInteraction(data, _fUpdateLatency);
+
+            // 더이상 유효하지 않은 객체다.
+            if (!interaction.GetValidLife)
+            {
+                // 삭제
+                DeleteInteraction(iter);
+            }
         }
     }
 

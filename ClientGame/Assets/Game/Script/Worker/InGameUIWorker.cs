@@ -36,7 +36,7 @@ public class InGameUIWorker : MonoBehaviour
 
     private void TestFun()
     {
-        ShowDamageUI(9999, Vector3.zero);
+
     }
 
     private void Awake()

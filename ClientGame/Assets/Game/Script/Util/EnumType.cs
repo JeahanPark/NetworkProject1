@@ -16,6 +16,7 @@ public enum EffectType
 
     PrefabEffect,
     DieEffect,
+    UserCreateEffect,
     Effect_MAX
 }
 public static class EnumType

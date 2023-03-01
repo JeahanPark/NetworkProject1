@@ -55,6 +55,13 @@ public class UserObject : InteractionObject
         ReturnBodyMaterial();
     }
 
+    public override void Initialize(InteractionData _data)
+    {
+        base.Initialize(_data);
+
+        InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.UserCreateEffect, transform.position);
+    }
+
     public void Die()
     {
         InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.DieEffect, transform.position);
