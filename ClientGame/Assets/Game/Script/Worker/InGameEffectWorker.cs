@@ -23,17 +23,8 @@ public class InGameEffectWorker : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        InitEffect();
-    }
 
-    public void InitEffect()
-    {
-        StartCoroutine(InitProcessor());
-    }
-
-    private IEnumerator InitProcessor()
+    public IEnumerator InitProcessor()
     {
         IList<IResourceLocation> lisResult = null;
 

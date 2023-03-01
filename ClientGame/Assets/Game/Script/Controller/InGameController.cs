@@ -30,7 +30,20 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
     public override void Init()
     {
+
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CoInit());
+    }
+    private IEnumerator CoInit()
+    {
         // 모든 worker세팅은 awake시점에서 세팅한다.
+
+        // 이펙트 세팅
+        yield return m_InGameEffectWorker.InitProcessor();
+
         SignalPacket packet = new SignalPacket();
         packet.m_ePacketSignal = ePacketSignal.Signal_InitialInGameData;
 
@@ -39,10 +52,6 @@ public class InGameController : MonoDestroySingleton<InGameController>
         _fUpdateLatency = 0;
     }
 
-    private void Start()
-    {
-        Init();
-    }
     private float _fUpdateLatency = 0;
     private void Update()
     {

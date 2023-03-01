@@ -250,13 +250,19 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 	{
 		if (_session->IsLogin())
 		{
+			int iUserIndex = _session->GetUserData()->GetUserIndex();
 			// 인게임 진입
-			if (InGameManager().GetInstance()->InsertInGameObject(_session))
+			if (InGameManager().GetInstance()->ExistInGameObject(iUserIndex))
 			{
+				// 이미 인게임이다.
+				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+			}
+			else
+			{
+				// 인게임 진입성공
 				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 			}
-			else // 이미 인게임이다.
-				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+				
 		}
 		else // 로그인을 안했다.
 			pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Not_Login, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
@@ -319,11 +325,6 @@ void PacketHandler::InGameUpdate(const list<s_InteractionObejct>& _lisInteractio
 		++iArrInteractionIndex;
 	}
 
-	if (interactionCount >= 3)
-	{
-		int a = 0;
-	}
-
 	_session->RegisterSend(pSendBuffer);
 }
 
@@ -331,7 +332,8 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 {
 	// 나의 interactionObject를 생성한다.
 	int iMyUserIndex = _session->GetUserData()->GetUserIndex();
-	s_InGameObject myIngameObject = InGameManager::GetInstance()->GetInGameObject(iMyUserIndex);
+
+	s_InGameObject myIngameObject = InGameManager::GetInstance()->CreateInGameObject(_session);
 	s_InteractionObejct user = InteractionManager::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
 
 	myIngameObject->SetUser(user);
@@ -342,6 +344,8 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	list<s_InGameObject> lisInGameObject;
 	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
 
+	// 여기에 내꺼 넣어주기
+	lisInGameObject.push_back(myIngameObject);
 
 	int iDataCount = (int)lisInGameObject.size();
 
@@ -374,14 +378,14 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 		++ingameIndex;
 	}
 
-	if (iDataCount > 2)
-	{
-		int a = 0;
-	}
 	_session->RegisterSend(pSendBuffer);
 
+	InGameManager::GetInstance()->InsertInGameObject(myIngameObject);
 	InteractionManager::GetInstance()->AddInteractionObject(user);
 
+	// 두쓰레드가 여기를 동시에 탓을때 위에서 미리받은건 추가가 안되있기 때문에 다시한번 더 받는다.
+	lisInGameObject.clear();
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
 
 	// 현재 인게임에 접속중인 유저한테
 	// SToC_AddUserInteraction
