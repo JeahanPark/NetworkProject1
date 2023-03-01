@@ -106,6 +106,14 @@ public class InteractionWorker : MonoBehaviour
         }
     }
 
+    public void UserRiseAgain(InitialInGameData _initialInGameData)
+    {
+        UserObject user = CreateInteraction(_initialInGameData.m_UserData) as UserObject;
+
+        user.SetInitialUserData(_initialInGameData.m_strNickName);
+
+        InGameController.Instance.SetMyInteraction(user);
+    }
     public void UpdateInteraction(InGameUpdatePacket _inGameUpdatePacket, InteractionData[] _interactionPacketDatas, float _fUpdateLatency)
     {
         for ( int i = 0; i < _interactionPacketDatas.Length; ++i)

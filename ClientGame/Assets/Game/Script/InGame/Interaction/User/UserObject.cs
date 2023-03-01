@@ -50,6 +50,7 @@ public class UserObject : InteractionObject
         if (MyInteraction)
         {
             InGameController.Instance.SetMyInteraction(null);
+            PopupManager.Instance.OpenPopup(PopupID.UIUserRiseAgain);
         }
 
         ReturnBodyMaterial();

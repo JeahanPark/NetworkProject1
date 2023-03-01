@@ -19,6 +19,7 @@ public:
 
 	void AllUpdateInteractionObject();
 
+
 private:
 	list<s_InteractionObejct>		m_lisInteraction;
 	list<s_InteractionObejct>		m_lisDeleteInteraction;

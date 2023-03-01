@@ -51,6 +51,12 @@ public static class PacketHandler
 					InGameController.Instance.RecivedDamage(packet);
 				}
 				break;
+			case ePacketType.SToC_UserRiseAgain:
+                {
+					var packet = Packet.BufferToPacket<UserRiseAgainPacket>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReciveUserRiseAgain(packet);
+				}
+				break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)

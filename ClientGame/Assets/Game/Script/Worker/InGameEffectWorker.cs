@@ -121,6 +121,7 @@ public class InGameEffectWorker : MonoBehaviour
             return;
 
         m_PoolBaseEffect[_effect.GetEffectType].Enqueue(_effect);
+        _effect.transform.SetParent(m_poolParent);
     }
     private BaseEffect CreateEffect(EffectType _id)
     {
@@ -132,11 +133,12 @@ public class InGameEffectWorker : MonoBehaviour
 
         if(pool.Count == 0)
         {
-            effect = Instantiate(m_originEffect[_id], m_poolParent, false);
+            effect = Instantiate(m_originEffect[_id]);
         }
         else
         {
             effect = pool.Dequeue();
+            effect.transform.SetParent(null);
         }
 
         return effect;

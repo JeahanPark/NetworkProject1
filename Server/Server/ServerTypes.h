@@ -30,6 +30,8 @@ enum class eAxisType
 // 어케해야될지... 모르겟음
 const int maxInteractionCount = 10;
 
+const int noneInteractionIndex = -1;
+
 const XMFLOAT3 RightVector = { 1,0,0 };
 const XMFLOAT3 LeftVector = { -1,0,0 };
 

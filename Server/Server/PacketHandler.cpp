@@ -4,6 +4,8 @@
 #include "InGameObject.h"
 #include "InteractionObject.h"
 #include "UserObject.h"
+#include "UserController.h"
+
 #define SESSION_LOG(SessionNumber, LogName) cout << SessionNumber << " , " << LogName << endl;
 
 void PacketHandler::PacketHandling(s_ServerSession _session, BasePacket* _packetData)
@@ -56,6 +58,9 @@ void PacketHandler::PacketHandling(s_ServerSession _session, BasePacket* _packet
 	case ePacketType::SToC_RecivedDamage:
 		SESSION_LOG(_session->GetSessionNumber(), "SToC_RecivedDamage")
 			break;
+	case ePacketType::SToC_UserRiseAgain:
+		SESSION_LOG(_session->GetSessionNumber(), "SToC_UserRiseAgain")
+			break;
 	default:
 		break;
 #pragma endregion
@@ -82,6 +87,10 @@ void PacketHandler::PacketSignal(s_ServerSession _session, BasePacket* _packetDa
 		InitialInGame(_session);
 		SESSION_LOG(_session->GetSessionNumber(), "InitialInGameData," + (int)packetSignal->m_ePacketSignal)
 		break;
+	case ePacketSignal::Signal_InGameUserRiseAgain:
+		UserRiseAgain(_session);
+		SESSION_LOG(_session->GetSessionNumber(), "Signal_InGameUserRiseAgain," + (int)packetSignal->m_ePacketSignal)
+			break;
 	}
 }
 
@@ -440,4 +449,57 @@ void PacketHandler::RecivedDamage(s_ServerSession _session, int _iRecivedDamageI
 	InGameUpdate->m_fReciveDamage = _iDamage;
 
 	_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::UserRiseAgain(s_ServerSession _session)
+{
+	int iMyUserIndex = _session->GetUserData()->GetUserIndex();
+
+	s_InGameObject myIngameObject = InGameManager::GetInstance()->GetInGameObject(iMyUserIndex);
+
+	bool rise = true;
+	int interactionIndex = noneInteractionIndex;
+	s_InteractionObejct interaction = nullptr;
+
+	if (!myIngameObject->GetUserController()->GetDie())
+	{
+		//안죽엇는데 살려달래
+		rise = false;
+		interactionIndex = noneInteractionIndex;
+	}
+	else
+	{
+		interaction = InteractionManager::GetInstance()->CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
+		interactionIndex = interaction->GetInteractionIndex();
+	}
+
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UserRiseAgainPacket));
+
+	UserRiseAgainPacket* packet = (UserRiseAgainPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_UserRiseAgain;
+	packet->m_iSize = sizeof(UserRiseAgainPacket);
+
+	packet->m_iInteractionIndex = interactionIndex;
+	packet->m_bRiseAgain = rise;
+	
+	UserObject* user = static_cast<UserObject*>(interaction.get());
+	user->SettingInitialInGameDataPacket(&packet->InitData);
+
+	_session->RegisterSend(pSendBuffer);
+
+	// 안살려주는거면 알릴필요 없으니 끝
+	if (!rise)
+		return;
+
+	InteractionManager::GetInstance()->AddInteractionObject(interaction);
+
+	list<s_InGameObject> lisInGameObject;
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+
+	for (auto iter : lisInGameObject)
+	{
+		// 내꺼 제외하고 보내기
+		if (!iter->SameSession(iMyUserIndex))
+			AddUserInteraction(myIngameObject, iter->GetSession());
+	}
 }

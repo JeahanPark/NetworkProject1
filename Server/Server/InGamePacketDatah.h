@@ -47,3 +47,12 @@ struct RecivedDamagePacket : BasePacket
 	int						m_iInteractionIndex;
 	float					m_fReciveDamage;
 };
+
+#pragma pack(1)
+struct UserRiseAgainPacket : BasePacket
+{
+	int		m_iInteractionIndex;
+	bool	m_bRiseAgain;
+
+	InitialInGameData InitData;
+};

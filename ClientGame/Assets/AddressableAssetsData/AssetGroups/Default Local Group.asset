@@ -52,6 +52,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Effect
+  - m_GUID: 5059061bdfff0d14198f31200747e8b2
+    m_Address: UIUserRiseAgain
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d5227b445983c6848ab06a31e870170a, type: 2}
   m_SchemaSet:

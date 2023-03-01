@@ -24,6 +24,7 @@ public enum ePacketType
 	SToC_InitialInGameData,
 	SToC_NewUserInteraction,
 	SToC_RecivedDamage,
+	SToC_UserRiseAgain,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -32,6 +33,7 @@ public enum ePacketType
 	CToS_Chatting,
 	CToS_UserRegister,
 	CToS_MyUserMove,
+	CToS_UserRiseAgain,
 	// 클라에서 서버로
 
 	END,
@@ -71,7 +73,10 @@ public enum ePacketSignal
 	Signal_InGameExit,
 
 	// 이거를 받아으면 그뒤로 인게임 패킷을 받기 시작한다.
-	Signal_InitialInGameData
+	Signal_InitialInGameData,
+
+			// 살려달라고 요청
+	Signal_InGameUserRiseAgain,
 };
 
 public interface PacketListCount
@@ -231,6 +236,24 @@ public struct RecivedDamagePacket
 	public int m_iInteractionIndex;
 	public float m_fReciveDamage;
 };
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct UserRiseAgainPacket
+{
+	public int m_iInteractionIndex;
+	public byte m_bRiseAgain;
+
+	public InitialInGameData m_myInitData;
+	public bool RiseAgain
+	{
+		get
+		{
+			return m_bRiseAgain == 0 ? false : true;
+
+		}
+	}
+};
+
+
 public class Packet
 {
 	public static T BufferToPacket<T>(byte[] _buffer, int _iHeaderSize) where T : struct

@@ -19,6 +19,7 @@ enum class ePacketType
 	SToC_InitialInGameData,
 	SToC_NewUserInteraction,
 	SToC_RecivedDamage,
+	SToC_UserRiseAgain,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -67,6 +68,9 @@ enum class ePacketSignal
 
 	// 이거를 받아으면 그뒤로 인게임 패킷을 받기 시작한다.
 	Signal_InitialInGameData,
+
+	// 살려달라고 요청
+	Signal_InGameUserRiseAgain,
 };
 #pragma pack(1)
 struct BasePacket

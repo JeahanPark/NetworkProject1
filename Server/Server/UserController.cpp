@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UserController.h"
 
-UserController::UserController() : m_vMoveDir{0,0,0}, m_bNeedMoveCheck(false), m_bValidCheck(true), m_fMoveSpeed(0)
+UserController::UserController() : m_vMoveDir{0,0,0}, m_bNeedMoveCheck(false), m_bValidCheck(true), m_fMoveSpeed(0), m_bDie(false)
 {
 }
 
@@ -20,6 +20,11 @@ void UserController::SetUserMove(MyUserMovePacket* _packetData)
 void UserController::SetVaildCheck(bool _bVaild)
 {
 	m_bValidCheck = _bVaild;
+}
+
+void UserController::SetDie(bool _bDie)
+{
+	m_bDie = _bDie;
 }
 
 void UserController::ClearUserCommand()

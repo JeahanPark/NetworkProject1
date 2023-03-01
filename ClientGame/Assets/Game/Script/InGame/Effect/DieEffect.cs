@@ -17,6 +17,5 @@ public class DieEffect : BaseEffect
     public override void StopEffect()
     {
         base.StopEffect();
-        InGameController.Instance.GetEffectWorker.UnUseEffect(this);
     }
 }

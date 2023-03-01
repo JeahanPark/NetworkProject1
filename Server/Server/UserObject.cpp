@@ -28,6 +28,7 @@ void UserObject::Update()
 	if (m_state->Die())
 	{
 		m_bVaildLife = false;
+		m_userController->SetDie(true);
 		return;
 	}
 

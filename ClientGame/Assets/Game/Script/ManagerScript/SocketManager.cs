@@ -211,7 +211,7 @@ public class SocketManager : MonoSingleton<SocketManager>
             if (iRecevieBtye == 0)
                 Disconnect();
 
-            m_receiveBuffer.m_iReadPos = iRecevieBtye;
+            m_receiveBuffer.m_iReadPos += iRecevieBtye;
 
             while(true)
             {

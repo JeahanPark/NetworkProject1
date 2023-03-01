@@ -8,7 +8,7 @@ public:
 public:
 	bool SameSession(int _iUserIndex);
 	void MyUserMove(MyUserMovePacket* _packetData);
-
+	
 public:
 	const s_ServerSession GetSession() { return m_session; }
 	s_UserController GetUserController() { return m_UserController; }

@@ -92,6 +92,13 @@ public class InGameController : MonoDestroySingleton<InGameController>
         Packet.SendPacket<MyUserMovePacket>(packet, ePacketType.CToS_MyUserMove);
     }
 
+    public void SendUserRiseAgain()
+    {
+        SignalPacket packet = new SignalPacket();
+        packet.m_ePacketSignal = ePacketSignal.Signal_InGameUserRiseAgain;
+
+        Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
+    }
     #endregion
 
     #region PacketReceive
@@ -114,6 +121,22 @@ public class InGameController : MonoDestroySingleton<InGameController>
     public void RecivedDamage(RecivedDamagePacket _packet)
     {
         m_InteractionWorker.RecivedDamage(_packet);
+    }
+
+    public void ReciveUserRiseAgain(UserRiseAgainPacket _packet)
+    {
+        if(!_packet.RiseAgain)
+        {
+            //못살아나
+            return;
+        }
+
+        //살아나
+        UIPopup popup = PopupManager.Instance.GetOpenPopup(PopupID.UIUserRiseAgain);
+        if(popup != null)
+            popup.Close();
+
+        m_InteractionWorker.UserRiseAgain(_packet.m_myInitData);
     }
     #endregion
 }

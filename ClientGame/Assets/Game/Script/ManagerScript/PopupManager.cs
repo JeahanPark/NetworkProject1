@@ -12,6 +12,7 @@ public enum PopupID
     UINickNameSetting,
     UIRegister,
     UILogIn,
+    UIUserRiseAgain,
     UI_MAX,
 }
 
@@ -37,7 +38,7 @@ public class PopupManager : MonoSingleton<PopupManager>
     /// </summary>
     /// <param name="_ePopupID"></param>
     /// <param name="_fnResult"> 비동기 함수다</param>
-    public void OpenPopup(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult)
+    public void OpenPopup(PopupID _ePopupID, System.Action<UIPopup> _fnAsyncResult = null)
     {
         if (!InitSuccess)
         {
@@ -56,7 +57,7 @@ public class PopupManager : MonoSingleton<PopupManager>
         }
         popup.gameObject.SetActive(true);
 
-        _fnAsyncResult(popup);
+        _fnAsyncResult?.Invoke(popup);
     }
 
     public UIPopup GetOpenPopup(PopupID _ePopupID)
@@ -98,13 +99,13 @@ public class PopupManager : MonoSingleton<PopupManager>
         if (resourceLocation == null)
         {
             Debug.LogError("없는 UI");
-            _fnAsyncResult(null);
+            _fnAsyncResult?.Invoke(null);
             return;
         }
         if (m_goPopupParent == null)
         {
             Debug.Log("부모 팝업 오브젝트가 생성이 안됐다.");
-            _fnAsyncResult(null);
+            _fnAsyncResult?.Invoke(null);
             return;
         }
 
@@ -113,19 +114,19 @@ public class PopupManager : MonoSingleton<PopupManager>
             if (_Result == null)
             {
                 Debug.Log(string.Format("resourceLocation로 받아온 GameObject가 null , ID : {0}", _ePopupID));
-                _fnAsyncResult(null);
+                _fnAsyncResult?.Invoke(null);
                 return;
             }
             UIPopup uIPopup = _Result.GetComponent<UIPopup>();
             if (uIPopup == null)
             {
                 Debug.Log(string.Format("해당 팝업에 Popup컴포넌트가 붙어있지않음 , ID : {0}", _ePopupID));
-                _fnAsyncResult(null);
+                _fnAsyncResult?.Invoke(null);
                 return;
             }
 
             m_dicPopupObject.Add(uIPopup.GetPopupID(), uIPopup);
-            _fnAsyncResult(uIPopup);
+            _fnAsyncResult?.Invoke(uIPopup);
         });
     }
 
@@ -161,7 +162,7 @@ public class PopupManager : MonoSingleton<PopupManager>
             // 카메라 생성
             Camera camera = cameraObject.AddComponent<Camera>();
 
-            camera.clearFlags = CameraClearFlags.Nothing;
+            camera.clearFlags = CameraClearFlags.Depth;
             camera.depth = m_nPopupCamearaDepth;
             // 캔버스에 카메라 세팅
             canvas.worldCamera = camera;

@@ -12,13 +12,15 @@ public class BaseEffect : MonoBehaviour
             return m_effectType;
         }
     }
-    protected bool m_bStopAnimEnd = false;
+    protected bool m_bStopAnimEnd = true;
     protected float m_fMaxLifeTime = 0;
     protected float m_fCrtLifeTime = 0;
 
+    protected ParticleSystem[] particle = null;
+
     protected virtual void Awake()
     {
-        ParticleSystem[] particle = GetComponentsInChildren<ParticleSystem>();
+        particle = GetComponentsInChildren<ParticleSystem>();
 
         for( int i = 0; i < particle.Length; ++i)
         {
@@ -42,11 +44,20 @@ public class BaseEffect : MonoBehaviour
 
     public virtual void StopEffect()
     {
+        for (int i = 0; i < particle.Length; ++i)
+        {
+            particle[i].Stop();
+        }
+        InGameController.Instance.GetEffectWorker.UnUseEffect(this);
     }
 
     private void OnEnable()
     {
         m_fCrtLifeTime = 0;
+        for( int i = 0; i < particle.Length; ++i)
+        {
+            particle[i].Play();
+        }
     }
 
     private void Update()
@@ -55,7 +66,7 @@ public class BaseEffect : MonoBehaviour
         {
             m_fCrtLifeTime += Time.deltaTime;
 
-            if(m_fMaxLifeTime > m_fCrtLifeTime)
+            if(m_fMaxLifeTime < m_fCrtLifeTime)
             {
                 StopEffect();
             }
