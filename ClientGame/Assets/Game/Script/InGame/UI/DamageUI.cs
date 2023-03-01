@@ -64,7 +64,7 @@ public class DamageUI : BaseUI
         else
         {
             // 사라지면 비활성화되서 Update를 안한다.
-            InGameController.Instance.GetInGameUIWorker.HideDamamgeUI(this);
+            InGameController.Instance.GetUIWorker.HideDamamgeUI(this);
         }
     }
 }

@@ -28,13 +28,14 @@ public class InGameMyWorker : MonoBehaviour
         m_MyCamera.SetTarget(_user == null ? null : _user.transform);
 
         // 데이터 세팅
-        DataManager.Instance.SetInteractionUserData(_user.GetInteractionIndex, _user.GetInteractionType);
+        DataManager.Instance.SetInteractionUserData(_user);
     }
 
     public void UserMove(Vector3 _vDir, float _fMoveSpeed)
     {
         if(m_MyInteraction == null)
         {
+            m_MyCamera.AddPostion(_vDir);
             return;
         }
 

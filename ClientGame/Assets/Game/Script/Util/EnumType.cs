@@ -5,9 +5,19 @@ public enum eInteractionType
 {
     None,
     User,
-    AttackDummy
+    AttackDummy,
+    Interaction_MAX
 }
+public enum EffectType
+{
+    NONE,
+    UserBody_Normal,
+    UserBody_Damage,
 
+    PrefabEffect,
+    DieEffect,
+    Effect_MAX
+}
 public static class EnumType
 {
     // 어케해야될지... 모르겟음

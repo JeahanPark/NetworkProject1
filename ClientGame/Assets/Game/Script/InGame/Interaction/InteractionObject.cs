@@ -123,7 +123,7 @@ public class InteractionObject : MonoBehaviour
 
     public virtual void RecivedDamage(float _fDamage)
     {
-        InGameController.Instance.GetInGameUIWorker.ShowDamageUI(_fDamage, transform.position);
+        InGameController.Instance.GetUIWorker.ShowDamageUI(_fDamage, transform.position);
     }
 
     protected virtual void CreateComponent()

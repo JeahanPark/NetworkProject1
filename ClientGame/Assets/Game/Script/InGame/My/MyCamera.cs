@@ -8,6 +8,8 @@ public class MyCamera : MonoBehaviour
 
     private Vector3 m_TargetDistance;
 
+    private const float m_fFreeViewMoveSpeed = 2f;
+
     private void Awake()
     {
         m_TargetDistance = new Vector3(0, 10, -10);
@@ -17,6 +19,10 @@ public class MyCamera : MonoBehaviour
     public void SetTarget(Transform _target)
     {
         m_transTarget = _target;
+    }
+    public void AddPostion(Vector3 _vDirPos)
+    {
+        transform.position += _vDirPos * m_fFreeViewMoveSpeed;
     }
 
     public void LateUpdate()

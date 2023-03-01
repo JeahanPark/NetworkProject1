@@ -7,11 +7,19 @@ public class InGameController : MonoDestroySingleton<InGameController>
     private InteractionWorker m_InteractionWorker = null;
     private InGameMyWorker m_InGameMyWorker = null;
     private InGameUIWorker m_InGameUIWorker = null;
-    public InGameUIWorker GetInGameUIWorker
+    private InGameEffectWorker m_InGameEffectWorker = null;
+    public InGameUIWorker GetUIWorker
     {
         get
         {
             return m_InGameUIWorker;
+        }
+    }
+    public InGameEffectWorker GetEffectWorker
+    {
+        get
+        {
+            return m_InGameEffectWorker;
         }
     }
 
@@ -58,6 +66,11 @@ public class InGameController : MonoDestroySingleton<InGameController>
     public void SetInGameUIWorker(InGameUIWorker _ingameUIWorker)
     {
         m_InGameUIWorker = _ingameUIWorker;
+    }
+
+    public void SetInGameEffectWorker(InGameEffectWorker _effectWorker)
+    {
+        m_InGameEffectWorker = _effectWorker;
     }
 
     #region PacketSend

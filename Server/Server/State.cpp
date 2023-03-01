@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "State.h"
 
-State::State()
+State::State() : m_fHealth(2), m_fSpeed(3)
 {
 }
 

@@ -19,6 +19,6 @@ public class BaseUI : MonoBehaviour
     {
         Vector3 dir = (_vWorldPos - Camera.main.transform.position).normalized;
 
-        return Camera.main.transform.position + dir * InGameController.Instance.GetInGameUIWorker.GetCanvas.planeDistance;
+        return Camera.main.transform.position + dir * InGameController.Instance.GetUIWorker.GetCanvas.planeDistance;
     }
 }

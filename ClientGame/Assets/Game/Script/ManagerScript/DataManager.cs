@@ -7,7 +7,7 @@ public class DataManager : Singleton<DataManager>
     private UserData m_UserData = null;
 
     // 인게임에서 사용하는 데이터
-    private int m_iInteractionIndex;
+    private int m_iInteractionIndex = EnumType.InteractionIndexNone;
     private eInteractionType m_eType;
 
 
@@ -15,10 +15,18 @@ public class DataManager : Singleton<DataManager>
     {
         return m_UserData != null;
     }
-    public void SetInteractionUserData(int _iInteractionIndex, eInteractionType _eType)
+    public void SetInteractionUserData(UserObject _user)
     {
-        m_iInteractionIndex = _iInteractionIndex;
-        m_eType = _eType;
+        if(_user == null)
+        {
+            m_iInteractionIndex = EnumType.InteractionIndexNone;
+            m_eType = eInteractionType.None;
+        }
+        else
+        {
+            m_iInteractionIndex = _user.GetInteractionIndex;
+            m_eType = _user.GetInteractionType;
+        }
     }
 
     public bool SameMyInteraction(int _iInteractionIndex, eInteractionType _eType)

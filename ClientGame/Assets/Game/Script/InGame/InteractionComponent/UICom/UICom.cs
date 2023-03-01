@@ -14,7 +14,7 @@ public class UICom : BaseInteractionComponent
     {
         base.InitComponent();
 
-        m_UserUI = InGameController.Instance.GetInGameUIWorker.CreateUIUser(m_ownerInteraction.GetInteractionIndex);
+        m_UserUI = InGameController.Instance.GetUIWorker.CreateUIUser(m_ownerInteraction.GetInteractionIndex);
 
         m_UserUI.Initialize(m_ownerInteraction.transform);
     }
@@ -23,7 +23,7 @@ public class UICom : BaseInteractionComponent
     {
         base.ClearComponent();
 
-        InGameController.Instance.GetInGameUIWorker.PopUIUser(m_ownerInteraction.GetInteractionIndex);
+        InGameController.Instance.GetUIWorker.PopUIUser(m_ownerInteraction.GetInteractionIndex);
         m_UserUI.ClearData();
         m_UserUI = null;
     }

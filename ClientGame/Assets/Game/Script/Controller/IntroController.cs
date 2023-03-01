@@ -30,14 +30,6 @@ public class IntroController : MonoBehaviour
             yield return PopupManager.Instance.InitSuccessWait();
         }
 
-        // 이거는 나중에 수정함
-        // 이펙트 매니저가 초기화
-        {
-            EffectManager.Instance.Init();
-
-            yield return EffectManager.Instance.InitSuccessWait();
-        }
-
         // 소켓 연결
         {
             bool bResult = false;

@@ -9,18 +9,18 @@ public class UserObject : InteractionObject
 
     private static Material m_matNormalBody = null;
     private static Material m_matDamageBody = null;
-    private void Awake()
+    private void Start()
     {
         m_meshRenderer = GetComponent<MeshRenderer>();
 
         if(m_matNormalBody == null)
         {
-            EffectManager.Instance.GetEffect<Material>(EffectID.UserBody_Normal, (mat) =>
+            InGameController.Instance.GetEffectWorker.GetEffect<Material>(EffectType.UserBody_Normal, (mat) =>
             {
                 m_matNormalBody = mat;
             });
 
-            EffectManager.Instance.GetEffect<Material>(EffectID.UserBody_Damage, (mat) =>
+            InGameController.Instance.GetEffectWorker.GetEffect<Material>(EffectType.UserBody_Damage, (mat) =>
             {
                 m_matDamageBody = mat;
             });
@@ -57,7 +57,7 @@ public class UserObject : InteractionObject
 
     public void Die()
     {
-
+        InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.DieEffect, transform.position);
         Clear();
     }
 
