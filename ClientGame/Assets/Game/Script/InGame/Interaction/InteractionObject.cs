@@ -94,10 +94,15 @@ public class InteractionObject : MonoBehaviour
     // 더이상 사용하지않아 풀로 들어갈때 함수호출
     public virtual void Clear()
     {
-        foreach( var item in m_dicInteractionComponent)
+        // 클리어를 할때 풀에 다시 반환해주는데 이때 m_iInteractionIndex를 사용한다.
+        // 다 컴포넌트를 클리어해주고 초기화해주자
+        foreach ( var item in m_dicInteractionComponent)
         {
             item.Value.ClearComponent();
         }
+
+        m_eInteractionType = eInteractionType.None;
+        m_iInteractionIndex = EnumType.InteractionIndexNone;
     }
 
     public virtual void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)

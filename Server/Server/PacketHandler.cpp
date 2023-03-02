@@ -403,12 +403,12 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	{
 		// 내꺼 제외하고 보내기
 		if (!iter->SameSession(iMyUserIndex))
-			AddUserInteraction(myIngameObject, iter->GetSession());
+			AddUserInteraction(user, iter->GetSession());
 	}
 
 }
 
-void PacketHandler::AddUserInteraction(s_InGameObject _newUser, s_ServerSession _session)
+void PacketHandler::AddUserInteraction(s_InteractionObejct _newUser, s_ServerSession _session)
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(NewUserPacket));
 
@@ -416,9 +416,7 @@ void PacketHandler::AddUserInteraction(s_InGameObject _newUser, s_ServerSession 
 	packet->m_PakcetType = ePacketType::SToC_NewUserInteraction;
 	packet->m_iSize = sizeof(NewUserPacket);
 
-	s_InteractionObejct object = _newUser->GetUserInteraction();
-
-	UserObject* user = static_cast<UserObject*>(object.get());
+	UserObject* user = static_cast<UserObject*>(_newUser.get());
 	user->SettingInitialInGameDataPacket(&packet->InitData);
 
 	_session->RegisterSend(pSendBuffer);
@@ -500,6 +498,6 @@ void PacketHandler::UserRiseAgain(s_ServerSession _session)
 	{
 		// 내꺼 제외하고 보내기
 		if (!iter->SameSession(iMyUserIndex))
-			AddUserInteraction(myIngameObject, iter->GetSession());
+			AddUserInteraction(interaction, iter->GetSession());
 	}
 }

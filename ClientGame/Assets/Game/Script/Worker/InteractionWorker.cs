@@ -11,6 +11,8 @@ public class InteractionWorker : MonoBehaviour
 
     private LinkedList<InteractionObject> m_ActiveObject = null;
 
+    private Transform m_UnUseUserPool = null;
+
 
     private void Awake()
     {
@@ -30,6 +32,9 @@ public class InteractionWorker : MonoBehaviour
         m_poolUserObject = new Queue<UserObject>();
 
         m_ActiveObject = new LinkedList<InteractionObject>();
+
+        m_UnUseUserPool = transform.Find<Transform>("UnUseUserPool");
+
     }
     public void AddNewUser(NewUserPacket _packet)
     {
@@ -184,12 +189,17 @@ public class InteractionWorker : MonoBehaviour
                     if(m_poolUserObject.Count == 0)
                         interactionObject = CreateUser();
                     else
+                    {
                         interactionObject = m_poolUserObject.Dequeue();
+                        interactionObject.transform.SetParent(null);
+                    }
+                        
                 }
                 break;
             case eInteractionType.AttackDummy:
                 {
                     interactionObject = Instantiate<AttackDummy>(m_originAttackDummy);
+                    interactionObject.gameObject.SetActive(true);
                 }
                 break;
         }
@@ -201,8 +211,6 @@ public class InteractionWorker : MonoBehaviour
 
         // √ ±‚»≠
         interactionObject.Initialize(_data);
-
-        interactionObject.gameObject.SetActive(true);
 
         return interactionObject;
     }
@@ -221,8 +229,6 @@ public class InteractionWorker : MonoBehaviour
     {
         InteractionObject interactionObject = _interaction.Value;
 
-        interactionObject.gameObject.SetActive(false);
-
         m_ActiveObject.Remove(_interaction);
 
         switch(interactionObject.GetInteractionType)
@@ -230,7 +236,7 @@ public class InteractionWorker : MonoBehaviour
             case eInteractionType.User:
                 UserObject user = interactionObject as UserObject;
                 m_poolUserObject.Enqueue(user);
-
+                user.transform.SetParent(m_UnUseUserPool.transform);
                 user.Die();
                 break;
             case eInteractionType.AttackDummy:

@@ -84,7 +84,7 @@ void InGameManager::GetlistInGame(list<s_InGameObject>& _lisInGame)
 
     for (mapInGame::value_type inGameObject : m_mapInGame)
     {
-        if (inGameObject.second->GetUserInteraction() != nullptr)
+        if(!inGameObject.second->GetUserController()->GetDie())
             _lisInGame.push_back(inGameObject.second);
     }
 }

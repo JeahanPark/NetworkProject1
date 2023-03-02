@@ -27,7 +27,7 @@ public:
 
 	static void InitialInGame(s_ServerSession _session);
 
-	static void AddUserInteraction(s_InGameObject _newUser, s_ServerSession _session);
+	static void AddUserInteraction(s_InteractionObejct _newUser, s_ServerSession _session);
 
 	static void AllUserNotifyRecivedDamage(int _iRecivedDamageIndetractionIndex, int _iDamage);
 
