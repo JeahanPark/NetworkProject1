@@ -11,17 +11,20 @@ public:
 
 	void AddInteractionObject(s_InteractionObejct _interaction);
 	void AddListInteractionObejct(const list<s_InteractionObejct>& _lisInteraction);
-	list<s_InteractionObejct> GetInteractionList() { return m_lisInteraction; }
-	void GetUserInteractionList(list<s_InteractionObejct>& _lisUserInteracction);
+	void GetInteractionList(list<s_InteractionObejct>& _InteractionObjects);
  
-	void AddDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
+	void GetDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
 	void ClearDeleteInteraction();
 
 	void AllUpdateInteractionObject();
 
-
 private:
-	list<s_InteractionObejct>		m_lisInteraction;
+	void GetNoLockInteractionList(list<s_InteractionObejct>& _InteractionObjects);
+	
+private:
+	map<eInteractionType, lisInteraction> m_mapInteraction;
+
+	//list<s_InteractionObejct>		m_lisInteraction;
 	list<s_InteractionObejct>		m_lisDeleteInteraction;
 	mutex							m_lockInteraction;
 };

@@ -237,7 +237,12 @@ public class InteractionWorker : MonoBehaviour
                 UserObject user = interactionObject as UserObject;
                 m_poolUserObject.Enqueue(user);
                 user.transform.SetParent(m_UnUseUserPool.transform);
+
+                // 죽었을때 관련된 팝업, 이펙트 노출
                 user.Die();
+
+                // 데이터 클리어
+                user.Clear();
                 break;
             case eInteractionType.AttackDummy:
                 Destroy(interactionObject.gameObject);

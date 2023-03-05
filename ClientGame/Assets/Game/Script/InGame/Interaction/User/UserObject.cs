@@ -47,12 +47,6 @@ public class UserObject : InteractionObject
     {
         base.Clear();
 
-        if (MyInteraction)
-        {
-            InGameController.Instance.SetMyInteraction(null);
-            PopupManager.Instance.OpenPopup(PopupID.UIUserRiseAgain);
-        }
-
         ReturnBodyMaterial();
     }
 
@@ -66,7 +60,12 @@ public class UserObject : InteractionObject
     public void Die()
     {
         InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.DieEffect, transform.position);
-        Clear();
+
+        if (MyInteraction)
+        {
+            InGameController.Instance.SetMyInteraction(null);
+            PopupManager.Instance.OpenPopup(PopupID.UIUserRiseAgain);
+        }
     }
 
     public float GetMoveSpeed

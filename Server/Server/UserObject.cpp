@@ -7,6 +7,7 @@ UserObject::UserObject(s_UserController _uerController, const UserData* _userDat
 	:	m_userController(_uerController),
 		m_UserData(*_userData)
 {
+	m_userController->SetDie(false);
 	m_eType = eInteractionType::User;
 }
 
