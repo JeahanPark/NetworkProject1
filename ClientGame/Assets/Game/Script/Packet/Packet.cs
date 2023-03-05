@@ -170,7 +170,8 @@ public struct InteractionData
 	public eInteractionType				m_eType;
 	private byte						m_ValidLife;
 	public Vector3						m_vPos;
-	public Vector3						m_vDir;
+	public Vector3						m_vMoveDir;
+	public Vector3						m_vRotateY;
 	public float						m_fMoveSpeed;
 
 	public bool	VaildLife
@@ -202,8 +203,9 @@ public struct InGameEnterSuccess
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct MyUserMovePacket
 {
-	public Vector3 m_vDir;
-	public float m_fMoveSpeed;
+	public Vector3		m_vMoveDir;
+	public float		m_fMoveSpeed;
+	public Vector3		m_vRotateY;
 };
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 1)]
 public struct InitialInGameData

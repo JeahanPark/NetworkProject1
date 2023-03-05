@@ -13,6 +13,14 @@ public class InGameMyWorker : MonoBehaviour
 
     private MyUI m_MyUI;
 
+    public UserObject GetMyInteraction
+    {
+        get
+        {
+            return m_MyInteraction;
+        }
+    }
+
     private void Awake()
     {
         m_MyController = GetComponent<MyController>();
@@ -34,17 +42,17 @@ public class InGameMyWorker : MonoBehaviour
         DataManager.Instance.SetInteractionUserData(_user);
     }
 
-    public void UserMove(Vector3 _vDir, float _fMoveSpeed)
+    public void UserMove(Vector3 _vMoveDir, Vector3 _vRotateY, float _fMoveSpeed)
     {
         if(m_MyInteraction == null)
         {
-            m_MyCamera.AddPostion(_vDir);
+            m_MyCamera.AddPostion(_vMoveDir);
             return;
         }
 
         // 최대 이동속도보다 낮을경우
-        m_MyInteraction.SetUserMove(_vDir, _fMoveSpeed);
+        m_MyInteraction.SetUserMove(_vMoveDir, _fMoveSpeed);
 
-        InGameController.Instance.SendMyUserMove(_vDir, _fMoveSpeed);
+        InGameController.Instance.SendMyUserMove(_vMoveDir, _vRotateY, _fMoveSpeed);
     }
 }

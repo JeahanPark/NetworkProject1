@@ -5,8 +5,10 @@
 #pragma pack(1)
 struct MyUserMovePacket : BasePacket
 {
-	XMFLOAT3	m_vDir;
+	XMFLOAT3	m_vMoveDir;
 	float		m_fMoveSpeed;
+
+	XMFLOAT3	m_vRotateY;
 };
 #pragma pack(1)
 struct InteractionPacketData
@@ -15,7 +17,8 @@ struct InteractionPacketData
 	eInteractionType		m_eType;
 	bool					m_bValidLife;
 	XMFLOAT3				m_vPos;
-	XMFLOAT3				m_vDir;
+	XMFLOAT3				m_vMoveDir;
+	XMFLOAT3				m_vRotateY;
 	float					m_fMoveSpeed;
 };
 #pragma pack(1)

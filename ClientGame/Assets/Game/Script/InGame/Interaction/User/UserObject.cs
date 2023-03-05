@@ -9,6 +9,8 @@ public class UserObject : InteractionObject
 
     private static Material m_matNormalBody = null;
     private static Material m_matDamageBody = null;
+
+    public Vector3 m_test;
     private void Start()
     {
         m_meshRenderer = GetComponent<MeshRenderer>();
@@ -68,14 +70,6 @@ public class UserObject : InteractionObject
         }
     }
 
-    public float GetMoveSpeed
-    {
-        get
-        {
-            return m_fMoveSpeed;
-        }
-    }
-
     public void SetUserMove(Vector3 _vMoveDir, float _fMoveSpeed)
     {
         m_vMoveDir += _vMoveDir;
@@ -87,12 +81,13 @@ public class UserObject : InteractionObject
 
     public override void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
     {
-        m_vMoveDir = _InteractionData.m_vDir;
+        m_vMoveDir = _InteractionData.m_vMoveDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
+        m_vRotateY = _InteractionData.m_vRotateY;
 
         m_bValidLife = _InteractionData.VaildLife;
 
-        if(MyInteraction)
+        if (MyInteraction)
         {
             transform.position = _InteractionData.m_vPos;
         }
@@ -116,6 +111,14 @@ public class UserObject : InteractionObject
             m_coDamageAnim = null;
         }
         m_coDamageAnim = StartCoroutine(CoDamageAnim());
+    }
+
+    public Vector3 GetRotateY
+    {
+        get
+        {
+            return m_vRotateY;
+        }
     }
 
     private Coroutine m_coDamageAnim = null;
@@ -167,5 +170,7 @@ public class UserObject : InteractionObject
         }
         else
             m_bDeadRackoningMove = false;
+
+        transform.forward = m_vRotateY;
     }
 }

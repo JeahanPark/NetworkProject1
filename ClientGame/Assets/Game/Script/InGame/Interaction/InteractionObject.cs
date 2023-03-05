@@ -23,6 +23,7 @@ public class InteractionObject : MonoBehaviour
     protected int m_iInteractionIndex = EnumType.InteractionIndexNone;
 
     protected Vector3 m_vMoveDir;
+    protected Vector3 m_vRotateY;
     protected float m_fMoveSpeed;
 
     protected bool m_bValidLife = false;
@@ -59,7 +60,27 @@ public class InteractionObject : MonoBehaviour
             return m_iInteractionIndex;
         }
     }
-
+    public float GetMoveSpeed
+    {
+        get
+        {
+            return m_fMoveSpeed;
+        }
+    }
+    public Vector3 GetPostion
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+    public Vector3 GetMoveDir
+    { 
+        get
+        {
+            return m_vMoveDir;
+        }
+    }
     public bool IsSameInteraction(int _iInteractionIndex)
     {
         //Debug.Log(_interactionPacketData.m_eType.ToString() + ","
@@ -86,7 +107,7 @@ public class InteractionObject : MonoBehaviour
     private void InitInteraction(InteractionData _data)
     {
         transform.position = _data.m_vPos;
-        m_vMoveDir = _data.m_vDir;
+        m_vMoveDir = _data.m_vMoveDir;
         m_fMoveSpeed = _data.m_fMoveSpeed;
         m_bValidLife = _data.VaildLife;
     }
@@ -107,10 +128,11 @@ public class InteractionObject : MonoBehaviour
 
     public virtual void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
     {
-        m_vMoveDir = _InteractionData.m_vDir;
+        m_vMoveDir = _InteractionData.m_vMoveDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
+        m_vRotateY = _InteractionData.m_vRotateY;
 
-        if(m_fMoveSpeed <= 0)
+        if (m_fMoveSpeed <= 0)
         {
             // 이동중이지 않는다면 위치를 그냥박자
             transform.position = _InteractionData.m_vPos;
@@ -156,7 +178,7 @@ public class InteractionObject : MonoBehaviour
             // 데드레커닝 이동이 우선
             if (m_bDeadRackoningMove)
             {
-                // 데드레커닝으로 구한 위치로 움직인다.
+                // 데드레커닝으로 구한 위치로 0.1초안에 움직인다.
                 transform.position += m_vDeadRackoningDir * m_fDeadRackoningDeltaTime;
 
                 if ((transform.position - m_vDeadRackoningPos).magnitude < 1f)
@@ -172,6 +194,8 @@ public class InteractionObject : MonoBehaviour
         }
         else
             m_bDeadRackoningMove = false;
+
+        transform.forward = m_vRotateY;
 
     }
 }

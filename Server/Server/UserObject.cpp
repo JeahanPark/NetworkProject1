@@ -36,10 +36,12 @@ void UserObject::Update()
 	// 유저 입력받을 정보가 있냐???
 	if (m_userController->GetNeedMoveCheck())
 	{
-		const XMFLOAT3& dir = m_userController->GetMoveDir();
+		const XMFLOAT3& dirMove = m_userController->GetMoveDir();
+		const XMFLOAT3& rotateY = m_userController->GetRotateY();
 		float moveSpeed = m_userController->GetMoveSpeed();
 
-		m_transform->SetUserMove(dir, moveSpeed);
+
+		m_transform->SetUserMove(dirMove, rotateY, moveSpeed);
 
 		// 다받고 클리어 해준다.
 		m_userController->ClearUserCommand();

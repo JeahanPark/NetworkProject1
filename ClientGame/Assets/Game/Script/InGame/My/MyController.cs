@@ -48,13 +48,16 @@ public class MyController : MonoBehaviour
         // 패킷 보내기 조건
         // 1. 처음 눌렀을때
         // 2. 키 누른지 10프레임 지났을때
+        // 3. 마우스
         {
             if(m_iKeyDown == (int)KeyDown.KeyDown_NonePressing)
             {
                 // 안눌렀다
                 m_fKeyPressingTime = 0;
             }
-            else
+
+
+            if(m_iKeyDown != (int)KeyDown.KeyDown_NonePressing)
             {
                 // 눌렀다.
                 m_fKeyPressingTime += Time.deltaTime;
@@ -87,28 +90,30 @@ public class MyController : MonoBehaviour
 
     private void KeyDownProgress()
     {
-        Vector3 dir = Vector3.zero;
-
+        Vector3 vMoveDir = Vector3.zero;
+        Vector3 vRotateY = InGameController.Instance.GetMyWorker.GetMyInteraction.GetRotateY;
         if(IsPressingKey(m_iKeyDown, KeyDown.KeyDown_D))
         {
-            dir.x = 1;
+            vMoveDir.x = 1;
         }
 
         if (IsPressingKey(m_iKeyDown, KeyDown.KeyDown_A))
         {
-            dir.x = -1;
+            vMoveDir.x = -1;
         }
 
         if (IsPressingKey(m_iKeyDown, KeyDown.KeyDown_W))
         {
-            dir.z = 1;
+            vMoveDir.z = 1;
         }
 
         if (IsPressingKey(m_iKeyDown, KeyDown.KeyDown_S))
         {
-            dir.z = -1;
+            vMoveDir.z = -1;
         }
 
-        InGameController.Instance.GetMyWorker.UserMove(dir, 1);
+        
+
+        InGameController.Instance.GetMyWorker.UserMove(vMoveDir, vRotateY, 1);           
     }
 }

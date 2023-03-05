@@ -17,9 +17,13 @@ public class UIMobileJoyStick : MonoBehaviour
 
     private void Update()
     {
-        float x = m_joyStickLeft.Horizontal;
-        float z = m_joyStickLeft.Vertical;
-        if (x != 0 || z != 0)
+        float fMoveX = m_joyStickLeft.Horizontal;
+        float fMoveY = m_joyStickLeft.Vertical;
+
+        float fRotateX = m_joyStickRight.Horizontal;
+        float fRotateY = m_joyStickRight.Vertical;
+
+        if (fMoveX != 0 || fMoveY != 0 || fRotateX != 0 || fRotateY != 0)
         {
             m_fKeyPressingTime += Time.deltaTime;
 
@@ -27,9 +31,20 @@ public class UIMobileJoyStick : MonoBehaviour
             {
                 m_fKeyPressingTime = 0;
 
-                Vector3 dir = new Vector3(x, 0, z);
+                Vector3 vMoveDir = new Vector3(fMoveX, 0, fMoveY);
+                Vector3 vRotateDir = new Vector3(fRotateX, 0, fRotateY);
+                float fSpeed = 1;
+                if (vMoveDir == Vector3.zero)
+                {
+                    fSpeed = 0;
+                    vMoveDir = InGameController.Instance.GetMyWorker.GetMyInteraction.GetMoveDir;
+                }
 
-                InGameController.Instance.GetMyWorker.UserMove(dir, 1);
+                if(vRotateDir == Vector3.zero)
+                {
+                    vRotateDir = InGameController.Instance.GetMyWorker.GetMyInteraction.GetRotateY;
+                }
+                InGameController.Instance.GetMyWorker.UserMove(vMoveDir, vRotateDir, fSpeed);
             }
         }
     }

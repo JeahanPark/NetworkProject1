@@ -91,11 +91,12 @@ public class InGameController : MonoDestroySingleton<InGameController>
     }
 
     #region PacketSend
-    public void SendMyUserMove(Vector3 _vDir, float _fMoveSpeed)
+    public void SendMyUserMove(Vector3 _vMoveDir, Vector3 _vRotateY, float _fMoveSpeed)
     {
         MyUserMovePacket packet = new MyUserMovePacket();
-        packet.m_vDir = _vDir;
+        packet.m_vMoveDir = _vMoveDir;
         packet.m_fMoveSpeed = _fMoveSpeed;
+        packet.m_vRotateY = _vRotateY;
 
         Packet.SendPacket<MyUserMovePacket>(packet, ePacketType.CToS_MyUserMove);
     }

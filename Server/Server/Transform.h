@@ -8,13 +8,14 @@ public:
 
 public:
 	void SetPos(const XMFLOAT3& _vPos) { m_vPos = _vPos; }
-	void SetUserMove(const XMFLOAT3& _Dir, float _fMoveSpeed);
+	void SetUserMove(const XMFLOAT3& _MoveDir, const XMFLOAT3& _RotateDir, float _fSpeed);
 	void SetAxisPos(eAxisType _eAxis, float _fValue);
 	void Update();
 	void MovePos(const XMFLOAT3& _vDir);
 public:
 	const XMFLOAT3& GetPos() { return m_vPos; }
-	const XMFLOAT3& GetYAxisDir() { return m_vYAxisDir; }
+	const XMFLOAT3& GetMoveDir() { return m_vMoveDir; }
+	const XMFLOAT3& GetRotateY() { return m_vRotateY; }
 	float GetMoveSpeed() { return m_fMoveSpeed; }
 
 private:
@@ -28,6 +29,9 @@ private:
 	// 크기
 	float m_fScale;
 
-	// 방향
-	XMFLOAT3 m_vYAxisDir;
+	// 이동방향
+	XMFLOAT3 m_vMoveDir;
+
+	// 회전
+	XMFLOAT3 m_vRotateY;
 };
