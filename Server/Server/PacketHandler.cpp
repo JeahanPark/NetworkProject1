@@ -345,18 +345,17 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	s_InGameObject myIngameObject = InGameManager::GetInstance()->CreateInGameObject(_session);
 	s_InteractionObejct user = InteractionManager::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
 
-	myIngameObject->SetUser(user);
 	// s_InteractionObejct를 생성하고 바로 리스트에 넣으면 Update에서 보낼수도있어서 안됌
 
 	// 나한테 데이터 전달
 	// SToC_InitialInGameData
-	list<s_InGameObject> lisInGameObject;
-	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+	lisInteraction interactions;
+	InteractionManager::GetInstance()->GetInteractionTypeList(eInteractionType::User, interactions);
 
 	// 여기에 내꺼 넣어주기
-	lisInGameObject.push_back(myIngameObject);
+	interactions.push_back(user);
 
-	int iDataCount = (int)lisInGameObject.size();
+	int iDataCount = (int)interactions.size();
 
 	int iInitialInGameDataSize = sizeof(InitialInGameData);
 	int iInitialInGameDataPacketSize = sizeof(InitialInGameDataPacket);
@@ -373,15 +372,13 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	InGameUpdate->m_iMyInteractionIndex = user->GetInteractionIndex();
 
 	int ingameIndex = 0;
-	for (auto iter : lisInGameObject)
+	for (auto iter : interactions)
 	{
 		int startBuffer = iInitialInGameDataPacketSize + ingameIndex * iInitialInGameDataSize;
 
 		InitialInGameData* packet = (InitialInGameData*)pSendBuffer->GetSendBufferAdress(startBuffer);
 
-		s_InteractionObejct object = iter->GetUserInteraction();
-
-		UserObject* user = static_cast<UserObject*>(object.get());
+		UserObject* user = static_cast<UserObject*>(iter.get());
 		user->SettingInitialInGameDataPacket(packet);
 
 		++ingameIndex;
@@ -393,7 +390,7 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	InteractionManager::GetInstance()->AddInteractionObject(user);
 
 	// 두쓰레드가 여기를 동시에 탓을때 위에서 미리받은건 추가가 안되있기 때문에 다시한번 더 받는다.
-	lisInGameObject.clear();
+	list<s_InGameObject> lisInGameObject;
 	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
 
 	// 현재 인게임에 접속중인 유저한테

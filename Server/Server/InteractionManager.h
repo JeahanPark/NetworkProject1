@@ -12,7 +12,8 @@ public:
 	void AddInteractionObject(s_InteractionObejct _interaction);
 	void AddListInteractionObejct(const list<s_InteractionObejct>& _lisInteraction);
 	void GetInteractionList(list<s_InteractionObejct>& _InteractionObjects);
- 
+	void GetInteractionTypeList(eInteractionType _type, lisInteraction& _lisInteraction);
+
 	void GetDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects);
 	void ClearDeleteInteraction();
 

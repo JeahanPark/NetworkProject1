@@ -72,6 +72,21 @@ void InteractionManager::GetInteractionList(list<s_InteractionObejct>& _Interact
 	GetNoLockInteractionList(_InteractionObjects);
 }
 
+void InteractionManager::GetInteractionTypeList(eInteractionType _type, lisInteraction& _lisInteraction)
+{
+	LockGuard lock(m_lockInteraction);
+
+	auto iter = m_mapInteraction.find(_type);
+
+	if (iter == m_mapInteraction.end())
+		return;
+
+	for (auto interaction : iter->second)
+	{
+		_lisInteraction.push_back(interaction);
+	}
+}
+
 
 void InteractionManager::GetDeleteInteraction(list<s_InteractionObejct>& _InteractionObjects)
 {
