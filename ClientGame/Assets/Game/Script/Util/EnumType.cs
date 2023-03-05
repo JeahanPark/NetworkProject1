@@ -27,5 +27,7 @@ public static class EnumType
 
 
     public const int BUFF_MAX_SIZE = 65535;
+
+    public const float m_f10Frame = 0.1666666666666667f;
 }
 

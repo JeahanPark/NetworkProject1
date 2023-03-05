@@ -11,10 +11,13 @@ public class InGameMyWorker : MonoBehaviour
 
     private MyController m_MyController;
 
+    private MyUI m_MyUI;
 
     private void Awake()
     {
         m_MyController = GetComponent<MyController>();
+
+        m_MyUI = transform.Find<MyUI>("MyUI");
 
         InGameController.Instance.SetInGameMyWorker(this);
     }

@@ -15,13 +15,6 @@ public class MyController : MonoBehaviour
     private int m_iKeyDown = 0;
     private float m_fKeyPressingTime = 0;
 
-    private InGameMyWorker m_InGameMy = null;
-
-    private void Awake()
-    {
-        m_InGameMy = GetComponent<InGameMyWorker>();
-    }
-
     private void Update()
     {
         // 이전 키 저장
@@ -76,7 +69,7 @@ public class MyController : MonoBehaviour
                     // 이미 눌러져있는 키들이다.
 
                     // 10프레임마다 보냄
-                    if(m_fKeyPressingTime <= 0.6f)
+                    if(m_fKeyPressingTime > EnumType.m_f10Frame)
                     {
                         m_fKeyPressingTime = 0;
                         KeyDownProgress();
@@ -116,7 +109,6 @@ public class MyController : MonoBehaviour
             dir.z = -1;
         }
 
-        if (m_InGameMy != null)
-            m_InGameMy.UserMove(dir, 1);
+        InGameController.Instance.GetMyWorker.UserMove(dir, 1);
     }
 }

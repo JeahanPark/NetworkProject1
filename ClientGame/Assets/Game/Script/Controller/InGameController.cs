@@ -23,6 +23,14 @@ public class InGameController : MonoDestroySingleton<InGameController>
         }
     }
 
+    public InGameMyWorker GetMyWorker
+    {
+        get
+        {
+            return m_InGameMyWorker;
+        }
+    }
+
     public override void Destroy()
     {
         base.Destroy();
