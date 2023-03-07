@@ -5,7 +5,8 @@
 Collision::Collision(s_InteractionObejct _owner)
 	: m_Owner(_owner),
 	m_fCollisionClearTime(1),
-	m_fCollisionSize(1)
+	m_fCollisionSize(1),
+	m_bClear(true)
 
 {
 	switch (m_Owner->GetInteractionType())
@@ -14,6 +15,9 @@ Collision::Collision(s_InteractionObejct _owner)
 		m_CollisionType = (int)eCollisionType::Recive;
 		break;
 	case eInteractionType::AttackDummy:
+		m_CollisionType = (int)eCollisionType::Send;
+		break;
+	case eInteractionType::AttackFireBall:
 		m_CollisionType = (int)eCollisionType::Send;
 		break;
 	default:
@@ -93,6 +97,9 @@ bool Collision::AlreadDamaged(int _iInteractionIndex)
 
 void Collision::CleanUpCollisionList()
 {
+	if (!m_bClear)
+		return;
+
 	auto iter = m_lisCollision.begin();
 
 	double totalDeltaTime = InGameUpdateManager::GetInstance()->GetTotalDeltaTime();
@@ -123,6 +130,11 @@ int Collision::GetInteractionIndex()
 Transform* Collision::GetTransform()
 {
 	return  m_Owner->GetTransform();
+}
+
+void Collision::SetCollisonClear(bool _bCleer)
+{
+	m_bClear = _bCleer;
 }
 
 bool Collision::HaveCollisionType(eCollisionType _type)

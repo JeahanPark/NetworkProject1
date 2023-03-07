@@ -10,7 +10,6 @@ public class UserObject : InteractionObject
     private static Material m_matNormalBody = null;
     private static Material m_matDamageBody = null;
 
-    public Vector3 m_test;
     private void Start()
     {
         m_meshRenderer = GetComponent<MeshRenderer>();
@@ -83,7 +82,6 @@ public class UserObject : InteractionObject
     {
         m_vMoveDir = _InteractionData.m_vMoveDir;
         m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
-        m_vRotateY = _InteractionData.m_vRotateY;
 
         m_bValidLife = _InteractionData.VaildLife;
 
@@ -98,6 +96,8 @@ public class UserObject : InteractionObject
             m_vDeadRackoningDir = m_vDeadRackoningPos - transform.position;
             m_vDeadRackoningDir.Normalize();
         }
+        // 회전은 추측항법을 적용하지않는다. 보간만 적용
+        m_vRotateY = _InteractionData.m_vRotateY;
     }
 
     public override void RecivedDamage(float _fDamage)
@@ -171,6 +171,21 @@ public class UserObject : InteractionObject
         else
             m_bDeadRackoningMove = false;
 
-        transform.forward = m_vRotateY;
+        float cosTheta = Vector3.Dot(transform.forward, m_vRotateY) / (transform.forward.magnitude * m_vRotateY.magnitude);
+        float angle = Mathf.Acos(cosTheta) * Mathf.Rad2Deg;
+
+        if(angle > 0f)
+        {
+            float calculAngle = angle - m_fRotateSpeed;
+
+            calculAngle = calculAngle < 0 ? 3 - angle : calculAngle;
+
+            Vector3 up = Vector3.Cross(m_vRotateY, transform.forward).normalized;
+            Quaternion rotation = Quaternion.AngleAxis(calculAngle, up);
+
+            Vector3 result = rotation * m_vRotateY;
+
+            transform.forward = result;
+        }
     }
 }

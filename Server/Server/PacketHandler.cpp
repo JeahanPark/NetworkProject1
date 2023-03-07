@@ -90,7 +90,11 @@ void PacketHandler::PacketSignal(s_ServerSession _session, BasePacket* _packetDa
 	case ePacketSignal::Signal_InGameUserRiseAgain:
 		UserRiseAgain(_session);
 		SESSION_LOG(_session->GetSessionNumber(), "Signal_InGameUserRiseAgain," + (int)packetSignal->m_ePacketSignal)
-			break;
+		break;
+	case ePacketSignal::Signal_InGameAttack:
+		ContentsManager::GetInstance()->CreateFireBall(_session);
+		SESSION_LOG(_session->GetSessionNumber(), "Signal_InGameAttack," + (int)packetSignal->m_ePacketSignal)
+		break;
 	}
 }
 

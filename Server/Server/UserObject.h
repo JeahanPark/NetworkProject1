@@ -13,7 +13,7 @@ public:
 	virtual void Update() override;
 
 	void SettingInitialInGameDataPacket(InitialInGameData* _packet);
-
+	int GetUserIndex();
 private:
 	s_UserController		m_userController = nullptr;
 	UserData				m_UserData;

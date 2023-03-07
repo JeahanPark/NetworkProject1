@@ -76,15 +76,7 @@ void InteractionManager::GetInteractionTypeList(eInteractionType _type, lisInter
 {
 	LockGuard lock(m_lockInteraction);
 
-	auto iter = m_mapInteraction.find(_type);
-
-	if (iter == m_mapInteraction.end())
-		return;
-
-	for (auto interaction : iter->second)
-	{
-		_lisInteraction.push_back(interaction);
-	}
+	GetNoLockInteractionTypeList(_type, _lisInteraction);
 }
 
 
@@ -123,16 +115,6 @@ void InteractionManager::AllUpdateInteractionObject()
 				++iter;
 			}
 		}
-		//auto iter = m_lisInteraction.begin();
-
-		/*while (iter != m_lisInteraction.end())
-		{
-			s_InteractionObejct object = *iter;
-
-			object->GetCollision()->Update(m_lisInteraction);
-
-			++iter;
-		}*/
 	}
 
 	
@@ -164,25 +146,23 @@ void InteractionManager::AllUpdateInteractionObject()
 			}
 		}
 	}
-	//auto iter = m_lisInteraction.begin();
-	//while (iter != m_lisInteraction.end())
-	//{
-	//	s_InteractionObejct object = *iter;
-	//	object->Update();
+}
 
-	//	// 삭제해야될 오브젝트일경우 생명주기가 끝나거나 등등
-	//	if (!object->GetValidLife())
-	//	{
-	//		// 해당 객체 삭제 리스트에 추가
-	//		m_lisDeleteInteraction.push_back(*iter);
+s_InteractionObejct InteractionManager::GetUser()
+{
+	lisInteraction lisInteraction;
+	{
+		LockGuard lock(m_lockInteraction);
 
-	//		// 이터레이터 없애기
-	//		iter = m_lisInteraction.erase(iter);
-	//		continue;
-	//	}
-	//	else
-	//		++iter;
-	//}
+		GetNoLockInteractionTypeList(eInteractionType::User, lisInteraction);
+	}
+
+	for ( auto iter : lisInteraction)
+	{
+		//UserObject* user = (UserObject*)iter.get;
+	}
+
+	return s_InteractionObejct();
 }
 
 void InteractionManager::GetNoLockInteractionList(list<s_InteractionObejct>& _InteractionObjects)
@@ -196,5 +176,18 @@ void InteractionManager::GetNoLockInteractionList(list<s_InteractionObejct>& _In
 			_InteractionObjects.push_back(*iter);
 			++iter;
 		}
+	}
+}
+
+void InteractionManager::GetNoLockInteractionTypeList(eInteractionType _type, lisInteraction& _lisInteraction)
+{
+	auto iter = m_mapInteraction.find(_type);
+
+	if (iter == m_mapInteraction.end())
+		return;
+
+	for (auto interaction : iter->second)
+	{
+		_lisInteraction.push_back(interaction);
 	}
 }

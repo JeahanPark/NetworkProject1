@@ -7,6 +7,11 @@ void ContentsManager::InitContents()
 	CreateDummy();
 
 }
+void ContentsManager::CreateFireBall(s_ServerSession _session)
+{
+}
+
+
 void ContentsManager::CreateDummy()
 {
 	list<s_InteractionObejct> lisInteraction;

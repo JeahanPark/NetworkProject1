@@ -71,6 +71,9 @@ enum class ePacketSignal
 
 	// 살려달라고 요청
 	Signal_InGameUserRiseAgain,
+
+	// 공격
+	Signal_InGameAttack,
 };
 #pragma pack(1)
 struct BasePacket

@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttackDummy.cpp" />
+    <ClCompile Include="AttackFireBall.cpp" />
     <ClCompile Include="ChattingManager.cpp" />
     <ClCompile Include="ChattingObject.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -185,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackDummy.h" />
+    <ClInclude Include="AttackFireBall.h" />
     <ClInclude Include="ChattingManager.h" />
     <ClInclude Include="ChattingObject.h" />
     <ClInclude Include="Collision.h" />

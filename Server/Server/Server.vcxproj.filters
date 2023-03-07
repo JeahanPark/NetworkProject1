@@ -59,6 +59,9 @@
     <ClCompile Include="ContentsManager.cpp">
       <Filter>InGame\ContentsManager</Filter>
     </ClCompile>
+    <ClCompile Include="AttackFireBall.cpp">
+      <Filter>InGame\Interaction\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -120,6 +123,9 @@
     <ClInclude Include="ContentsManager.h">
       <Filter>InGame\ContentsManager</Filter>
     </ClInclude>
+    <ClInclude Include="AttackFireBall.h">
+      <Filter>InGame\Interaction\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataBase">
@@ -163,6 +169,9 @@
     </Filter>
     <Filter Include="InGame\ContentsManager">
       <UniqueIdentifier>{21ca81de-9eba-424c-a2e9-3e4b4187ec63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\Attack">
+      <UniqueIdentifier>{9a1d6d00-20c8-4cca-b41e-66ea778518f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

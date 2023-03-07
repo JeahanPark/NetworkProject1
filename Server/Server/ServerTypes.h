@@ -12,6 +12,7 @@ enum class eInteractionType
 	None,
 	User,
 	AttackDummy,
+	AttackFireBall,
 	Max
 };
 

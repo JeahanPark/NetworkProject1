@@ -19,9 +19,11 @@ public:
 
 	void AllUpdateInteractionObject();
 
+	s_InteractionObejct GetUser();
+
 private:
 	void GetNoLockInteractionList(list<s_InteractionObejct>& _InteractionObjects);
-	
+	void GetNoLockInteractionTypeList(eInteractionType _type, lisInteraction& _lisInteraction);
 private:
 	map<eInteractionType, lisInteraction> m_mapInteraction;
 

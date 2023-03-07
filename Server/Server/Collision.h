@@ -15,14 +15,17 @@ public :
 	~Collision();
 
 public:
-	void Update(const list<s_InteractionObejct>& _lisInteractin);
-	void RecivedDamage();
-
+	void				Update(const list<s_InteractionObejct>& _lisInteractin);
+	void				RecivedDamage();
+	bool				HaveCollisionType(eCollisionType _type);
 public:
 	int					GetInteractionIndex();
 	float				GetCollisionSize() { return m_fCollisionSize; }
 	Transform*			GetTransform();
-	bool				HaveCollisionType(eCollisionType _type);
+	
+public:
+	void				SetCollisonClear(bool _bCleer);
+
 private:
 	bool AlreadDamaged(int _iInteractionIndex);
 	void CleanUpCollisionList();
@@ -36,5 +39,6 @@ private:
 	float m_fCollisionSize;
 
 	int m_CollisionType;
+	bool m_bClear;
 };
 

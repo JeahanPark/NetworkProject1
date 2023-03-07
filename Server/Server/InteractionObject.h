@@ -9,7 +9,9 @@ public:
 	InteractionObject();
 	virtual ~InteractionObject();
 
-	void Init();
+	// 이거를 만든이유는 생성자에서 처리를 못하는 애들때문에
+	// ex) Collision한테 enable_shared_from_this를 넘겨줘야되는데 생성자가 모두 종료된후 _Wptr세팅되기 때문에
+	void virtual Init();
 	void virtual Update() = 0;
 
 public:
@@ -18,9 +20,11 @@ public:
 	int						GetInteractionIndex() { return m_iInteractionIndex; }
 	Collision*				GetCollision() { return m_collision; }
 	Transform*				GetTransform() { return m_transform; }
+
 public:
 	void					SettingInteractionPacket(InteractionPacketData* _packet);
 	void virtual			RecivedDamage();
+
 protected:
 	bool				m_bVaildLife;
 	int					m_iInteractionIndex;
