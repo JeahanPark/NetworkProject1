@@ -166,6 +166,7 @@
     <ClCompile Include="InGameManager.cpp" />
     <ClCompile Include="InGameObject.cpp" />
     <ClCompile Include="InGameUpdateManager.cpp" />
+    <ClCompile Include="InteractionCreator.cpp" />
     <ClCompile Include="InteractionManager.cpp" />
     <ClCompile Include="InteractionObject.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="InGameObject.h" />
     <ClInclude Include="InGamePacketDatah.h" />
     <ClInclude Include="InGameUpdateManager.h" />
+    <ClInclude Include="InteractionCreator.h" />
     <ClInclude Include="InteractionManager.h" />
     <ClInclude Include="InteractionObject.h" />
     <ClInclude Include="PacketHandler.h" />

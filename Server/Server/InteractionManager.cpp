@@ -9,23 +9,6 @@
 InteractionManager::~InteractionManager()
 {
 }
-
-s_InteractionObejct InteractionManager::CreateUserInteraction(s_UserController _userController, const UserData* _userData)
-{
-	s_InteractionObejct interaction = make_shared<UserObject>(_userController, _userData);
-	interaction->Init();
-
-	return interaction;
-}
-
-s_InteractionObejct InteractionManager::CreateDummyInteraction(const XMFLOAT3& _startPos)
-{
-	s_InteractionObejct interaction = make_shared<AttackDummy>(_startPos);
-	interaction->Init();
-
-	return interaction;
-}
-
 void InteractionManager::AddInteractionObject(s_InteractionObejct _interaction)
 {
 	LockGuard lock(m_lockInteraction);
@@ -148,21 +131,26 @@ void InteractionManager::AllUpdateInteractionObject()
 	}
 }
 
-s_InteractionObejct InteractionManager::GetUser()
+UserObject* InteractionManager::GetUser(int _iUserIndex)
 {
-	lisInteraction lisInteraction;
-	{
-		LockGuard lock(m_lockInteraction);
+	LockGuard lock(m_lockInteraction);
 
-		GetNoLockInteractionTypeList(eInteractionType::User, lisInteraction);
+	auto iter = m_mapInteraction.find(eInteractionType::User);
+
+	if (iter == m_mapInteraction.end())
+		return nullptr;
+
+	for (auto interaction : iter->second)
+	{
+		UserObject* user = (UserObject*)interaction.get();
+
+		if (user->GetUserIndex() == _iUserIndex)
+		{
+			return user;
+		}
 	}
 
-	for ( auto iter : lisInteraction)
-	{
-		//UserObject* user = (UserObject*)iter.get;
-	}
-
-	return s_InteractionObejct();
+	return nullptr;
 }
 
 void InteractionManager::GetNoLockInteractionList(list<s_InteractionObejct>& _InteractionObjects)

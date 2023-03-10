@@ -92,7 +92,7 @@ void PacketHandler::PacketSignal(s_ServerSession _session, BasePacket* _packetDa
 		SESSION_LOG(_session->GetSessionNumber(), "Signal_InGameUserRiseAgain," + (int)packetSignal->m_ePacketSignal)
 		break;
 	case ePacketSignal::Signal_InGameAttack:
-		ContentsManager::GetInstance()->CreateFireBall(_session);
+		UserAttack(_session);
 		SESSION_LOG(_session->GetSessionNumber(), "Signal_InGameAttack," + (int)packetSignal->m_ePacketSignal)
 		break;
 	}
@@ -347,7 +347,7 @@ void PacketHandler::InitialInGame(s_ServerSession _session)
 	int iMyUserIndex = _session->GetUserData()->GetUserIndex();
 
 	s_InGameObject myIngameObject = InGameManager::GetInstance()->CreateInGameObject(_session);
-	s_InteractionObejct user = InteractionManager::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
+	s_InteractionObejct user = InteractionCreator::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
 
 	// s_InteractionObejct를 생성하고 바로 리스트에 넣으면 Update에서 보낼수도있어서 안됌
 
@@ -468,7 +468,7 @@ void PacketHandler::UserRiseAgain(s_ServerSession _session)
 	}
 	else
 	{
-		interaction = InteractionManager::GetInstance()->CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
+		interaction = InteractionCreator::CreateUserInteraction(myIngameObject->GetUserController(), _session->GetUserData());
 		interactionIndex = interaction->GetInteractionIndex();
 	}
 
@@ -501,4 +501,14 @@ void PacketHandler::UserRiseAgain(s_ServerSession _session)
 		if (!iter->SameSession(iMyUserIndex))
 			AddUserInteraction(interaction, iter->GetSession());
 	}
+}
+
+void PacketHandler::UserAttack(s_ServerSession _session)
+{
+	UserObject* user = InteractionManager::GetInstance()->GetUser(_session->GetUserData()->GetUserIndex());
+
+	if (user == nullptr)
+		return;
+
+	InteractionCreator::CreateFireball(user->GetTransform()->GetPos(), user->GetTransform()->GetRotateY());
 }

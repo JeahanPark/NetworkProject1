@@ -8,8 +8,10 @@ public class InteractionWorker : MonoBehaviour
     private AttackDummy m_originAttackDummy = null;
 
     private Queue<UserObject> m_poolUserObject = null;
-
     private LinkedList<InteractionObject> m_ActiveObject = null;
+
+    private Dictionary<eInteractionType, Queue<UserObject>> m_poolObject = null;
+    private Dictionary<eInteractionType, LinkedList<InteractionObject>> m_mapActiveObject = null;
 
     private Transform m_UnUseUserPool = null;
 
@@ -35,6 +37,8 @@ public class InteractionWorker : MonoBehaviour
 
         m_UnUseUserPool = transform.Find<Transform>("UnUseUserPool");
 
+        m_poolObject = new Dictionary<eInteractionType, Queue<UserObject>>();
+        m_mapActiveObject = new Dictionary<eInteractionType, LinkedList<InteractionObject>>();
     }
     public void AddNewUser(NewUserPacket _packet)
     {

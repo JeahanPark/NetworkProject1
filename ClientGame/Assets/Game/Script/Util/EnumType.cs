@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public enum eInteractionType
 {
     None,
     User,
     AttackDummy,
+    AttackFireBall,
     Interaction_MAX
 }
 public enum EffectType

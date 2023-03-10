@@ -4,7 +4,7 @@
 class AttackDummy : public InteractionObject
 {
 public:
-	AttackDummy(XMFLOAT3 _vStartPos);
+	AttackDummy(const XMFLOAT3& _vStartPos);
 	~AttackDummy();
 
 public:

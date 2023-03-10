@@ -4,7 +4,7 @@
 class AttackFireBall : public InteractionObject
 {
 public:
-	AttackFireBall(XMFLOAT3 _vStartPos, XMFLOAT3 _vMoveDir);
+	AttackFireBall(const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY);
 	~AttackFireBall();
 
 public:
@@ -12,7 +12,6 @@ public:
 	virtual void Update() override;
 
 private:
-	XMFLOAT3 m_vMoveDir;
 	float m_fLifeTime;
 	const float m_fLifeMaxTime = 4;
 };

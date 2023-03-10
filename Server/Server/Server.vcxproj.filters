@@ -62,6 +62,9 @@
     <ClCompile Include="AttackFireBall.cpp">
       <Filter>InGame\Interaction\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="InteractionCreator.cpp">
+      <Filter>InGame\Interaction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="AttackFireBall.h">
       <Filter>InGame\Interaction\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractionCreator.h">
+      <Filter>InGame\Interaction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

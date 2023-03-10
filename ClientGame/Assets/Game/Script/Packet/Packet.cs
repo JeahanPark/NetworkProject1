@@ -75,8 +75,11 @@ public enum ePacketSignal
 	// 이거를 받아으면 그뒤로 인게임 패킷을 받기 시작한다.
 	Signal_InitialInGameData,
 
-			// 살려달라고 요청
+	// 살려달라고 요청
 	Signal_InGameUserRiseAgain,
+
+	// 공격
+	Signal_InGameAttack,
 };
 
 public interface PacketListCount

@@ -10,8 +10,12 @@ public:
 	void SetPos(const XMFLOAT3& _vPos) { m_vPos = _vPos; }
 	void SetUserMove(const XMFLOAT3& _MoveDir, const XMFLOAT3& _RotateDir, float _fSpeed);
 	void SetAxisPos(eAxisType _eAxis, float _fValue);
+	void SetYRotate(const XMFLOAT3& _vRotateY);
+public:
 	void Update();
 	void MovePos(const XMFLOAT3& _vDir);
+	void RotateMove();
+
 public:
 	const XMFLOAT3& GetPos() { return m_vPos; }
 	const XMFLOAT3& GetMoveDir() { return m_vMoveDir; }
@@ -32,6 +36,6 @@ private:
 	// 이동방향
 	XMFLOAT3 m_vMoveDir;
 
-	// 회전
+	// 객체가 바라보는 방향
 	XMFLOAT3 m_vRotateY;
 };

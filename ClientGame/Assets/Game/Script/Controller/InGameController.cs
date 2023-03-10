@@ -108,6 +108,14 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
         Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
     }
+
+    public void SendAttack()
+    {
+        SignalPacket packet = new SignalPacket();
+        packet.m_ePacketSignal = ePacketSignal.Signal_InGameAttack;
+
+        Packet.SendPacket<SignalPacket>(packet, ePacketType.Signal);
+    }
     #endregion
 
     #region PacketReceive

@@ -40,6 +40,11 @@ void Transform::SetAxisPos(eAxisType _eAxis, float _fValue)
 	}
 }
 
+void Transform::SetYRotate(const XMFLOAT3& _vRotateY)
+{
+	m_vRotateY = _vRotateY;
+}
+
 void Transform::Update()
 {
 	// 이동할 속도가 있다.
@@ -62,6 +67,13 @@ void Transform::Update()
 void Transform::MovePos(const XMFLOAT3& _vDir)
 {
 	m_vMoveDir = _vDir;
+
+	IncreaseSpeed(m_fMoveSpeedIncrease * InGameUpdateManager::GetInstance()->GetDeltaTime());
+}
+
+void Transform::RotateMove()
+{
+	m_vMoveDir = m_vRotateY;
 
 	IncreaseSpeed(m_fMoveSpeedIncrease * InGameUpdateManager::GetInstance()->GetDeltaTime());
 }

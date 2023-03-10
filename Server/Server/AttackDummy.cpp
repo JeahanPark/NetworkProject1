@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "AttackDummy.h"
 
-AttackDummy::AttackDummy(XMFLOAT3 _vStartPos) : m_bMoveUp(false)
+AttackDummy::AttackDummy(const XMFLOAT3& _vStartPos) : m_bMoveUp(false)
 {
 	m_eType = eInteractionType::AttackDummy;
 	m_transform->SetPos(_vStartPos);

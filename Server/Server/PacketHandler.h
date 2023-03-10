@@ -34,4 +34,6 @@ public:
 	static void RecivedDamage(s_ServerSession _session, int _iRecivedDamageIndetractionIndex, int _iDamage);
 
 	static void UserRiseAgain(s_ServerSession _session);
+
+	static void UserAttack(s_ServerSession _session);
 };

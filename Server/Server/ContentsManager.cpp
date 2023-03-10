@@ -2,26 +2,23 @@
 #include "ContentsManager.h"
 #include "InteractionObject.h"
 #include "AttackDummy.h"
+#include "UserObject.h"
+
 void ContentsManager::InitContents()
 {
 	CreateDummy();
 
 }
-void ContentsManager::CreateFireBall(s_ServerSession _session)
-{
-}
-
-
 void ContentsManager::CreateDummy()
 {
 	list<s_InteractionObejct> lisInteraction;
 
 	XMFLOAT3 startPos = { 10,0,0 };
-	s_InteractionObejct interaction = InteractionManager::CreateDummyInteraction(startPos);
+	s_InteractionObejct interaction = InteractionCreator::CreateDummyInteraction(startPos);
 	lisInteraction.push_back(interaction);
 
 	startPos = { -10,0,0 };
-	interaction = InteractionManager::CreateDummyInteraction(startPos);
+	interaction = InteractionCreator::CreateDummyInteraction(startPos);
 	lisInteraction.push_back(interaction);
 
 	InteractionManager::GetInstance()->AddListInteractionObejct(lisInteraction);
