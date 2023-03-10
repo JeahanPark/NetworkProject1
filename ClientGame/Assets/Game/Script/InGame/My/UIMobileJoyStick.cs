@@ -17,6 +17,11 @@ public class UIMobileJoyStick : MonoBehaviour
 
     private void Update()
     {
+        UserObject user = InGameController.Instance.GetMyWorker.GetMyInteraction;
+
+        if (user == null)
+            return;
+
         float fMoveX = m_joyStickLeft.Horizontal;
         float fMoveY = m_joyStickLeft.Vertical;
 
@@ -37,12 +42,12 @@ public class UIMobileJoyStick : MonoBehaviour
                 if (vMoveDir == Vector3.zero)
                 {
                     fSpeed = 0;
-                    vMoveDir = InGameController.Instance.GetMyWorker.GetMyInteraction.GetMoveDir;
+                    vMoveDir = user.GetMoveDir;
                 }
 
                 if(vRotateDir == Vector3.zero)
                 {
-                    vRotateDir = InGameController.Instance.GetMyWorker.GetMyInteraction.GetRotateY;
+                    vRotateDir = user.GetRotateY;
                 }
                 InGameController.Instance.GetMyWorker.UserMove(vMoveDir, vRotateDir, fSpeed);
             }

@@ -6,11 +6,9 @@ public class InteractionWorker : MonoBehaviour
 {
     private UserObject m_originUser = null;
     private AttackDummy m_originAttackDummy = null;
+    private FireBall m_originFireBall = null;
 
-    private Queue<UserObject> m_poolUserObject = null;
-    private LinkedList<InteractionObject> m_ActiveObject = null;
-
-    private Dictionary<eInteractionType, Queue<UserObject>> m_poolObject = null;
+    private Dictionary<eInteractionType, Queue<InteractionObject>> m_poolObject = null;
     private Dictionary<eInteractionType, LinkedList<InteractionObject>> m_mapActiveObject = null;
 
     private Transform m_UnUseUserPool = null;
@@ -31,19 +29,18 @@ public class InteractionWorker : MonoBehaviour
         m_originAttackDummy = transform.Find<AttackDummy>("OriginAttackDummy");
         m_originAttackDummy.gameObject.SetActive(false);
 
-        m_poolUserObject = new Queue<UserObject>();
-
-        m_ActiveObject = new LinkedList<InteractionObject>();
+        m_originFireBall = transform.Find<FireBall>("OriginFireBall");
+        m_originFireBall.gameObject.SetActive(false);
 
         m_UnUseUserPool = transform.Find<Transform>("UnUseUserPool");
 
-        m_poolObject = new Dictionary<eInteractionType, Queue<UserObject>>();
+        m_poolObject = new Dictionary<eInteractionType, Queue<InteractionObject>>();
         m_mapActiveObject = new Dictionary<eInteractionType, LinkedList<InteractionObject>>();
     }
     public void AddNewUser(NewUserPacket _packet)
     {
         InteractionData data = _packet.m_InitData.m_UserData;
-        var begine = m_ActiveObject.First;
+        var begine = GetActiveObjectList(eInteractionType.User).First;
 
         InteractionObject interaction = null;
         for (var iter = begine; iter != null;)
@@ -79,7 +76,7 @@ public class InteractionWorker : MonoBehaviour
         for (int i = 0; i < _interationInitDatas.Length; ++i)
         {
             InteractionData data = _interationInitDatas[i].m_UserData;
-            var begine = m_ActiveObject.First;
+            var begine = GetActiveObjectList(eInteractionType.User).First;
 
             InteractionObject interaction = null;
             for (var iter = begine; iter != null;)
@@ -130,7 +127,7 @@ public class InteractionWorker : MonoBehaviour
             InteractionData data = _interactionPacketDatas[i];
 
             InteractionObject interaction = null;
-            var iter = m_ActiveObject.First;
+            var iter = GetActiveObjectList(data.m_eType).First;
             for ( ;iter != null;)
             {
                 // 같은 
@@ -165,7 +162,7 @@ public class InteractionWorker : MonoBehaviour
 
     public void RecivedDamage(RecivedDamagePacket _packet)
     {
-        var begine = m_ActiveObject.First;
+        var begine = GetActiveObjectList(eInteractionType.User).First;
 
         InteractionObject interaction = null;
         for (var iter = begine; iter != null;)
@@ -181,7 +178,28 @@ public class InteractionWorker : MonoBehaviour
             iter = iter.Next;
         }
     }
+    private LinkedList<InteractionObject> GetActiveObjectList(eInteractionType _eInteractionType)
+    {
+        LinkedList<InteractionObject> list = null;
+        if(!m_mapActiveObject.TryGetValue(_eInteractionType, out list))
+        {
+            list = new LinkedList<InteractionObject>();
+            m_mapActiveObject.Add(_eInteractionType, list);
+        }
 
+        return list;
+    }
+    private Queue<InteractionObject> GetPoolQueue(eInteractionType _eInteractionType)
+    {
+        Queue<InteractionObject> queue = null;
+        if (!m_poolObject.TryGetValue(_eInteractionType, out queue))
+        {
+            queue = new Queue<InteractionObject>();
+            m_poolObject.Add(_eInteractionType, queue);
+        }
+
+        return queue;
+    }
     private InteractionObject CreateInteraction(InteractionData _data)
     {
         InteractionObject interactionObject = null;
@@ -190,14 +208,14 @@ public class InteractionWorker : MonoBehaviour
         {
             case eInteractionType.User:
                 {
-                    if(m_poolUserObject.Count == 0)
+                    Queue<InteractionObject> pool = GetPoolQueue(_data.m_eType);
+                    if (pool.Count == 0)
                         interactionObject = CreateUser();
                     else
                     {
-                        interactionObject = m_poolUserObject.Dequeue();
+                        interactionObject = pool.Dequeue();
                         interactionObject.transform.SetParent(null);
-                    }
-                        
+                    } 
                 }
                 break;
             case eInteractionType.AttackDummy:
@@ -206,12 +224,28 @@ public class InteractionWorker : MonoBehaviour
                     interactionObject.gameObject.SetActive(true);
                 }
                 break;
+            case eInteractionType.AttackFireBall:
+                {
+                    Queue<InteractionObject> pool = GetPoolQueue(_data.m_eType);
+                    if (pool.Count == 0)
+                    {
+                        interactionObject = Instantiate<FireBall>(m_originFireBall);
+                        interactionObject.gameObject.SetActive(true);
+                    }
+                        
+                    else
+                    {
+                        interactionObject = pool.Dequeue();
+                        interactionObject.transform.SetParent(null);
+                    }
+                }
+                break;
         }
 
         if (interactionObject == null)
             return null;
 
-        m_ActiveObject.AddLast(interactionObject);
+        GetActiveObjectList(_data.m_eType).AddLast(interactionObject);
 
         // 초기화
         interactionObject.Initialize(_data);
@@ -233,13 +267,15 @@ public class InteractionWorker : MonoBehaviour
     {
         InteractionObject interactionObject = _interaction.Value;
 
-        m_ActiveObject.Remove(_interaction);
+        GetActiveObjectList(interactionObject.GetInteractionType).Remove(_interaction);
+
+        var pool = GetPoolQueue(interactionObject.GetInteractionType);
 
         switch(interactionObject.GetInteractionType)
         {
             case eInteractionType.User:
                 UserObject user = interactionObject as UserObject;
-                m_poolUserObject.Enqueue(user);
+                pool.Enqueue(user);
                 user.transform.SetParent(m_UnUseUserPool.transform);
 
                 // 죽었을때 관련된 팝업, 이펙트 노출
@@ -250,6 +286,11 @@ public class InteractionWorker : MonoBehaviour
                 break;
             case eInteractionType.AttackDummy:
                 Destroy(interactionObject.gameObject);
+                break;
+            case eInteractionType.AttackFireBall:
+                pool.Enqueue(interactionObject);
+                interactionObject.transform.SetParent(m_UnUseUserPool.transform);
+                interactionObject.Clear();
                 break;
         }
     }

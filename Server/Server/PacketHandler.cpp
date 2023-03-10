@@ -510,5 +510,7 @@ void PacketHandler::UserAttack(s_ServerSession _session)
 	if (user == nullptr)
 		return;
 
-	InteractionCreator::CreateFireball(user->GetTransform()->GetPos(), user->GetTransform()->GetRotateY());
+	s_InteractionObejct interaction = InteractionCreator::CreateFireball(user->GetTransform()->GetPos(), user->GetTransform()->GetRotateY());
+
+	InteractionManager::GetInstance()->AddInteractionObject(interaction);
 }
