@@ -27,6 +27,11 @@ void InteractionObject::Init()
 	m_collision = new Collision(shared_from_this());
 }
 
+void InteractionObject::SetValidLife(bool _bVaildLife)
+{
+	m_bVaildLife = _bVaildLife;
+}
+
 void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)
 {
 	_packet->m_eType = m_eType;
@@ -43,4 +48,9 @@ void InteractionObject::RecivedDamage()
 	m_state->SubtractedHealth(1);
 
 	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
+}
+
+void InteractionObject::InteractionCollision()
+{
+
 }

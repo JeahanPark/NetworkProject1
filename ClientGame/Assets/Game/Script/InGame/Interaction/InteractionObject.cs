@@ -113,7 +113,7 @@ public class InteractionObject : MonoBehaviour
         m_bValidLife = _data.VaildLife;
     }
 
-    // 더이상 사용하지않아 풀로 들어갈때 함수호출
+    // 더이상 사용하지않아 풀로 들어갈때 함수호출 그리고 데이터들을 정리한다.
     public virtual void Clear()
     {
         // 클리어를 할때 풀에 다시 반환해주는데 이때 m_iInteractionIndex를 사용한다.
@@ -152,6 +152,11 @@ public class InteractionObject : MonoBehaviour
         InGameController.Instance.GetUIWorker.ShowDamageUI(_fDamage, transform.position);
     }
 
+    // 죽고나서 처리해야될것들 Clear전에 호출한다.
+    public virtual void Die()
+    {
+
+    }
     protected virtual void CreateComponent()
     {
     }

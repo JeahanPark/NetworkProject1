@@ -13,9 +13,4 @@ public class DieEffect : BaseEffect
         base.Awake();
         m_bStopAnimEnd = true;
     }
-
-    public override void StopEffect()
-    {
-        base.StopEffect();
-    }
 }

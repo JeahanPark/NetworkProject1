@@ -10,6 +10,7 @@ public:
 public:
 	virtual void Init();
 	virtual void Update() override;
+	virtual void InteractionCollision();
 
 private:
 	float m_fLifeTime;

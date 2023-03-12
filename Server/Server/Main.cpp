@@ -142,6 +142,9 @@ int main()
 
     HANDLE iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 
+    int count = thread::hardware_concurrency();
+    cout << "thread max count : " << count << endl;
+
     // IOCP를 받을 쓰레드를 돌린다.
     for (int i = 0; i < 5; ++i)
     {

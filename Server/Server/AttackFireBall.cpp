@@ -37,9 +37,14 @@ void AttackFireBall::Update()
 	if (m_fLifeTime > m_fLifeMaxTime)
 		m_bVaildLife = false;
 
-	//m_transform->MovePos(m_vMoveDir);
+	m_transform->SetMoveSpeed(5);
 
 	m_transform->RotateMove();
 
 	m_transform->Update();
+}
+
+void AttackFireBall::InteractionCollision()
+{
+	m_bVaildLife = false;
 }

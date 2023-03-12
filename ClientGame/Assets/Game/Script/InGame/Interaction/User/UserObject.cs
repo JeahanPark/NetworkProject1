@@ -58,7 +58,7 @@ public class UserObject : InteractionObject
         InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.UserCreateEffect, transform.position);
     }
 
-    public void Die()
+    public override void Die()
     {
         InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.DieEffect, transform.position);
 

@@ -277,21 +277,27 @@ public class InteractionWorker : MonoBehaviour
                 UserObject user = interactionObject as UserObject;
                 pool.Enqueue(user);
                 user.transform.SetParent(m_UnUseUserPool.transform);
-
-                // 죽었을때 관련된 팝업, 이펙트 노출
-                user.Die();
-
-                // 데이터 클리어
-                user.Clear();
                 break;
             case eInteractionType.AttackDummy:
                 Destroy(interactionObject.gameObject);
+                interactionObject = null;
                 break;
             case eInteractionType.AttackFireBall:
                 pool.Enqueue(interactionObject);
                 interactionObject.transform.SetParent(m_UnUseUserPool.transform);
-                interactionObject.Clear();
                 break;
+        }
+
+        if(interactionObject !=  null)
+        {
+            // 죽었을때 관련된 팝업, 이펙트 노출
+            interactionObject.Die();
+
+            // 데이터 클리어
+            interactionObject.Clear();
+
+            // 위치 안보이는데로 옮긴다
+            interactionObject.transform.position = new Vector3(0, 999, 0);
         }
     }
 }

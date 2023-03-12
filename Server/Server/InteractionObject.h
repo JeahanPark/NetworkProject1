@@ -22,8 +22,12 @@ public:
 	Transform*				GetTransform() { return m_transform; }
 
 public:
+	void					SetValidLife(bool _bVaildLife);
 	void					SettingInteractionPacket(InteractionPacketData* _packet);
 	void virtual			RecivedDamage();
+
+	//	충돌했다. 충돌을 당한건지 한건지 모름
+	void virtual			InteractionCollision();
 
 protected:
 	bool				m_bVaildLife;

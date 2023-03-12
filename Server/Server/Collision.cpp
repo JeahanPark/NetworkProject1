@@ -79,6 +79,9 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 			// 충돌 했다.
 			m_lisCollision.push_back({targetIndex, InGameUpdateManager::GetInstance()->GetTotalDeltaTime()});
 			targetCollision->RecivedDamage();
+
+			// 충돌을 내가 했다.
+			m_Owner->InteractionCollision();
 		}
 
 	}

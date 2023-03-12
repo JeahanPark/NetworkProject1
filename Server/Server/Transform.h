@@ -11,6 +11,8 @@ public:
 	void SetUserMove(const XMFLOAT3& _MoveDir, const XMFLOAT3& _RotateDir, float _fSpeed);
 	void SetAxisPos(eAxisType _eAxis, float _fValue);
 	void SetYRotate(const XMFLOAT3& _vRotateY);
+	void SetMoveSpeed(float _fSpeed);
+
 public:
 	void Update();
 	void MovePos(const XMFLOAT3& _vDir);

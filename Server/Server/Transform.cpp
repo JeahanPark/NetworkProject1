@@ -45,6 +45,11 @@ void Transform::SetYRotate(const XMFLOAT3& _vRotateY)
 	m_vRotateY = _vRotateY;
 }
 
+void Transform::SetMoveSpeed(float _fSpeed)
+{
+	m_fMoveSpeed = _fSpeed;
+}
+
 void Transform::Update()
 {
 	// 이동할 속도가 있다.

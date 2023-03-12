@@ -57,6 +57,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Popup
+  - m_GUID: 17860185d1b213d40bbe181fcd8e7190
+    m_Address: FireBallExplosionEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d5227b445983c6848ab06a31e870170a, type: 2}
   m_SchemaSet:
