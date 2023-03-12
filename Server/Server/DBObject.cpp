@@ -6,8 +6,8 @@ DBObject::DBObject(SQLHDBC _connect)
     SQLRETURN retcode;
     retcode = SQLAllocHandle(SQL_HANDLE_STMT, _connect, &m_Statement);
 
-    if (retcode != SQL_SUCCESS && retcode != SQL_SUCCESS_WITH_INFO)
-        cout << "DBObject Init Fail" << endl;
+    //if (retcode != SQL_SUCCESS && retcode != SQL_SUCCESS_WITH_INFO)
+        //cout << "DBObject Init Fail" << endl;
 }
 
 DBObject::~DBObject()
@@ -106,7 +106,7 @@ void DBObject::DBErrorHandle(SQLRETURN _return)
             break;
 
         // TODO : Log
-        wcout << errMsg << endl;
+        //wcout << errMsg << endl;
 
         index++;
     }

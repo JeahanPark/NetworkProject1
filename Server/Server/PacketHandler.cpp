@@ -18,15 +18,15 @@ void PacketHandler::PacketHandling(s_ServerSession _session, BasePacket* _packet
 #pragma region  클라에서 서버로
 	case ePacketType::CToS_Login:
 		Login(_session, _packetData);
-		SESSION_LOG(_session->GetSessionNumber(), "CToS_Login")
+		//SESSION_LOG(_session->GetSessionNumber(), "CToS_Login")
 		break;
 	case ePacketType::CToS_Chatting:
 		Chatting(_packetData);
-		SESSION_LOG(_session->GetSessionNumber(), "CToS_Chatting")
+		//SESSION_LOG(_session->GetSessionNumber(), "CToS_Chatting")
 			break;
 	case ePacketType::CToS_UserRegister:
 		Register(_session, _packetData);
-		SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
+		//SESSION_LOG(_session->GetSessionNumber(), "CToS_UserRegister")
 			break;
 	case ePacketType::CToS_MyUserMove:
 		MyUserMove(_session, _packetData);
@@ -38,28 +38,28 @@ void PacketHandler::PacketHandling(s_ServerSession _session, BasePacket* _packet
 
 #pragma region 서버에서 클라로
 	case ePacketType::SToC_Chatting:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_Chatting")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_Chatting")
 			break;
 	case ePacketType::SToC_PacketResult:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_PacketResult")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_PacketResult")
 			break;
 	case ePacketType::SToC_LoginResult:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_LoginResult")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_LoginResult")
 			break;
 	case ePacketType::SToC_InGameUpdate:
 		//SESSION_LOG(_session->GetSessionNumber(), "SToC_InGameUpdate")
 			break;
 	case ePacketType::SToC_InitialInGameData:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_InitialInGameData")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_InitialInGameData")
 			break;
 	case ePacketType::SToC_NewUserInteraction:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_NewUserInteraction")
+		//ESSION_LOG(_session->GetSessionNumber(), "SToC_NewUserInteraction")
 			break;
 	case ePacketType::SToC_RecivedDamage:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_RecivedDamage")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_RecivedDamage")
 			break;
 	case ePacketType::SToC_UserRiseAgain:
-		SESSION_LOG(_session->GetSessionNumber(), "SToC_UserRiseAgain")
+		//SESSION_LOG(_session->GetSessionNumber(), "SToC_UserRiseAgain")
 			break;
 	default:
 		break;
@@ -123,7 +123,7 @@ void PacketHandler::Register(s_ServerSession _session, BasePacket* _packetData)
 
 	if (!dbObject->Query(query))
 	{
-		cout << "Query Fail" << endl;
+		//cout << "Query Fail" << endl;
 	}
 
 	DataBaseManager().GetInstance()->PushDBObject(dbObject);
@@ -177,7 +177,7 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 
 	if (!dbObject->Query(query))
 	{
-		cout << "Query Fail" << endl;
+		//cout << "Query Fail" << endl;
 	}
 
 	ePacketResult packetResult = ePacketResult::Fail;

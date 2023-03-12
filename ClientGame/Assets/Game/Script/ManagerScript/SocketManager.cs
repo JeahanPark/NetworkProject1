@@ -13,8 +13,8 @@ public class SocketManager : MonoSingleton<SocketManager>
 {
     private Socket m_socket = null;
 
-    private const string m_strServerAddress = "127.0.0.1";
-    private const int m_iPort = 7777;
+    private const string m_strServerAddress = "3.39.194.36";
+    private const int m_iPort = 3389;
 
     private Queue<byte[]> m_queBuffer = new Queue<byte[]>(); 
     private string m_strMessage = string.Empty;

@@ -23,7 +23,7 @@ void SocketEvent::SocketEventHandling(DWORD _bytesTransferred)
 		m_Session->ProcessSend(_bytesTransferred);
 		break;
 	case SocketEventType::SocketEventType_Receive:
-		cout << m_Session->GetSessionNumber() << "SocketEventType_Receive" << endl;
+		//cout << m_Session->GetSessionNumber() << "SocketEventType_Receive" << endl;
 		m_Session->ProcessReceive(_bytesTransferred);
 		break;
 	case SocketEventType::SocketEventType_Disconnect:

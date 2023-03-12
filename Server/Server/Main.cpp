@@ -1,5 +1,11 @@
 ﻿#include "pch.h"
 
+void Stop()
+{
+    int a = 0;
+    cin >> a;
+}
+
 int main()
 {
     cout << "Server Start!!!" << endl;
@@ -60,12 +66,12 @@ int main()
     //}
 
     //return 0;
-    wcout.imbue(locale("kor"));
+    //wcout.imbue(locale("kor"));
     // 윈도우 소켓 생성
     {
         SocketUtil::InitWinSock();
     }
-
+    
     //소켓 클래스는 네트워크 통신을 하기 위해 필요한 함수나 변수를 제공해주는 클래스입니다.
     SOCKET listenSocket = SocketUtil::SocketCreate();
 
@@ -83,26 +89,50 @@ int main()
         serverAddr.sin_port = ::htons(7777);
     }
 
+
+    int iResult = 0;
     {
+        
+
+        iResult = ::bind(listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
         // bind 함수 는 소켓 주소 표현 구조체와 소켓을 연결하기위해 사용하는것
-        if (::bind(listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+        if (iResult == SOCKET_ERROR)
         {
             cout << "bind Fail" << endl;
+            cout << WSAGetLastError() << endl;
+            
+            closesocket(listenSocket);
+            WSACleanup();
+            Stop();
+            
             return 0;
         }
+
+        cout << "bind result : " << iResult << endl;
     }
+
+
 
     {
         // 다른 프로세스?(ex.클라이언트)에서 연결요청을 했을경우 처리가 가능한 상태
         //
-        
-        if (::listen(listenSocket, SOMAXCONN) == SOCKET_ERROR)
+        iResult = ::listen(listenSocket, SOMAXCONN);
+        if (iResult == SOCKET_ERROR)
         {
             cout << "listen Fail" << endl;
+            cout << WSAGetLastError() << endl;
+
+            closesocket(listenSocket);
+            WSACleanup();
+            Stop();
+
             return 0;
         }
+
+        cout << "listen result : " << iResult << endl;
     }
 
+    
     // CreateIoCompletionPort함수는 2가지 용도로 사용한다.
     // 1. IOCP커널 오브젝트를 생성하기위해 사용된다.
     //    처음에 한번 호출을 해줘야한다.
@@ -129,6 +159,8 @@ int main()
 
     // 컨텐츠 매니저 세팅
     ContentsManager::GetInstance()->InitContents();
+
+    cout << "game start" << endl;
 
     // 여기서 클라이언트에서 연결을 받는다.
     while (true)

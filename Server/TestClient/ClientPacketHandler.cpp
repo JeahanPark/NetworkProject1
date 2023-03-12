@@ -26,14 +26,14 @@ void ClientPacketHandler::RecievePacketHandling(s_ClientSession _session, BasePa
 
 void ClientPacketHandler::RecieveLogin(s_ClientSession _session)
 {
-	wcout << "ChattingEnter" << endl;
+	//wcout << "ChattingEnter" << endl;
 	_session->LoginSuccess();
 	_session->ChattingEnter();
 }
 
 void ClientPacketHandler::Recieve_Chatting(ChattingPacket* _chattingPacket)
 {
-	wcout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
+	//wcout << "receiveData : " << _chattingPacket->m_chattingContent << endl;
 }
 
 void ClientPacketHandler::PacketSignal(s_ClientSession _session, BasePacket* _packetData)
@@ -43,7 +43,7 @@ void ClientPacketHandler::PacketSignal(s_ClientSession _session, BasePacket* _pa
 	switch (packetSignal->m_ePacketSignal)
 	{
 	case ePacketSignal::Signal_ChattingRoomEnter:
-			wcout << "receiveData : Signal_ChattingRoomEnter" << endl;
+			//wcout << "receiveData : Signal_ChattingRoomEnter" << endl;
 			break;
 	}
 }

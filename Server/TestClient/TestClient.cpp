@@ -9,7 +9,7 @@ int main()
     // 클라이언트는 일단 기본적인 걸로한다.
     wcout.imbue(locale("kor"));
 
-    cout << "Test Client!!!" << endl;
+    //cout << "Test Client!!!" << endl;
     // 윈도우 소켓 생성
     {
         WORD wVersionRequested;
@@ -19,7 +19,7 @@ int main()
 
         if (::WSAStartup(wVersionRequested, &wsaData) != 0)
         {
-            cout << "WSAData Fail" << endl;
+            //cout << "WSAData Fail" << endl;
             return 0;
         }
     }
@@ -50,7 +50,7 @@ int main()
         if (clientSocket == INVALID_SOCKET)
         {
             int errCode = ::WSAGetLastError();
-            cout << "Socket ErrorCode : " << errCode << endl;
+            //cout << "Socket ErrorCode : " << errCode << endl;
             return 0;
         }
 
@@ -58,11 +58,11 @@ int main()
         if (::connect(clientSocket, (SOCKADDR*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
         {
             int errCode = ::WSAGetLastError();
-            cout << "Connect ErrorCode : " << errCode << endl;
+            //cout << "Connect ErrorCode : " << errCode << endl;
             return 0;
         }
 
-        cout << "Connected To Server!" << endl;
+        //cout << "Connected To Server!" << endl;
 
         s_ClientSession session = ClientSessionManager().GetInstance()->CreateSession();
         session->InitSession(iocpHandle, clientSocket);

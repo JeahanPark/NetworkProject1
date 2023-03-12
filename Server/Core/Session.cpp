@@ -20,7 +20,7 @@ void Session::InitSession(HANDLE _iocpHandle, SOCKET _socket)
 {
 	m_socket = _socket;
 
-	cout << GetSessionNumber() << " Connect!!!" << endl;
+	//cout << GetSessionNumber() << " Connect!!!" << endl;
 
 	// 2번의 형식
 	// IOCP 완료 포트 핸들과 소켓 핸들을 연결하면 프로세스에서 해당 소켓 핸들과 관련된 비동기 I/O 작업의 완료 알림을 받을수 있다.
@@ -123,7 +123,7 @@ void Session::ProcessReceive(DWORD _bytesTransferred)
 
 	if (_bytesTransferred <= 0)
 	{
-		cout << "_bytesTransferred = " << _bytesTransferred << endl;
+		//cout << "_bytesTransferred = " << _bytesTransferred << endl;
 		RegisterDisconnect();
 		return;
 	}
@@ -188,14 +188,14 @@ void Session::ProcessSend(DWORD _bytesTransferred)
 
 void Session::ProcessDisconnect()
 {
-	cout << GetSessionNumber() << " Disconnect" << endl;
+	//cout << GetSessionNumber() << " Disconnect" << endl;
 	m_bSessionDisconnect = true;
 	DeleteSession();
 }
 
 void Session::SocketEventError(int _iCode)
 {
-	cout << GetSessionNumber() << ", SocketError : " << _iCode << endl;
+	//cout << GetSessionNumber() << ", SocketError : " << _iCode << endl;
 }
 
 
@@ -222,7 +222,7 @@ void Session::Send()
 
 	if (size >= BUF_MAX_SIZE)
 	{
-		cout << "BufferMaxSizeOver" << endl;
+		//cout << "BufferMaxSizeOver" << endl;
 	}
 
 	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, shared_from_this());
