@@ -65,6 +65,12 @@
     <ClCompile Include="InteractionCreator.cpp">
       <Filter>InGame\Interaction</Filter>
     </ClCompile>
+    <ClCompile Include="SkillManaging.cpp">
+      <Filter>InGame\Component\SkillManaging</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillObject.cpp">
+      <Filter>InGame\Component\SkillManaging\SkillObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -132,11 +138,14 @@
     <ClInclude Include="InteractionCreator.h">
       <Filter>InGame\Interaction</Filter>
     </ClInclude>
+    <ClInclude Include="SkillManaging.h">
+      <Filter>InGame\Component\SkillManaging</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillObject.h">
+      <Filter>InGame\Component\SkillManaging\SkillObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="DataBase">
-      <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Chatting">
       <UniqueIdentifier>{40dee9ac-f80d-44dc-993f-d0c454983be1}</UniqueIdentifier>
     </Filter>
@@ -178,6 +187,15 @@
     </Filter>
     <Filter Include="InGame\Interaction\Attack">
       <UniqueIdentifier>{9a1d6d00-20c8-4cca-b41e-66ea778518f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\SkillManaging">
+      <UniqueIdentifier>{59366614-cc10-43f0-932f-5a6555ac68cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Component\SkillManaging\SkillObject">
+      <UniqueIdentifier>{ffd68922-1d6a-47b8-82c9-16c293a3de84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

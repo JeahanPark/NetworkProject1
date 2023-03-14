@@ -181,6 +181,8 @@
     </ClCompile>
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="ServerSessionManager.cpp" />
+    <ClCompile Include="SkillManaging.cpp" />
+    <ClCompile Include="SkillObject.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UserController.cpp" />
@@ -208,6 +210,8 @@
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="ServerSessionManager.h" />
     <ClInclude Include="ServerTypes.h" />
+    <ClInclude Include="SkillManaging.h" />
+    <ClInclude Include="SkillObject.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UserController.h" />

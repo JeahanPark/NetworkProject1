@@ -21,6 +21,14 @@ public class InGameMyWorker : MonoBehaviour
         }
     }
 
+    public bool IsNullMyInteraction
+    {
+        get
+        {
+            return m_MyInteraction == null;
+        }
+    }
+
     private void Awake()
     {
         m_MyController = GetComponent<MyController>();

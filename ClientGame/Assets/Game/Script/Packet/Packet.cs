@@ -25,6 +25,7 @@ public enum ePacketType
 	SToC_NewUserInteraction,
 	SToC_RecivedDamage,
 	SToC_UserRiseAgain,
+	SToC_UpdatetMySkill,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -257,7 +258,11 @@ public struct UserRiseAgainPacket
 		}
 	}
 };
-
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct UpdatetMySkillPacket
+{
+	public eSkillType m_eSkillType;
+};
 
 public class Packet
 {

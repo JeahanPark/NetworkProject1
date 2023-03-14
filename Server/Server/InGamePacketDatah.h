@@ -59,3 +59,9 @@ struct UserRiseAgainPacket : BasePacket
 
 	InitialInGameData InitData;
 };
+
+#pragma pack(1)
+struct UpdatetMySkillPacket : BasePacket
+{
+	eSkillType m_eSkillType;
+};

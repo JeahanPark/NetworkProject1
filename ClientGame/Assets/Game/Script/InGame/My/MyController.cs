@@ -91,7 +91,11 @@ public class MyController : MonoBehaviour
     private void KeyDownProgress()
     {
         Vector3 vMoveDir = Vector3.zero;
-        Vector3 vRotateY = InGameController.Instance.GetMyWorker.GetMyInteraction.GetRotateY;
+        Vector3 vRotateY = Vector3.zero; ;
+
+        if (!InGameController.Instance.GetMyWorker.IsNullMyInteraction)
+            vRotateY = InGameController.Instance.GetMyWorker.GetMyInteraction.GetRotateY;
+
         if(IsPressingKey(m_iKeyDown, KeyDown.KeyDown_D))
         {
             vMoveDir.x = 1;

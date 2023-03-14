@@ -510,7 +510,15 @@ void PacketHandler::UserAttack(s_ServerSession _session)
 	if (user == nullptr)
 		return;
 
-	s_InteractionObejct interaction = InteractionCreator::CreateFireball(user->GetTransform()->GetPos(), user->GetTransform()->GetRotateY());
+	user->UseSkiil();
 
-	InteractionManager::GetInstance()->AddInteractionObject(interaction);
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdatetMySkillPacket));
+
+	UpdatetMySkillPacket* packet = (UpdatetMySkillPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_UpdatetMySkill;
+	packet->m_iSize = sizeof(UpdatetMySkillPacket);
+
+	packet->m_eSkillType = user->GetCrtSkill();
+
+	_session->RegisterSend(pSendBuffer);
 }

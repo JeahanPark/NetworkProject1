@@ -16,6 +16,14 @@ enum class eInteractionType
 	Max
 };
 
+enum class eSkillType
+{
+	None,
+	FireBall,
+	Wall,
+	Max
+};
+
 enum class eCollisionType
 {
 	None = 0,

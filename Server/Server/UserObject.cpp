@@ -5,10 +5,12 @@
 
 UserObject::UserObject(s_UserController _uerController, const UserData* _userData)
 	:	m_userController(_uerController),
-		m_UserData(*_userData)
+		m_UserData(*_userData),
+	m_SkillManaging(this)
 {
 	m_userController->SetDie(false);
 	m_eType = eInteractionType::User;
+	m_SkillManaging.InitSkill();
 }
 
 UserObject::~UserObject()
@@ -32,6 +34,9 @@ void UserObject::Update()
 		m_userController->SetDie(true);
 		return;
 	}
+
+	// 스킬Update
+	m_SkillManaging.Update();
 
 	// 유저 입력받을 정보가 있냐???
 	if (m_userController->GetNeedMoveCheck())
@@ -62,4 +67,14 @@ void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 int UserObject::GetUserIndex()
 {
 	return m_UserData.GetUserIndex();
+}
+
+void UserObject::UseSkiil()
+{
+	m_SkillManaging.UseSkill();
+}
+
+eSkillType UserObject::GetCrtSkill()
+{
+	return m_SkillManaging.GetCrtSkill();
 }

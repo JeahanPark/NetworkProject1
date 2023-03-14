@@ -57,6 +57,11 @@ public static class PacketHandler
 					InGameController.Instance.ReciveUserRiseAgain(packet);
 				}
 				break;
+			case ePacketType.SToC_UpdatetMySkill:
+                {
+					var packet = Packet.BufferToPacket<UpdatetMySkillPacket>(_buffer, _iHeaderSize);
+				}
+				break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)

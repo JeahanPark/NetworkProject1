@@ -22,6 +22,14 @@ public enum EffectType
     FireBallExplosionEffect,
     Effect_MAX
 }
+public enum eSkillType
+{
+    None,
+	FireBall,
+	Wall,
+	Max
+};
+
 public static class EnumType
 {
     // 어케해야될지... 모르겟음
