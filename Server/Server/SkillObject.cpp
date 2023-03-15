@@ -6,7 +6,7 @@ SkillObject::SkillObject(eSkillType _skillType) : m_eSkillType(_skillType), m_fC
 	switch (m_eSkillType)
 	{
 	case eSkillType::FireBall:
-		m_fMaxDelay = 2;
+		m_fMaxDelay = 1;
 		break;
 	case eSkillType::Wall:
 		m_fMaxDelay = 3;

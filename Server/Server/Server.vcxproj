@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="AttackDummy.cpp" />
     <ClCompile Include="AttackFireBall.cpp" />
+    <ClCompile Include="AttackLaserBim.cpp" />
     <ClCompile Include="ChattingManager.cpp" />
     <ClCompile Include="ChattingObject.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -188,10 +189,12 @@
     <ClCompile Include="UserController.cpp" />
     <ClCompile Include="UserData.cpp" />
     <ClCompile Include="UserObject.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackDummy.h" />
     <ClInclude Include="AttackFireBall.h" />
+    <ClInclude Include="AttackLaserBim.h" />
     <ClInclude Include="ChattingManager.h" />
     <ClInclude Include="ChattingObject.h" />
     <ClInclude Include="Collision.h" />
@@ -217,6 +220,7 @@
     <ClInclude Include="UserController.h" />
     <ClInclude Include="UserData.h" />
     <ClInclude Include="UserObject.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

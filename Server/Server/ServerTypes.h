@@ -13,6 +13,7 @@ enum class eInteractionType
 	User,
 	AttackDummy,
 	AttackFireBall,
+	Wall,
 	Max
 };
 

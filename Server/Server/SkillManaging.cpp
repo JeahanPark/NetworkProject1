@@ -33,7 +33,7 @@ void SkillManaging::Update()
 
 bool SkillManaging::UseSkill()
 {
-	SkillObject& skill = CrtUseSkill();
+	SkillObject skill = CrtUseSkill();
 
 	if (!skill.CanUseSkill())
 		return false;

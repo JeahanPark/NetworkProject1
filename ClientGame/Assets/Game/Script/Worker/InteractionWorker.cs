@@ -142,12 +142,6 @@ public class InteractionWorker : MonoBehaviour
 
             if (interaction == null)
             {
-                if(data.VaildLife == false)
-                {
-                    int a = 0;
-                    // 새로 생성해야되는데 죽어있는애?
-                }
-
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
                 if (interaction == null)
@@ -160,8 +154,17 @@ public class InteractionWorker : MonoBehaviour
             // 더이상 유효하지 않은 객체다.
             if (!interaction.GetValidLife)
             {
-                // 삭제
-                DeleteInteraction(iter);
+                if(iter == null)
+                {
+                    // iter가 null인경우는 클라에는 아직 생성되지않은 interaction이 있는데
+                    // 생성을해야되는 죽은애들 생성해야되는경우
+                    DeleteInteraction(interaction);
+                }
+                else
+                {
+                    DeleteInteraction(iter);
+                }
+                
             }
         }
     }
@@ -275,35 +278,55 @@ public class InteractionWorker : MonoBehaviour
 
         GetActiveObjectList(interactionObject.GetInteractionType).Remove(_interaction);
 
-        var pool = GetPoolQueue(interactionObject.GetInteractionType);
+        DeletePool(interactionObject);
+    }
 
-        switch(interactionObject.GetInteractionType)
+    private void DeleteInteraction(InteractionObject _interaction)
+    {
+        var list = GetActiveObjectList(_interaction.GetInteractionType);
+
+        foreach (var interaction in list)
+        {
+            if(interaction.GetInteractionIndex == _interaction.GetInteractionIndex)
+            {
+                list.Remove(interaction);
+            }
+        }
+
+        DeletePool(_interaction);
+    }
+
+    private void DeletePool(InteractionObject _interaction)
+    {
+        var pool = GetPoolQueue(_interaction.GetInteractionType);
+
+        switch (_interaction.GetInteractionType)
         {
             case eInteractionType.User:
-                UserObject user = interactionObject as UserObject;
+                UserObject user = _interaction as UserObject;
                 pool.Enqueue(user);
                 user.transform.SetParent(m_UnUseUserPool.transform);
                 break;
             case eInteractionType.AttackDummy:
-                Destroy(interactionObject.gameObject);
-                interactionObject = null;
+                Destroy(_interaction.gameObject);
+                _interaction = null;
                 break;
             case eInteractionType.AttackFireBall:
-                pool.Enqueue(interactionObject);
-                interactionObject.transform.SetParent(m_UnUseUserPool.transform);
+                pool.Enqueue(_interaction);
+                _interaction.transform.SetParent(m_UnUseUserPool.transform);
                 break;
         }
 
-        if(interactionObject !=  null)
+        if (_interaction != null)
         {
             // 죽었을때 관련된 팝업, 이펙트 노출
-            interactionObject.Die();
+            _interaction.Die();
 
             // 데이터 클리어
-            interactionObject.Clear();
+            _interaction.Clear();
 
             // 위치 안보이는데로 옮긴다
-            interactionObject.transform.position = new Vector3(0, 999, 0);
+            _interaction.transform.position = new Vector3(0, 999, 0);
         }
     }
 }

@@ -59,9 +59,6 @@
     <ClCompile Include="ContentsManager.cpp">
       <Filter>InGame\ContentsManager</Filter>
     </ClCompile>
-    <ClCompile Include="AttackFireBall.cpp">
-      <Filter>InGame\Interaction\Attack</Filter>
-    </ClCompile>
     <ClCompile Include="InteractionCreator.cpp">
       <Filter>InGame\Interaction</Filter>
     </ClCompile>
@@ -70,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="SkillObject.cpp">
       <Filter>InGame\Component\SkillManaging\SkillObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>InGame\Interaction\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackFireBall.cpp">
+      <Filter>InGame\Interaction\Attack\FireBall</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackLaserBim.cpp">
+      <Filter>InGame\Interaction\Attack\LaserBim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +138,6 @@
     <ClInclude Include="ContentsManager.h">
       <Filter>InGame\ContentsManager</Filter>
     </ClInclude>
-    <ClInclude Include="AttackFireBall.h">
-      <Filter>InGame\Interaction\Attack</Filter>
-    </ClInclude>
     <ClInclude Include="InteractionCreator.h">
       <Filter>InGame\Interaction</Filter>
     </ClInclude>
@@ -143,6 +146,15 @@
     </ClInclude>
     <ClInclude Include="SkillObject.h">
       <Filter>InGame\Component\SkillManaging\SkillObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>InGame\Interaction\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackFireBall.h">
+      <Filter>InGame\Interaction\Attack\FireBall</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackLaserBim.h">
+      <Filter>InGame\Interaction\Attack\LaserBim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +208,15 @@
     </Filter>
     <Filter Include="DataBase">
       <UniqueIdentifier>{1738c9a0-2011-4435-a156-7d8c95b99c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\Wall">
+      <UniqueIdentifier>{64c863b1-0519-4451-8d7f-93b8c224465b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\Attack\FireBall">
+      <UniqueIdentifier>{b20bf579-aad3-41bf-97cb-5a9a2b415e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\Attack\LaserBim">
+      <UniqueIdentifier>{5ea133ae-2f00-4949-be4a-65d5bdd6e5a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
