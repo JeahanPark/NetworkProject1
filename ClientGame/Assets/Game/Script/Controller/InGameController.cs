@@ -155,5 +155,11 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
         m_InteractionWorker.UserRiseAgain(_packet.m_myInitData);
     }
+    public void ReciveUpdatetMySkill(UpdatetMySkillPacket _packet)
+    {
+        DataManager.Instance.SetSkillType(_packet.m_eSkillType);
+
+        SygnalManager.Instance.Fire(SygnalEventType.Ingame_UpdatetMySkill);
+    }
     #endregion
 }

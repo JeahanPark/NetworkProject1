@@ -8,8 +8,16 @@ public class DataManager : Singleton<DataManager>
 
     // 인게임에서 사용하는 데이터
     private int m_iInteractionIndex = EnumType.InteractionIndexNone;
-    private eInteractionType m_eType;
+    private eInteractionType m_eInteractionType;
+    private eSkillType m_eSkillType;
 
+    public eSkillType CrtMySkill
+    {
+        get
+        {
+            return m_eSkillType;
+        }
+    }
 
     public bool IsLogin()
     {
@@ -20,18 +28,19 @@ public class DataManager : Singleton<DataManager>
         if(_user == null)
         {
             m_iInteractionIndex = EnumType.InteractionIndexNone;
-            m_eType = eInteractionType.None;
+            m_eInteractionType = eInteractionType.None;
         }
         else
         {
             m_iInteractionIndex = _user.GetInteractionIndex;
-            m_eType = _user.GetInteractionType;
+            m_eInteractionType = _user.GetInteractionType;
+            m_eSkillType = eSkillType.FireBall;
         }
     }
 
     public bool SameMyInteraction(int _iInteractionIndex, eInteractionType _eType)
     {
-        return m_iInteractionIndex == _iInteractionIndex && _eType == m_eType;
+        return m_iInteractionIndex == _iInteractionIndex && _eType == m_eInteractionType;
     }
 
     public void SetUserData(LoginResultPacket _loginResultPacket)
@@ -52,6 +61,11 @@ public class DataManager : Singleton<DataManager>
 
     public override void Init()
     {
+    }
+
+    public void SetSkillType(eSkillType _eSkillType)
+    {
+        m_eSkillType = _eSkillType;
     }
 }
 

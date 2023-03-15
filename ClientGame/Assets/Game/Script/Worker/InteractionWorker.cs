@@ -142,6 +142,12 @@ public class InteractionWorker : MonoBehaviour
 
             if (interaction == null)
             {
+                if(data.VaildLife == false)
+                {
+                    int a = 0;
+                    // 새로 생성해야되는데 죽어있는애?
+                }
+
                 // 없으면 만들어줘야됌
                 interaction = CreateInteraction(data);
                 if (interaction == null)

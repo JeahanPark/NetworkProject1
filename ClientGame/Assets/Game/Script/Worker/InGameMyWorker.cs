@@ -48,6 +48,12 @@ public class InGameMyWorker : MonoBehaviour
 
         // 데이터 세팅
         DataManager.Instance.SetInteractionUserData(_user);
+
+        if (_user != null)
+        {
+            // 스킬 UI Update
+            SygnalManager.Instance.Fire(SygnalEventType.Ingame_UpdatetMySkill);
+        }
     }
 
     public void UserMove(Vector3 _vMoveDir, Vector3 _vRotateY, float _fMoveSpeed)
@@ -62,5 +68,10 @@ public class InGameMyWorker : MonoBehaviour
         m_MyInteraction.SetUserMove(_vMoveDir, _fMoveSpeed);
 
         InGameController.Instance.SendMyUserMove(_vMoveDir, _vRotateY, _fMoveSpeed);
+    }
+
+    private void UpdateAttackUI()
+    {
+
     }
 }

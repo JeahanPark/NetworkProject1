@@ -31,19 +31,12 @@ void SkillManaging::Update()
 	skill.Update();
 }
 
-bool SkillManaging::CanUseSkill()
-{
-	SkillObject& skill = CrtUseSkill();
-
-	return skill.CanUseSkill();
-}
-
-void SkillManaging::UseSkill()
+bool SkillManaging::UseSkill()
 {
 	SkillObject& skill = CrtUseSkill();
 
 	if (!skill.CanUseSkill())
-		return;
+		return false;
 
 	// 원래같으면 skillObject상속받아서 타입별로 클래스 만들고 할텐데
 	// 서버 코드니까 그냥 switch로 나눈다. 클라엿으면 나눳음
@@ -66,6 +59,8 @@ void SkillManaging::UseSkill()
 
 	skill = CrtUseSkill();
 	skill.InitSkill();
+
+	return true;
 }
 
 eSkillType SkillManaging::GetCrtSkill()

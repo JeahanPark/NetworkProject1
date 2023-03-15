@@ -510,7 +510,11 @@ void PacketHandler::UserAttack(s_ServerSession _session)
 	if (user == nullptr)
 		return;
 
-	user->UseSkiil();
+	if (!user->UseSkiil())
+	{
+		// 스킬 못쓴다.
+		return;
+	}
 
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdatetMySkillPacket));
 

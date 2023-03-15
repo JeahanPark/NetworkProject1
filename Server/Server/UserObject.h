@@ -13,7 +13,7 @@ public:
 	virtual void Update() override;
 	void SettingInitialInGameDataPacket(InitialInGameData* _packet);
 	int GetUserIndex();
-	void UseSkiil();
+	bool UseSkiil();
 	eSkillType GetCrtSkill();
 
 private:

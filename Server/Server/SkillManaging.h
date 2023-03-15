@@ -10,8 +10,7 @@ public:
 public:
 	void InitSkill();
 	void Update();
-	bool CanUseSkill();
-	void UseSkill();
+	bool UseSkill();
 	eSkillType GetCrtSkill();
 
 private:

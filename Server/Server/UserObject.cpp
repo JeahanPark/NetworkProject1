@@ -69,9 +69,9 @@ int UserObject::GetUserIndex()
 	return m_UserData.GetUserIndex();
 }
 
-void UserObject::UseSkiil()
+bool UserObject::UseSkiil()
 {
-	m_SkillManaging.UseSkill();
+	return m_SkillManaging.UseSkill();
 }
 
 eSkillType UserObject::GetCrtSkill()

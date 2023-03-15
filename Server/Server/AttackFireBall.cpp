@@ -35,7 +35,10 @@ void AttackFireBall::Update()
 	m_fLifeTime += InGameUpdateManager::GetInstance()->GetDeltaTime();
 
 	if (m_fLifeTime > m_fLifeMaxTime)
+	{
 		m_bVaildLife = false;
+	}
+		
 
 	m_transform->SetMoveSpeed(5);
 
