@@ -171,17 +171,26 @@ public class UserObject : InteractionObject
         else
             m_bDeadRackoningMove = false;
 
+
+        // 두벡터간의 사이각
         float cosTheta = Vector3.Dot(transform.forward, m_vRotateY) / (transform.forward.magnitude * m_vRotateY.magnitude);
         float angle = Mathf.Acos(cosTheta) * Mathf.Rad2Deg;
 
-        if(angle > 0f)
+        // 사이각 차이가 0.001보다 크냐?
+        if(angle > 0.001f)
         {
+            // 이만큼 그냥 뺀다.
+            Debug.Log(angle);
+
             float calculAngle = angle - m_fRotateSpeed;
 
-            calculAngle = calculAngle < 0 ? 3 - angle : calculAngle;
+            // 0이하면 angle만큼 뺀다.
+            calculAngle = calculAngle < 0 ? angle : calculAngle;
 
-            Vector3 up = Vector3.Cross(m_vRotateY, transform.forward).normalized;
-            Quaternion rotation = Quaternion.AngleAxis(calculAngle, up);
+            //Vector3 right = Vector3.Cross(transform.forward, m_vRotateY).normalized;
+            //Vector3 up = ;
+
+            Quaternion rotation = Quaternion.AngleAxis(calculAngle, Vector3.up);
 
             Vector3 result = rotation * m_vRotateY;
 
