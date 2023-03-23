@@ -47,11 +47,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Effect
-  - m_GUID: 9db38bed9612bf14c8f7fd5388697efb
-    m_Address: UserCreateEffect
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Effect
   - m_GUID: 5059061bdfff0d14198f31200747e8b2
     m_Address: UIUserRiseAgain
     m_ReadOnly: 0
@@ -59,6 +54,16 @@ MonoBehaviour:
     - Popup
   - m_GUID: 17860185d1b213d40bbe181fcd8e7190
     m_Address: FireBallExplosionEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
+  - m_GUID: c59291bebf32dd24bb36aa7d2b7f2acd
+    m_Address: ReflectionItemEffect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effect
+  - m_GUID: 9db38bed9612bf14c8f7fd5388697efb
+    m_Address: UserCreateEffect
     m_ReadOnly: 0
     m_SerializedLabels:
     - Effect

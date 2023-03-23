@@ -180,7 +180,7 @@ public class UserObject : InteractionObject
         if(angle > 0.001f)
         {
             // 이만큼 그냥 뺀다.
-            Debug.Log(angle);
+            //Debug.Log(angle);
 
             float calculAngle = angle - m_fRotateSpeed;
 

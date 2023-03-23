@@ -12,7 +12,10 @@ public class BaseEffect : MonoBehaviour
             return m_effectType;
         }
     }
+
+    // 애니메이션이 끝나면 사라진다.
     protected bool m_bStopAnimEnd = true;
+
     protected float m_fMaxLifeTime = 0;
     protected float m_fCrtLifeTime = 0;
 

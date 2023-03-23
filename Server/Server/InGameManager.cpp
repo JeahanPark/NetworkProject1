@@ -28,6 +28,9 @@ bool InGameManager::InsertInGameObject(s_InGameObject _inGameObject)
 
     m_mapInGame.insert(std::make_pair(userIndex, _inGameObject));
 
+    
+    ContentsManager::GetInstance()->UpdateReflectionMaxCount(+1);
+
 	return true;
 }
 
@@ -40,6 +43,7 @@ bool InGameManager::DeleteInGameObject(s_ServerSession _session)
     auto iter = m_mapInGame.find(_session->GetUserData()->GetUserIndex());
     if (iter != m_mapInGame.end())
     {
+        ContentsManager::GetInstance()->UpdateReflectionMaxCount(-1);
         m_mapInGame.erase(iter);
         return true;
     }

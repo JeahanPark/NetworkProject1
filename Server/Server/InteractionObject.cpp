@@ -54,3 +54,7 @@ void InteractionObject::InteractionCollision()
 {
 
 }
+
+void InteractionObject::Die()
+{
+}

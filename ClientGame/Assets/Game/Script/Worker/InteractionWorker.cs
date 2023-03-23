@@ -7,6 +7,7 @@ public class InteractionWorker : MonoBehaviour
     private UserObject m_originUser = null;
     private AttackDummy m_originAttackDummy = null;
     private FireBall m_originFireBall = null;
+    private RefletionItem m_originReflectionItem = null;
 
     private Dictionary<eInteractionType, Queue<InteractionObject>> m_poolObject = null;
     private Dictionary<eInteractionType, LinkedList<InteractionObject>> m_mapActiveObject = null;
@@ -31,6 +32,9 @@ public class InteractionWorker : MonoBehaviour
 
         m_originFireBall = transform.Find<FireBall>("OriginFireBall");
         m_originFireBall.gameObject.SetActive(false);
+
+        m_originReflectionItem = transform.Find<RefletionItem>("OriginReflectionItem");
+        m_originReflectionItem.gameObject.SetActive(false);
 
         m_UnUseUserPool = transform.Find<Transform>("UnUseUserPool");
 
@@ -213,42 +217,21 @@ public class InteractionWorker : MonoBehaviour
     {
         InteractionObject interactionObject = null;
 
-        switch (_data.m_eType)
+        if(_data.m_eType == eInteractionType.AttackDummy)
         {
-            case eInteractionType.User:
-                {
-                    Queue<InteractionObject> pool = GetPoolQueue(_data.m_eType);
-                    if (pool.Count == 0)
-                        interactionObject = CreateUser();
-                    else
-                    {
-                        interactionObject = pool.Dequeue();
-                        interactionObject.transform.SetParent(null);
-                    } 
-                }
-                break;
-            case eInteractionType.AttackDummy:
-                {
-                    interactionObject = Instantiate<AttackDummy>(m_originAttackDummy);
-                    interactionObject.gameObject.SetActive(true);
-                }
-                break;
-            case eInteractionType.AttackFireBall:
-                {
-                    Queue<InteractionObject> pool = GetPoolQueue(_data.m_eType);
-                    if (pool.Count == 0)
-                    {
-                        interactionObject = Instantiate<FireBall>(m_originFireBall);
-                        interactionObject.gameObject.SetActive(true);
-                    }
-                        
-                    else
-                    {
-                        interactionObject = pool.Dequeue();
-                        interactionObject.transform.SetParent(null);
-                    }
-                }
-                break;
+            interactionObject = Instantiate<AttackDummy>(m_originAttackDummy);
+            interactionObject.gameObject.SetActive(true);
+        }
+        else
+        {
+            Queue<InteractionObject> pool = GetPoolQueue(_data.m_eType);
+            if (pool.Count == 0)
+                interactionObject = GetOriginInteraction(_data.m_eType);
+            else
+            {
+                interactionObject = pool.Dequeue();
+                interactionObject.transform.SetParent(null);
+            }
         }
 
         if (interactionObject == null)
@@ -262,12 +245,27 @@ public class InteractionWorker : MonoBehaviour
         return interactionObject;
     }
 
-    private UserObject CreateUser()
+    private InteractionObject GetOriginInteraction(eInteractionType _type)
     {
-        if (m_originUser == null)
+        InteractionObject origin = null;
+
+        switch(_type)
+        {
+            case eInteractionType.AttackFireBall:
+                origin = m_originFireBall;
+                break;
+            case eInteractionType.ReflectionItem:
+                origin = m_originReflectionItem;
+                break;
+            case eInteractionType.User:
+                origin = m_originUser;
+                break;
+        }
+
+        if (origin == null)
             return null;
 
-        UserObject user = Instantiate<UserObject>(m_originUser);
+        InteractionObject user = Instantiate(origin);
         user.gameObject.SetActive(true);
         return user;
     }
@@ -284,14 +282,27 @@ public class InteractionWorker : MonoBehaviour
     private void DeleteInteraction(InteractionObject _interaction)
     {
         var list = GetActiveObjectList(_interaction.GetInteractionType);
-
-        foreach (var interaction in list)
+        
+        for(var iter = list.First; iter != null;)
         {
-            if(interaction.GetInteractionIndex == _interaction.GetInteractionIndex)
+            if (iter.Value.GetInteractionIndex == _interaction.GetInteractionIndex)
             {
-                list.Remove(interaction);
+                var deleteIter = iter;
+                iter = iter.Next;
+
+                list.Remove(deleteIter);
             }
+            else
+                iter = iter.Next;
         }
+
+        //foreach (var interaction in list)
+        //{
+        //    if(interaction.GetInteractionIndex == _interaction.GetInteractionIndex)
+        //    {
+        //        list.Remove(interaction);
+        //    }
+        //}
 
         DeletePool(_interaction);
     }
@@ -300,21 +311,15 @@ public class InteractionWorker : MonoBehaviour
     {
         var pool = GetPoolQueue(_interaction.GetInteractionType);
 
-        switch (_interaction.GetInteractionType)
+        if(_interaction.GetInteractionType == eInteractionType.AttackDummy)
         {
-            case eInteractionType.User:
-                UserObject user = _interaction as UserObject;
-                pool.Enqueue(user);
-                user.transform.SetParent(m_UnUseUserPool.transform);
-                break;
-            case eInteractionType.AttackDummy:
-                Destroy(_interaction.gameObject);
-                _interaction = null;
-                break;
-            case eInteractionType.AttackFireBall:
-                pool.Enqueue(_interaction);
-                _interaction.transform.SetParent(m_UnUseUserPool.transform);
-                break;
+            Destroy(_interaction.gameObject);
+            _interaction = null;
+        }
+        else
+        {
+            pool.Enqueue(_interaction);
+            _interaction.transform.SetParent(m_UnUseUserPool.transform);
         }
 
         if (_interaction != null)

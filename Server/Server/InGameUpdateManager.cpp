@@ -28,6 +28,8 @@ void InGameUpdateManager::InGameUpdate()
         // 초당 60프레임으로 해놓음 프레임 체크를 한다.
         if (FramCheck())
         {
+            ContentsManager::GetInstance()->UpdateFieldItem();
+
             // 내부 interaction 업데이트
             InteractionManager::GetInstance()->AllUpdateInteractionObject();
 

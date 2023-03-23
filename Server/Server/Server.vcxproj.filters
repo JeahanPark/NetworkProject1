@@ -77,6 +77,9 @@
     <ClCompile Include="AttackLaserBim.cpp">
       <Filter>InGame\Interaction\Attack\LaserBim</Filter>
     </ClCompile>
+    <ClCompile Include="ReflectionItem.cpp">
+      <Filter>InGame\Interaction\FieldItem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -156,6 +159,9 @@
     <ClInclude Include="AttackLaserBim.h">
       <Filter>InGame\Interaction\Attack\LaserBim</Filter>
     </ClInclude>
+    <ClInclude Include="ReflectionItem.h">
+      <Filter>InGame\Interaction\FieldItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Chatting">
@@ -217,6 +223,9 @@
     </Filter>
     <Filter Include="InGame\Interaction\Attack\LaserBim">
       <UniqueIdentifier>{5ea133ae-2f00-4949-be4a-65d5bdd6e5a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InGame\Interaction\FieldItem">
+      <UniqueIdentifier>{293395de-9562-422f-b4b4-43e8accfebef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ enum class eInteractionType
 	AttackDummy,
 	AttackFireBall,
 	Wall,
+	ReflectionItem,
 	Max
 };
 
@@ -53,3 +54,6 @@ const XMFLOAT3 DownVector = { 0,-1,0 };
 
 const XMFLOAT3 FowardVector = { 0,0,1 };
 const XMFLOAT3 BackVector = { 0,0,-1 };
+
+const int iMaxMapSizeX = 10;
+const int iMaxMapSizeY = 10;

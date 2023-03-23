@@ -180,6 +180,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ReflectionItem.cpp" />
     <ClCompile Include="ServerSession.cpp" />
     <ClCompile Include="ServerSessionManager.cpp" />
     <ClCompile Include="SkillManaging.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="InteractionObject.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ReflectionItem.h" />
     <ClInclude Include="ServerSession.h" />
     <ClInclude Include="ServerSessionManager.h" />
     <ClInclude Include="ServerTypes.h" />

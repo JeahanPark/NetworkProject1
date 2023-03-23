@@ -11,8 +11,8 @@ public:
 
 	// 이거를 만든이유는 생성자에서 처리를 못하는 애들때문에
 	// ex) Collision한테 enable_shared_from_this를 넘겨줘야되는데 생성자가 모두 종료된후 _Wptr세팅되기 때문에
-	void virtual Init();
-	void virtual Update() = 0;
+	virtual void  Init();
+	virtual void  Update() = 0;
 
 public:
 	bool					GetValidLife() { return m_bVaildLife; }
@@ -24,10 +24,11 @@ public:
 public:
 	void					SetValidLife(bool _bVaildLife);
 	void					SettingInteractionPacket(InteractionPacketData* _packet);
-	void virtual			RecivedDamage();
+	virtual void 			RecivedDamage();
 
 	//	충돌했다. 충돌을 당한건지 한건지 모름
-	void virtual			InteractionCollision();
+	virtual void 			InteractionCollision();
+	virtual void 			Die();
 
 protected:
 	bool				m_bVaildLife;

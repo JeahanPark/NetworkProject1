@@ -8,6 +8,8 @@ public enum eInteractionType
     User,
     AttackDummy,
     AttackFireBall,
+    Wall,
+    ReflectionItem,
     Interaction_MAX
 }
 public enum EffectType
@@ -20,6 +22,7 @@ public enum EffectType
     DieEffect,
     UserCreateEffect,
     FireBallExplosionEffect,
+    ReflectionItemEffect,
     Effect_MAX
 }
 public enum eSkillType

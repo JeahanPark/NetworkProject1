@@ -3,6 +3,7 @@
 #include "UserObject.h"
 #include "AttackDummy.h"
 #include "AttackFireBall.h"
+#include "ReflectionItem.h"
 
 s_InteractionObejct InteractionCreator::CreateUserInteraction(s_UserController _userController, const UserData* _userData)
 {
@@ -25,5 +26,12 @@ s_InteractionObejct InteractionCreator::CreateFireball(const XMFLOAT3& _vStartPo
 	s_InteractionObejct interaction = make_shared<AttackFireBall>(_vStartPos, _vRotateY);
 	interaction->Init();
 
+	return interaction;
+}
+
+s_InteractionObejct InteractionCreator::CreateReflectionItem(const XMFLOAT3& _vStartPos)
+{
+	s_InteractionObejct interaction = make_shared<ReflectionItem>(_vStartPos);
+	interaction->Init();
 	return interaction;
 }

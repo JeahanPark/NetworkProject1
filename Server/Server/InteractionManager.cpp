@@ -117,6 +117,9 @@ void InteractionManager::AllUpdateInteractionObject()
 				// 삭제해야될 오브젝트일경우 생명주기가 끝나거나 등등
 				if (!object->GetValidLife())
 				{
+					// 죽음
+					object->Die();
+
 					// 해당 객체 삭제 리스트에 추가
 					m_lisDeleteInteraction.push_back(*iter);
 

@@ -11,6 +11,9 @@ public:
 
 public:
 	void InGameUpdate();
+
+	// 이거 문제 될것같다
+	// Update 매개변수 전달 받는 방식으로 바꿔야할것같다
 	float GetDeltaTime() { return m_fRealDeltaTime; }
 	double GetTotalDeltaTime() { return m_dTotalDeltaTime; }
 private:
