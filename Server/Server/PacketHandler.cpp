@@ -516,13 +516,28 @@ void PacketHandler::UserAttack(s_ServerSession _session)
 		return;
 	}
 
-	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdatetMySkillPacket));
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdateMySkillPacket));
 
-	UpdatetMySkillPacket* packet = (UpdatetMySkillPacket*)pSendBuffer->GetSendBufferAdress();
+	UpdateMySkillPacket* packet = (UpdateMySkillPacket*)pSendBuffer->GetSendBufferAdress();
 	packet->m_PakcetType = ePacketType::SToC_UpdatetMySkill;
-	packet->m_iSize = sizeof(UpdatetMySkillPacket);
+	packet->m_iSize = sizeof(UpdateMySkillPacket);
 
 	packet->m_eSkillType = user->GetCrtSkill();
 
 	_session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::AddPoint(s_InGameObject _gameobject)
+{
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdatePointPacket));
+
+	UpdatePointPacket* packet = (UpdatePointPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_UpdatePoint;
+	packet->m_iSize = sizeof(UpdatePointPacket);
+
+	packet->m_lPoint = _gameobject->GetPoint();
+
+	s_ServerSession session = _gameobject->GetSession();
+
+	session->RegisterSend(pSendBuffer);
 }

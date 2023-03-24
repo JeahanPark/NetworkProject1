@@ -48,7 +48,7 @@ public class DamageUI : BaseUI
                 transform.position = ChangePosWorldToUI(m_vWolrodPos);
 
                 Vector2 pos = m_rectTransform.anchoredPosition;
-                pos.y += m_fShowCrtTime * m_fMoveSpeed;
+                pos.y += Time.deltaTime * m_fMoveSpeed;
 
                 m_rectTransform.anchoredPosition = pos;
             }

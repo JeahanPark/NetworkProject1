@@ -36,4 +36,6 @@ public:
 	static void UserRiseAgain(s_ServerSession _session);
 
 	static void UserAttack(s_ServerSession _session);
+
+	static void AddPoint(s_InGameObject _gameobject);
 };

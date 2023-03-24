@@ -61,7 +61,13 @@ struct UserRiseAgainPacket : BasePacket
 };
 
 #pragma pack(1)
-struct UpdatetMySkillPacket : BasePacket
+struct UpdateMySkillPacket : BasePacket
 {
 	eSkillType m_eSkillType;
+};
+
+#pragma pack(1)
+struct UpdatePointPacket : BasePacket
+{
+	long m_lPoint;
 };

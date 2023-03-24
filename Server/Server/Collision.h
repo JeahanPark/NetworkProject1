@@ -16,13 +16,14 @@ public :
 
 public:
 	void				Update(const list<s_InteractionObejct>& _lisInteractin);
-	void				RecivedDamage();
+	void				RecivedDamage(Collision* _recivedDamageTarget);
 	bool				HaveCollisionType(eCollisionType _type);
 public:
 	int					GetInteractionIndex();
 	float				GetCollisionSize() { return m_fCollisionSize; }
 	Transform*			GetTransform();
-	
+	s_InteractionObejct	GetOwner() { return m_Owner; }
+
 public:
 	void				SetCollisonClear(bool _bCleer);
 

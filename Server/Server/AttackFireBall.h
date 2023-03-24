@@ -4,7 +4,7 @@
 class AttackFireBall : public InteractionObject
 {
 public:
-	AttackFireBall(const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY);
+	AttackFireBall(s_InteractionObejct _owner, const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY);
 	~AttackFireBall();
 
 public:
@@ -12,7 +12,11 @@ public:
 	virtual void Update() override;
 	virtual void InteractionCollision();
 
+public:
+	s_InteractionObejct GetOwner() { return m_Owner; }
+
 private:
+	s_InteractionObejct m_Owner;
 	float m_fLifeTime;
 	const float m_fLifeMaxTime = 4;
 };

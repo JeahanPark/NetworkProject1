@@ -4,10 +4,12 @@ class SkillObject;
 class SkillManaging
 {
 public:
-	SkillManaging(InteractionObject* _owner);
+	SkillManaging();
 	~SkillManaging();
 
 public:
+	void InitData(s_InteractionObejct _owner);
+
 	void InitSkill();
 	void Update();
 	bool UseSkill();
@@ -19,7 +21,7 @@ private:
 	void Wall();
 
 private:
-	InteractionObject* m_owner;
+	s_InteractionObejct m_owner;
 
 	int m_iCrtUseSkillIndex;
 

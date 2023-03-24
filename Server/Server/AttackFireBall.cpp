@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "AttackFireBall.h"
 #include  "Collision.h"
-AttackFireBall::AttackFireBall(const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY) : m_fLifeTime(0)
+AttackFireBall::AttackFireBall(s_InteractionObejct _owner, const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY) : m_Owner(_owner), m_fLifeTime(0)
 {
 	// 타입세팅
 	m_eType = eInteractionType::AttackFireBall;

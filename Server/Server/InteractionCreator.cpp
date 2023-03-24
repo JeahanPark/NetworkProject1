@@ -21,9 +21,9 @@ s_InteractionObejct InteractionCreator::CreateDummyInteraction(const XMFLOAT3& _
 	return interaction;
 }
 
-s_InteractionObejct InteractionCreator::CreateFireball(const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY)
+s_InteractionObejct InteractionCreator::CreateFireball(s_InteractionObejct _owner, const XMFLOAT3& _vStartPos, const XMFLOAT3& _vRotateY)
 {
-	s_InteractionObejct interaction = make_shared<AttackFireBall>(_vStartPos, _vRotateY);
+	s_InteractionObejct interaction = make_shared<AttackFireBall>(_owner, _vStartPos, _vRotateY);
 	interaction->Init();
 
 	return interaction;

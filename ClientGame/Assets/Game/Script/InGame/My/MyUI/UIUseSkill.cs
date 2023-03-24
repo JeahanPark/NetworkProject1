@@ -21,12 +21,12 @@ public class UIUseSkill : MonoBehaviour
 
         m_imgSkill = GetComponent<Image>();
 
-        SygnalManager.Instance.Register(SygnalEventType.Ingame_UpdatetMySkill, UpdatetMySkillUI);
+        SygnalManager.Instance.Register(SygnalEventType.InGame_UpdateMySkill, UpdatetMySkillUI);
     }
 
     private void OnDestroy()
     {
-        SygnalManager.Instance.Unregister(SygnalEventType.Ingame_UpdatetMySkill, UpdatetMySkillUI);
+        SygnalManager.Instance.Unregister(SygnalEventType.InGame_UpdateMySkill, UpdatetMySkillUI);
     }
 
     private void Update()

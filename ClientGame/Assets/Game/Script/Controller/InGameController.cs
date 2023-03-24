@@ -159,7 +159,14 @@ public class InGameController : MonoDestroySingleton<InGameController>
     {
         DataManager.Instance.SetSkillType(_packet.m_eSkillType);
 
-        SygnalManager.Instance.Fire(SygnalEventType.Ingame_UpdatetMySkill);
+        SygnalManager.Instance.Fire(SygnalEventType.InGame_UpdateMySkill);
+    }
+
+    public void ReciveUpdatePoint(UpdatePointPacket _packet)
+    {
+        GetMyWorker.GetMyData.AddPoint(_packet.m_lPoint);
+
+        SygnalManager.Instance.Fire(SygnalEventType.InGame_UpdatePoint);
     }
     #endregion
 }

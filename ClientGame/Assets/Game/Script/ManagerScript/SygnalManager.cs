@@ -7,7 +7,8 @@ public enum SygnalEventType
 {
     NONE,
     TEST,
-    Ingame_UpdatetMySkill,
+    InGame_UpdateMySkill,
+    InGame_UpdatePoint
 }
 
 

@@ -43,7 +43,7 @@ void InteractionObject::SettingInteractionPacket(InteractionPacketData* _packet)
 	_packet->m_bValidLife = m_bVaildLife;
 }
 
-void InteractionObject::RecivedDamage()
+void InteractionObject::RecivedDamage(Collision* _recivedDamageTarget)
 {
 	m_state->SubtractedHealth(1);
 

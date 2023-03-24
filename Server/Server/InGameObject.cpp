@@ -2,7 +2,7 @@
 #include "InGameObject.h"
 #include "UserController.h"
 InGameObject::InGameObject(s_ServerSession _session, s_UserController _userController)
-	: m_session(_session), m_UserController(_userController)
+	: m_session(_session), m_UserController(_userController), m_lPoint(0)
 {
 }
 
@@ -26,4 +26,14 @@ bool InGameObject::SameSession(int _iUserIndex)
 void InGameObject::MyUserMove(MyUserMovePacket* _packetData)
 {
 	m_UserController->SetUserMove(_packetData);
+}
+
+void InGameObject::AddPoint(long _lAddPoint)
+{
+	m_lPoint.fetch_add(_lAddPoint);
+}
+
+long InGameObject::GetPoint()
+{
+	return m_lPoint.load();
 }

@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "UserObject.h"
 #include "UserController.h"
+#include "Collision.h"
+#include "AttackFireBall.h"
+#include "InGameObject.h"
 
 
 UserObject::UserObject(s_UserController _uerController, const UserData* _userData)
 	:	m_userController(_uerController),
-		m_UserData(*_userData),
-	m_SkillManaging(this)
+		m_UserData(*_userData)
 {
 	m_userController->SetDie(false);
 	m_eType = eInteractionType::User;
@@ -58,6 +60,12 @@ void UserObject::Update()
 	
 }
 
+void UserObject::Init()
+{
+	m_collision = new Collision(shared_from_this());
+	m_SkillManaging.InitData(shared_from_this());
+}
+
 void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 {
 	wcscpy_s(_packet->m_UserID, USER_ID_LENGTH, m_UserData.GetUserID());
@@ -77,4 +85,36 @@ bool UserObject::UseSkiil()
 eSkillType UserObject::GetCrtSkill()
 {
 	return m_SkillManaging.GetCrtSkill();
+}
+
+void UserObject::RecivedDamage(Collision* _recivedDamageTarget)
+{
+	m_state->SubtractedHealth(1);
+
+	if (m_state->Die())
+	{
+		// 지금 때린애가 죽였다.
+		s_InteractionObejct target = _recivedDamageTarget->GetOwner();
+
+		if (target->GetInteractionType() == eInteractionType::AttackFireBall)
+		{
+			AttackFireBall* fireBall = static_cast<AttackFireBall*>(target.get());
+
+			s_InteractionObejct targetOwner = fireBall->GetOwner();
+
+			UserObject* user = static_cast<UserObject*>(targetOwner.get());
+			user->AddPoint(1);
+		}
+	}
+
+	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
+}
+
+void UserObject::AddPoint(long _lAddPoint)
+{
+	s_InGameObject inGameObject = InGameManager::GetInstance()->GetInGameObject(GetUserIndex());
+
+	inGameObject->AddPoint(_lAddPoint);
+
+	PacketHandler::AddPoint(inGameObject);
 }

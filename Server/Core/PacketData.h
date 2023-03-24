@@ -21,6 +21,7 @@ enum class ePacketType
 	SToC_RecivedDamage,
 	SToC_UserRiseAgain,
 	SToC_UpdatetMySkill,
+	SToC_UpdatePoint,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -29,6 +30,7 @@ enum class ePacketType
 	CToS_Chatting,
 	CToS_UserRegister,
 	CToS_MyUserMove,
+	CToS_UpdatePoint,
 	// 클라에서 서버로
 
 	END,

@@ -26,6 +26,7 @@ public enum ePacketType
 	SToC_RecivedDamage,
 	SToC_UserRiseAgain,
 	SToC_UpdatetMySkill,
+	SToC_UpdatePoint,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -35,6 +36,7 @@ public enum ePacketType
 	CToS_UserRegister,
 	CToS_MyUserMove,
 	CToS_UserRiseAgain,
+	CToS_UpdatePoint,
 	// 클라에서 서버로
 
 	END,
@@ -262,6 +264,12 @@ public struct UserRiseAgainPacket
 public struct UpdatetMySkillPacket
 {
 	public eSkillType m_eSkillType;
+};
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct UpdatePointPacket
+{
+	public long m_lPoint;
 };
 
 public class Packet

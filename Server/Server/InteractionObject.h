@@ -24,7 +24,7 @@ public:
 public:
 	void					SetValidLife(bool _bVaildLife);
 	void					SettingInteractionPacket(InteractionPacketData* _packet);
-	virtual void 			RecivedDamage();
+	virtual void 			RecivedDamage(Collision* _recivedDamageTarget);
 
 	//	충돌했다. 충돌을 당한건지 한건지 모름
 	virtual void 			InteractionCollision();

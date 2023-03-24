@@ -3,12 +3,17 @@
 #include "SkillObject.h"
 #include "UserObject.h"
 
-SkillManaging::SkillManaging(InteractionObject* _owner) : m_iCrtUseSkillIndex(0), m_owner(_owner)
+SkillManaging::SkillManaging() : m_iCrtUseSkillIndex(0)
 {
 }
 
 SkillManaging::~SkillManaging()
 {
+}
+
+void SkillManaging::InitData(s_InteractionObejct _owner)
+{
+	m_owner = _owner;
 }
 
 void SkillManaging::InitSkill()
@@ -75,7 +80,7 @@ SkillObject& SkillManaging::CrtUseSkill()
 
 void SkillManaging::FireBall()
 {
-	s_InteractionObejct interaction = InteractionCreator::CreateFireball(m_owner->GetTransform()->GetPos(), m_owner->GetTransform()->GetRotateY());
+	s_InteractionObejct interaction = InteractionCreator::CreateFireball(m_owner, m_owner->GetTransform()->GetPos(), m_owner->GetTransform()->GetRotateY());
 
 	InteractionManager::GetInstance()->AddInteractionObject(interaction);
 }

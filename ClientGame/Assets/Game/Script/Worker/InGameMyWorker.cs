@@ -13,6 +13,8 @@ public class InGameMyWorker : MonoBehaviour
 
     private MyUI m_MyUI;
 
+    private MyData m_MyData = new MyData();
+
     public UserObject GetMyInteraction
     {
         get
@@ -26,6 +28,14 @@ public class InGameMyWorker : MonoBehaviour
         get
         {
             return m_MyInteraction == null;
+        }
+    }
+
+    public MyData GetMyData
+    {
+        get
+        {
+            return m_MyData;
         }
     }
 
@@ -52,7 +62,7 @@ public class InGameMyWorker : MonoBehaviour
         if (_user != null)
         {
             // ½ºÅ³ UI Update
-            SygnalManager.Instance.Fire(SygnalEventType.Ingame_UpdatetMySkill);
+            SygnalManager.Instance.Fire(SygnalEventType.InGame_UpdateMySkill);
         }
     }
 

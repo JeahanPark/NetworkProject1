@@ -10,11 +10,19 @@ public:
 
 public:
 	// InteractionObject을(를) 통해 상속됨
-	virtual void Update() override;
-	void SettingInitialInGameDataPacket(InitialInGameData* _packet);
+	virtual void	Update() override;
+	virtual void	Init();
+	bool			UseSkiil();
+	virtual void	RecivedDamage(Collision* _recivedDamageTarget);
+	void			AddPoint(long _lAddPoint);
+
+public:
 	int GetUserIndex();
-	bool UseSkiil();
 	eSkillType GetCrtSkill();
+
+	void SettingInitialInGameDataPacket(InitialInGameData* _packet);
+
+
 
 private:
 	s_UserController		m_userController = nullptr;
