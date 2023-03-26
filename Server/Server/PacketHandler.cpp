@@ -535,7 +535,7 @@ void PacketHandler::AddPoint(s_InGameObject _gameobject)
 	packet->m_PakcetType = ePacketType::SToC_UpdatePoint;
 	packet->m_iSize = sizeof(UpdatePointPacket);
 
-	packet->m_lPoint = _gameobject->GetPoint();
+	packet->m_iPoint = _gameobject->GetPoint();
 
 	s_ServerSession session = _gameobject->GetSession();
 

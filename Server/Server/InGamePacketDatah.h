@@ -69,5 +69,5 @@ struct UpdateMySkillPacket : BasePacket
 #pragma pack(1)
 struct UpdatePointPacket : BasePacket
 {
-	long m_lPoint;
+	int m_iPoint;
 };

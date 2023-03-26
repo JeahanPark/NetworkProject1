@@ -164,7 +164,7 @@ public class InGameController : MonoDestroySingleton<InGameController>
 
     public void ReciveUpdatePoint(UpdatePointPacket _packet)
     {
-        GetMyWorker.GetMyData.AddPoint(_packet.m_lPoint);
+        GetMyWorker.GetMyData.UpdatePoint(_packet.m_iPoint);
 
         SygnalManager.Instance.Fire(SygnalEventType.InGame_UpdatePoint);
     }

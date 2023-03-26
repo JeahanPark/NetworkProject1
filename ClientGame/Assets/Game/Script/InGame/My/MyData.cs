@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class MyData
 {
-    private long m_lPoint;
+    private int m_iPoint;
 
-    public void AddPoint(long _lAddPoint)
+    public void UpdatePoint(int _iPoint)
     {
-        m_lPoint += _lAddPoint;
+        m_iPoint = _iPoint;
+    }
+    public void AddPoint(int _iAddPoint)
+    {
+        m_iPoint += _iAddPoint;
     }
 
-    public long GetPoint()
+    public int GetPoint()
     {
-        return m_lPoint;
+        return m_iPoint;
     }
 }

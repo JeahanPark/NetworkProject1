@@ -185,7 +185,7 @@ public class UserObject : InteractionObject
         // 사이각 차이가 0.001보다 크냐?
         if (angle > 0.001f)
         {
-            Debug.Log(angle);
+            //Debug.Log(angle);
 
             // 이번틱에 뺄 각도
             float calculAngle = m_fRotateSpeed * Time.deltaTime;

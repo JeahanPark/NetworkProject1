@@ -269,7 +269,7 @@ public struct UpdatetMySkillPacket
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct UpdatePointPacket
 {
-	public long m_lPoint;
+	public int m_iPoint;
 };
 
 public class Packet

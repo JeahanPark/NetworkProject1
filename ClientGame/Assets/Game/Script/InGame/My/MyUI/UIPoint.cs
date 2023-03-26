@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class UIPoint : MonoBehaviour
 {
-    private long m_lBeforePoint = 0;
+    private int m_iBeforePoint = 0;
     private TextMeshProUGUI m_txtPoint = null;
     private TextMeshProUGUI m_txtAddPoint = null;
 
@@ -15,8 +15,9 @@ public class UIPoint : MonoBehaviour
 
     private void Awake()
     {
-        m_txtPoint = GetComponent<TextMeshProUGUI>();
+        m_txtPoint = transform.Find<TextMeshProUGUI>("Point");
         m_txtAddPoint = transform.Find<TextMeshProUGUI>("AddPoint");
+
 
         SygnalManager.Instance.Register(SygnalEventType.InGame_UpdatePoint, UpdatetMyPoint);
     }
@@ -39,15 +40,15 @@ public class UIPoint : MonoBehaviour
 
     private void RefreshUI()
     {
-        long crtPoint = InGameController.Instance.GetMyWorker.GetMyData.GetPoint();
-        m_txtPoint.text = string.Format("Á¡¼ö : {0}", crtPoint);
+        int crtPoint = InGameController.Instance.GetMyWorker.GetMyData.GetPoint();
+        m_txtPoint.text = crtPoint.ToString();
 
-        long addPoint = crtPoint - m_lBeforePoint;
+        int addPoint = crtPoint - m_iBeforePoint;
         m_txtAddPoint.text = string.Format("+{0}", addPoint);
 
         m_txtAddPoint.gameObject.SetActive(false);
 
-        m_lBeforePoint = crtPoint;
+        m_iBeforePoint = crtPoint;
     }
 
     private void Update()
@@ -71,13 +72,13 @@ public class UIPoint : MonoBehaviour
     private void StartAddPointEffect()
     {
         m_fAddPointEffectCrtTime = 0;
-        m_txtAddPoint.gameObject.SetActive(false);
+        m_txtAddPoint.gameObject.SetActive(true);
         m_txtAddPoint.rectTransform.anchoredPosition = Vector2.zero;
     }
 
     private void EndAddPointEffect()
     {
-        m_txtAddPoint.gameObject.SetActive(true);
+        m_txtAddPoint.gameObject.SetActive(false);
         m_fAddPointEffectCrtTime = 0;
     }
 }
