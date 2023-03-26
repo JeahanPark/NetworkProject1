@@ -3,7 +3,7 @@
 #include "SkillObject.h"
 #include "UserObject.h"
 
-SkillManaging::SkillManaging() : m_iCrtUseSkillIndex(0)
+SkillManaging::SkillManaging()
 {
 }
 
@@ -18,34 +18,33 @@ void SkillManaging::InitData(s_InteractionObejct _owner)
 
 void SkillManaging::InitSkill()
 {
-	m_iCrtUseSkillIndex = 0;
 
-	m_vecSkill.clear();
+	m_lisSkill.clear();
 
-	m_vecSkill.push_back(SkillObject(eSkillType::FireBall));
+	m_lisSkill.push_back(SkillObject(eSkillType::FireBall));
 	//m_vecSkill.push_back(SkillObject(eSkillType::Wall));
 
-	SkillObject& skill = CrtUseSkill();
-	skill.InitSkill();
+	m_iterCrtSkill = m_lisSkill.begin();
+
+	m_iterCrtSkill->InitSkill();
 }
 
 void SkillManaging::Update()
 {
-	SkillObject& skill = CrtUseSkill();
-
-	skill.Update();
+	if (!m_iterCrtSkill->Update())
+	{
+		NextSkill();
+	}
 }
 
 bool SkillManaging::UseSkill()
 {
-	SkillObject skill = CrtUseSkill();
-
-	if (!skill.CanUseSkill())
+	if (!m_iterCrtSkill->CanUseSkill())
 		return false;
 
 	// 원래같으면 skillObject상속받아서 타입별로 클래스 만들고 할텐데
 	// 서버 코드니까 그냥 switch로 나눈다. 클라엿으면 나눳음
-	switch (skill.GetType())
+	switch (m_iterCrtSkill->GetType())
 	{
 	case eSkillType::FireBall:
 		FireBall();
@@ -53,29 +52,27 @@ bool SkillManaging::UseSkill()
 	case eSkillType::Wall:
 		Wall();
 		break;
+	case eSkillType::Reflection:
+		Reflection();
+		break;
 	default:
 		break;
 	}
+	
+	m_iterCrtSkill->UseSkill();
 
-	++m_iCrtUseSkillIndex;
-
-	if (m_iCrtUseSkillIndex >= m_vecSkill.size())
-		m_iCrtUseSkillIndex = 0;
-
-	skill = CrtUseSkill();
-	skill.InitSkill();
 
 	return true;
 }
 
-eSkillType SkillManaging::GetCrtSkill()
+void SkillManaging::AddSkill(eSkillType _skill)
 {
-	return CrtUseSkill().GetType();
+	m_lisSkill.push_back(SkillObject(_skill));
 }
 
-SkillObject& SkillManaging::CrtUseSkill()
+eSkillType SkillManaging::GetCrtSkill()
 {
-	return m_vecSkill[m_iCrtUseSkillIndex];
+	return m_iterCrtSkill->GetType();
 }
 
 void SkillManaging::FireBall()
@@ -87,4 +84,28 @@ void SkillManaging::FireBall()
 
 void SkillManaging::Wall()
 {
+}
+
+void SkillManaging::Reflection()
+{
+
+}
+
+void SkillManaging::NextSkill()
+{
+	if (m_iterCrtSkill->GetType() == eSkillType::Reflection)
+	{
+		list<SkillObject>::iterator removeIter = m_iterCrtSkill;
+		m_iterCrtSkill++;
+		m_lisSkill.erase(removeIter);
+	}
+	else
+		m_iterCrtSkill++;
+
+	if (m_iterCrtSkill == m_lisSkill.end())
+		m_iterCrtSkill = m_lisSkill.begin();
+
+	m_iterCrtSkill->InitSkill();
+
+	PacketHandler::UpdateMySkill(m_owner);
 }

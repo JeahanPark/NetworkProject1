@@ -10,6 +10,8 @@ public :
 	// InteractionObject을(를) 통해 상속됨
 	virtual void Update() override;
 
+	virtual void SendCollision();
+
 public:
 	virtual void Die();
 

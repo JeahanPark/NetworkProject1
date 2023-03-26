@@ -23,6 +23,7 @@ enum class eSkillType
 	None,
 	FireBall,
 	Wall,
+	Reflection,
 	Max
 };
 

@@ -10,7 +10,7 @@ public:
 public:
 	virtual void Init();
 	virtual void Update() override;
-	virtual void InteractionCollision();
+	virtual void SendCollision();
 
 public:
 	s_InteractionObejct GetOwner() { return m_Owner; }

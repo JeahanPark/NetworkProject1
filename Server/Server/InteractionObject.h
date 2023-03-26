@@ -24,10 +24,11 @@ public:
 public:
 	void					SetValidLife(bool _bVaildLife);
 	void					SettingInteractionPacket(InteractionPacketData* _packet);
-	virtual void 			RecivedDamage(Collision* _recivedDamageTarget);
+	//	충돌 당했다.
+	virtual void 			RecivedCollision(Collision* _sendtarget);
 
-	//	충돌했다. 충돌을 당한건지 한건지 모름
-	virtual void 			InteractionCollision();
+	//	충돌 했다.
+	virtual void 			SendCollision();
 	virtual void 			Die();
 
 protected:

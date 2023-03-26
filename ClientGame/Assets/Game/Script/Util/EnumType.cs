@@ -30,7 +30,8 @@ public enum eSkillType
     None,
 	FireBall,
 	Wall,
-	Max
+    Reflection,
+    Max
 };
 
 public static class EnumType

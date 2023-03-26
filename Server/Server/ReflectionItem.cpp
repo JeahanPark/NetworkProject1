@@ -26,6 +26,11 @@ void ReflectionItem::Update()
 	m_transform->Update();
 }
 
+void ReflectionItem::SendCollision()
+{
+	m_bVaildLife = false;
+}
+
 void ReflectionItem::Die()
 {
 	ContentsManager::GetInstance()->UpdateReflectionCrtCount(-1);

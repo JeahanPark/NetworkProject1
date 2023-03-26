@@ -87,16 +87,15 @@ eSkillType UserObject::GetCrtSkill()
 	return m_SkillManaging.GetCrtSkill();
 }
 
-void UserObject::RecivedDamage(Collision* _recivedDamageTarget)
+void UserObject::RecivedCollision(Collision* _sendtarget)
 {
-	m_state->SubtractedHealth(1);
+	s_InteractionObejct target = _sendtarget->GetOwner();
 
-	if (m_state->Die())
+	if (target->GetInteractionType() == eInteractionType::AttackFireBall)
 	{
-		// 지금 때린애가 죽였다.
-		s_InteractionObejct target = _recivedDamageTarget->GetOwner();
+		m_state->SubtractedHealth(1);
 
-		if (target->GetInteractionType() == eInteractionType::AttackFireBall)
+		if (m_state->Die())
 		{
 			AttackFireBall* fireBall = static_cast<AttackFireBall*>(target.get());
 
@@ -105,9 +104,14 @@ void UserObject::RecivedDamage(Collision* _recivedDamageTarget)
 			UserObject* user = static_cast<UserObject*>(targetOwner.get());
 			user->AddPoint(1);
 		}
-	}
 
-	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
+		PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
+	}
+	else if (target->GetInteractionType() == eInteractionType::ReflectionItem)
+	{
+		// 아이템을 얻었다.
+		m_SkillManaging.AddSkill(eSkillType::Reflection);
+	}
 }
 
 void UserObject::AddPoint(long _lAddPoint)

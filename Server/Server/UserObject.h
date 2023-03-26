@@ -13,7 +13,7 @@ public:
 	virtual void	Update() override;
 	virtual void	Init();
 	bool			UseSkiil();
-	virtual void	RecivedDamage(Collision* _recivedDamageTarget);
+	virtual void	RecivedCollision(Collision* _sendtarget);
 	void			AddPoint(long _lAddPoint);
 
 public:

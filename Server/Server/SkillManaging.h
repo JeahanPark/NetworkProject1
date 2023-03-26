@@ -13,18 +13,20 @@ public:
 	void InitSkill();
 	void Update();
 	bool UseSkill();
+	void AddSkill(eSkillType _skill);
 	eSkillType GetCrtSkill();
 
 private:
-	SkillObject& CrtUseSkill();
 	void FireBall();
 	void Wall();
+	void Reflection();
+	void NextSkill();
 
 private:
 	s_InteractionObejct m_owner;
 
-	int m_iCrtUseSkillIndex;
+	list<SkillObject>::iterator m_iterCrtSkill;
 
-	vector<SkillObject> m_vecSkill;
+	list<SkillObject> m_lisSkill;
 };
 

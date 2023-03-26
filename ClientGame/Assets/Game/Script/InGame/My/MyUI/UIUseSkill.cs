@@ -68,6 +68,10 @@ public class UIUseSkill : MonoBehaviour
                 m_txtSkillName.text = "벽만들기";
                 m_fSkillMaxDelay = 2;
                 break;
+            case eSkillType.Reflection:
+                m_txtSkillName.text = "반사";
+                m_fSkillMaxDelay = 3;
+                break;
         }
 
         m_btnSkill.interactable = false;

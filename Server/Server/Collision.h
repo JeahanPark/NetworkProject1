@@ -16,7 +16,7 @@ public :
 
 public:
 	void				Update(const list<s_InteractionObejct>& _lisInteractin);
-	void				RecivedDamage(Collision* _recivedDamageTarget);
+	void				RecivedCollision(Collision* _recivedDamageTarget);
 	bool				HaveCollisionType(eCollisionType _type);
 public:
 	int					GetInteractionIndex();
@@ -35,11 +35,14 @@ private:
 	s_InteractionObejct m_Owner;
 
 	// interactionIndex를 들고있다
+
 	list<collisionInfo> m_lisCollision;
 	float m_fCollisionClearTime;
 	float m_fCollisionSize;
 
 	int m_CollisionType;
 	bool m_bClear;
+
+	list<eInteractionType> m_lisTypeCheck;
 };
 

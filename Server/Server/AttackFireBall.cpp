@@ -47,7 +47,7 @@ void AttackFireBall::Update()
 	m_transform->Update();
 }
 
-void AttackFireBall::InteractionCollision()
+void AttackFireBall::SendCollision()
 {
 	m_bVaildLife = false;
 }

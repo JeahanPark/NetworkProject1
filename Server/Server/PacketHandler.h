@@ -1,5 +1,4 @@
 #pragma once
-class InteractionObject;
 class PacketHandler
 {
 public:
@@ -38,4 +37,6 @@ public:
 	static void UserAttack(s_ServerSession _session);
 
 	static void AddPoint(s_InGameObject _gameobject);
+
+	static void UpdateMySkill(s_InteractionObejct _user);
 };

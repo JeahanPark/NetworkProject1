@@ -20,6 +20,9 @@ Collision::Collision(s_InteractionObejct _owner)
 	case eInteractionType::AttackFireBall:
 		m_CollisionType = (int)eCollisionType::Send;
 		break;
+	case eInteractionType::ReflectionItem:
+		m_CollisionType = (int)eCollisionType::Send;
+		break;
 	default:
 		m_CollisionType = (int)eCollisionType::None;
 	}
@@ -78,10 +81,10 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 		{
 			// 충돌 했다.
 			m_lisCollision.push_back({targetIndex, InGameUpdateManager::GetInstance()->GetTotalDeltaTime()});
-			targetCollision->RecivedDamage(this);
+			targetCollision->RecivedCollision(this);
 
 			// 충돌을 내가 했다.
-			m_Owner->InteractionCollision();
+			m_Owner->SendCollision();
 		}
 
 	}
@@ -121,9 +124,9 @@ void Collision::CleanUpCollisionList()
 }
 
 // 다른놈이 나랑 충돌했다고 요청했어
-void Collision::RecivedDamage(Collision* _recivedDamageTarget)
+void Collision::RecivedCollision(Collision* _recivedDamageTarget)
 {
-	m_Owner->RecivedDamage(_recivedDamageTarget);
+	m_Owner->RecivedCollision(_recivedDamageTarget);
 }
 
 int Collision::GetInteractionIndex()

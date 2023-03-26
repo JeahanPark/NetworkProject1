@@ -515,16 +515,6 @@ void PacketHandler::UserAttack(s_ServerSession _session)
 		// 스킬 못쓴다.
 		return;
 	}
-
-	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdateMySkillPacket));
-
-	UpdateMySkillPacket* packet = (UpdateMySkillPacket*)pSendBuffer->GetSendBufferAdress();
-	packet->m_PakcetType = ePacketType::SToC_UpdatetMySkill;
-	packet->m_iSize = sizeof(UpdateMySkillPacket);
-
-	packet->m_eSkillType = user->GetCrtSkill();
-
-	_session->RegisterSend(pSendBuffer);
 }
 
 void PacketHandler::AddPoint(s_InGameObject _gameobject)
@@ -540,4 +530,21 @@ void PacketHandler::AddPoint(s_InGameObject _gameobject)
 	s_ServerSession session = _gameobject->GetSession();
 
 	session->RegisterSend(pSendBuffer);
+}
+
+void PacketHandler::UpdateMySkill(s_InteractionObejct _user)
+{
+	UserObject* user = static_cast<UserObject*>(_user.get());
+
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(UpdateMySkillPacket));
+
+	UpdateMySkillPacket* packet = (UpdateMySkillPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_UpdatetMySkill;
+	packet->m_iSize = sizeof(UpdateMySkillPacket);
+
+	packet->m_eSkillType = user->GetCrtSkill();
+
+	s_InGameObject ingame = InGameManager::GetInstance()->GetInGameObject(user->GetUserIndex());
+
+	ingame->GetSession()->RegisterSend(pSendBuffer);
 }
