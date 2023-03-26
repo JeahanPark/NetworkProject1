@@ -11,13 +11,15 @@ public class Cube : MonoBehaviour
     void Update()
     {
         q += Time.deltaTime;
-     
-        Quaternion q1 = AngleToQuaternion(1);
-        Quaternion q2 = AngleToQuaternion(359);
 
-        float qqq = Mathf.Abs(Mathf.Sin(q));
-        Debug.Log(qqq);
-        transform.rotation = CustomLerp(q1, q2, qqq);
+        //Quaternion q1 = AngleToQuaternion(1);
+        //Quaternion q2 = AngleToQuaternion(359);
+
+        //float qqq = Mathf.Abs(Mathf.Sin(q));
+        //Debug.Log(qqq);
+        //transform.rotation = CustomLerp(q1, q2, qqq);
+
+        transform.rotation = AngleToQuaternion(angle);
     }
     private Quaternion AngleToQuaternion(float Angle)
     {

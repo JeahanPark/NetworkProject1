@@ -26,7 +26,7 @@ public class InteractionObject : MonoBehaviour
     protected Vector3 m_vRotateY;
 
     protected float m_fMoveSpeed;
-    protected const float m_fRotateSpeed = 15;
+    protected const float m_fRotateSpeed = 1000;
     protected bool m_bValidLife = false;
 
     protected bool m_bDeadRackoningMove = false;

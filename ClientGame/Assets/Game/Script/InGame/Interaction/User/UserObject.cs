@@ -176,25 +176,54 @@ public class UserObject : InteractionObject
         float cosTheta = Vector3.Dot(transform.forward, m_vRotateY) / (transform.forward.magnitude * m_vRotateY.magnitude);
         float angle = Mathf.Acos(cosTheta) * Mathf.Rad2Deg;
 
-        // 사이각 차이가 0.001보다 크냐?
-        if(angle > 0.001f)
-        {
-            // 이만큼 그냥 뺀다.
-            //Debug.Log(angle);
+        // 새로 기준이 될 벡터가 오른쪽이냐 왼쪽이냐
+        bool bRight = false;
 
-            float calculAngle = angle - m_fRotateSpeed;
+        if ((Vector3.Cross(transform.forward, m_vRotateY).y > 0))
+            bRight = true;
+
+        // 사이각 차이가 0.001보다 크냐?
+        if (angle > 0.001f)
+        {
+            Debug.Log(angle);
+
+            // 이번틱에 뺄 각도
+            float calculAngle = m_fRotateSpeed * Time.deltaTime;
 
             // 0이하면 angle만큼 뺀다.
-            calculAngle = calculAngle < 0 ? angle : calculAngle;
+            calculAngle = angle - calculAngle < 0 ? angle : calculAngle;
 
-            //Vector3 right = Vector3.Cross(transform.forward, m_vRotateY).normalized;
-            //Vector3 up = ;
+            // 각도에 해당하는 쿼터니언을 구한다.
+            Quaternion qAngle = new Quaternion();
 
-            Quaternion rotation = Quaternion.AngleAxis(calculAngle, Vector3.up);
+            float radian = calculAngle * Mathf.Deg2Rad;
+            qAngle.x = 0;
+            qAngle.y = Mathf.Sin(radian / 2); 
+            qAngle.z = 0;
+            qAngle.w = Mathf.Cos(radian / 2);
 
-            Vector3 result = rotation * m_vRotateY;
+            // 방향이 왼쪽일떄
+            if (!bRight)
+            {
+                ////-각도를 더해야한다.
 
-            transform.forward = result;
+                //// 크기의 제곱구하기
+                //float norm = Mathf.Sqrt(Mathf.Pow(qAngle.y, 2) * Mathf.Pow(qAngle.w, 2));
+
+                //// -각도 구하기
+                //Quaternion qInversAngle = qAngle;
+                //qInversAngle.y = (qInversAngle.y * right) / norm;
+                //qInversAngle.w = qInversAngle.w / norm;
+
+
+                //qAngle = qInversAngle;
+
+                qAngle = Quaternion.Inverse(qAngle);
+            }
+
+            transform.rotation *= qAngle;
         }
+
+
     }
 }
