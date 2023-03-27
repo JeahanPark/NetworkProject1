@@ -13,6 +13,7 @@ public:
 	void InitSkill();
 	void Update();
 	bool UseSkill();
+	bool UsingSkill(eSkillType _type);
 	void AddSkill(eSkillType _skill);
 	eSkillType GetCrtSkill();
 

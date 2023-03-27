@@ -93,6 +93,24 @@ void UserObject::RecivedCollision(Collision* _sendtarget)
 
 	if (target->GetInteractionType() == eInteractionType::AttackFireBall)
 	{
+		if (m_SkillManaging.UsingSkill(eSkillType::Reflection))
+		{
+			// 현재 나의 상태가 반사 상태이면 파이어볼 팅김
+
+			// 파이어볼이 날라오는 반대방향으로
+			XMFLOAT3 dir = _sendtarget->GetTransform()->GetRotateY();
+
+			dir.x = -dir.x;
+			dir.z = -dir.z;
+
+			s_InteractionObejct interaction = InteractionCreator::CreateFireball(shared_from_this(),
+				GetTransform()->GetPos(), dir);
+
+			InteractionManager::GetInstance()->AddInteractionObject(interaction);
+
+			return;
+		}
+
 		m_state->SubtractedHealth(1);
 
 		if (m_state->Die())
@@ -106,6 +124,7 @@ void UserObject::RecivedCollision(Collision* _sendtarget)
 		}
 
 		PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
+		
 	}
 	else if (target->GetInteractionType() == eInteractionType::ReflectionItem)
 	{

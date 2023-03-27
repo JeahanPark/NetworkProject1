@@ -65,6 +65,14 @@ bool SkillManaging::UseSkill()
 	return true;
 }
 
+bool SkillManaging::UsingSkill(eSkillType _type)
+{
+	if (m_iterCrtSkill->GetType() != _type)
+		return false;
+
+	return m_iterCrtSkill->GetUsingSkill();
+}
+
 void SkillManaging::AddSkill(eSkillType _skill)
 {
 	m_lisSkill.push_back(SkillObject(_skill));

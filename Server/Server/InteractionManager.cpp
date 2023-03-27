@@ -78,10 +78,8 @@ void InteractionManager::ClearDeleteInteraction()
 
 void InteractionManager::AllUpdateInteractionObject()
 {
-	LockGuard lock(m_lockInteraction);
-	
 	list<s_InteractionObejct> _InteractionObjects;
-	GetNoLockInteractionList(_InteractionObjects);
+	GetInteractionList(_InteractionObjects);
 
 	// 충돌 검사하기
 	{
@@ -103,6 +101,7 @@ void InteractionManager::AllUpdateInteractionObject()
 	
 	// 인터렉션 Update할것들 하기
 	{
+		LockGuard lock(m_lockInteraction);
 		for (auto& type : m_mapInteraction)
 		{
 			lisInteraction& list = type.second;

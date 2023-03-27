@@ -10,7 +10,8 @@ public:
 	bool Update();
 	bool CanUseSkill();
 	eSkillType GetType();
-	
+	bool GetUsingSkill();
+
 	void UseSkill();
 
 private:

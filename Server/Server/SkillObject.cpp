@@ -60,6 +60,11 @@ eSkillType SkillObject::GetType()
 	return m_eSkillType;
 }
 
+bool SkillObject::GetUsingSkill()
+{
+	return m_bUseSkill;
+}
+
 void SkillObject::UseSkill()
 {
 	m_bUseSkill = true;

@@ -2,6 +2,8 @@
 #include "Collision.h"
 #include "InteractionObject.h"
 #include "Transform.h"
+#include "AttackFireBall.h"
+
 Collision::Collision(s_InteractionObejct _owner)
 	: m_Owner(_owner),
 	m_fCollisionClearTime(1),
@@ -58,6 +60,21 @@ void Collision::Update(const list<s_InteractionObejct>& _lisInteractin)
 			// 맞을수있는애가 아니다.
 			continue;
 		}
+
+		//if (m_Owner->GetInteractionType() == eInteractionType::AttackFireBall &&
+		//	targetCollision->GetOwner()->GetInteractionType() == eInteractionType::User)
+		//{
+		//	// 내가 파이어볼이고 대상이 유저다.
+		//	s_InteractionObejct target = targetCollision->GetOwner();
+
+		//	AttackFireBall* firaball = static_cast<AttackFireBall*>(target.get());
+
+		//	if (m_Owner->GetInteractionIndex() == firaball->GetOwner()->GetInteractionIndex())
+		//	{
+		//		// 파이어볼 주인이 맞는놈이다.
+		//		continue;
+		//	}
+		//}
 
 		if (AlreadDamaged(targetIndex))
 		{
