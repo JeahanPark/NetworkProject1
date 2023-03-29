@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Test
-  m_Shader: {fileID: 4800000, guid: ce9cbb14266a77c40965cd3fbb00396b, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9e6903557431efe4d8d284517977c3d4, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -34,6 +34,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DisolveTex:
+        m_Texture: {fileID: 2800000, guid: 6cd2f2bae23507149a09970581936d8a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -65,6 +69,7 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DisolveRatio: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5

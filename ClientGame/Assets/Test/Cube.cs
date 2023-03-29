@@ -7,19 +7,26 @@ public class Cube : MonoBehaviour
     public float angle = 0;
 
     float q = 0;
-    // Update is called once per frame
+    private Material mat;
+    private void Awake()
+    {
+        mat = GetComponent<MeshRenderer>().material;
+    }
+
     void Update()
     {
         q += Time.deltaTime;
 
-        //Quaternion q1 = AngleToQuaternion(1);
-        //Quaternion q2 = AngleToQuaternion(359);
+        Quaternion q1 = AngleToQuaternion(45);
+        Quaternion q2 = AngleToQuaternion(120);
 
-        //float qqq = Mathf.Abs(Mathf.Sin(q));
-        //Debug.Log(qqq);
-        //transform.rotation = CustomLerp(q1, q2, qqq);
+        float qqq = Mathf.Abs(Mathf.Sin(q));
+        Debug.Log(qqq);
+        transform.rotation = CustomLerp(q1, q2, qqq);
 
-        transform.rotation = AngleToQuaternion(angle);
+        mat.SetFloat("_DisolveRatio", qqq);
+
+        //transform.rotation = AngleToQuaternion(angle);
     }
     private Quaternion AngleToQuaternion(float Angle)
     {
