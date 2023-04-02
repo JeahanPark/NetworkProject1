@@ -96,7 +96,7 @@ void SkillManaging::Wall()
 
 void SkillManaging::Reflection()
 {
-
+	PacketHandler::ShowSkill(m_owner, eSkillType::Reflection);
 }
 
 void SkillManaging::NextSkill()

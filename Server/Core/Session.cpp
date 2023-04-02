@@ -76,11 +76,6 @@ void Session::RegisterSend(SendBuffer* _sendBuffer)
 	if (m_RegisterDisconnect)
 		return;
 
-	if (m_iSessionNumber == 2)
-	{
-		int a = 0;
-	}
-
 	_sendBuffer->WsaBufSetting();
 
 	{
@@ -218,11 +213,6 @@ void Session::Send()
 			vecWSABUF.push_back(*sendBuffer->GetWSABuf());
 			size += sendBuffer->GetWSABuf()->len;
 		}
-	}
-
-	if (size >= BUF_MAX_SIZE)
-	{
-		//cout << "BufferMaxSizeOver" << endl;
 	}
 
 	SocketEvent* sEvent = new SocketEvent(SocketEventType::SocketEventType_Send, shared_from_this());

@@ -39,4 +39,6 @@ public:
 	static void AddPoint(s_InGameObject _gameobject);
 
 	static void UpdateMySkill(s_InteractionObejct _user);
+
+	static void ShowSkill(s_InteractionObejct _user, eSkillType _type);
 };

@@ -548,3 +548,23 @@ void PacketHandler::UpdateMySkill(s_InteractionObejct _user)
 
 	ingame->GetSession()->RegisterSend(pSendBuffer);
 }
+
+void PacketHandler::ShowSkill(s_InteractionObejct _user, eSkillType _type)
+{
+	list<s_InGameObject> lisInGameObject;
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+
+	SendBuffer* pSendBuffer = new SendBuffer(sizeof(ShowSkillPacket));
+
+	ShowSkillPacket* packet = (ShowSkillPacket*)pSendBuffer->GetSendBufferAdress();
+	packet->m_PakcetType = ePacketType::SToC_ShowSkill;
+	packet->m_iSize = sizeof(ShowSkillPacket);
+
+	packet->m_iInteractionIndex = _user->GetInteractionIndex();
+	packet->m_eSkillType = _type;
+
+	for (auto iter : lisInGameObject)
+	{
+		iter->GetSession()->RegisterSend(pSendBuffer);
+	}
+}

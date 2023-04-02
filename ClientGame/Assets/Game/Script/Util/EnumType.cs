@@ -23,6 +23,8 @@ public enum EffectType
     UserCreateEffect,
     FireBallExplosionEffect,
     ReflectionItemEffect,
+
+    ReflectionSkillEffect,
     Effect_MAX
 }
 public enum eSkillType

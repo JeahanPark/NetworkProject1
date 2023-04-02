@@ -27,6 +27,7 @@ public enum ePacketType
 	SToC_UserRiseAgain,
 	SToC_UpdatetMySkill,
 	SToC_UpdatePoint,
+	SToC_ShowSkill,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -271,7 +272,12 @@ public struct UpdatePointPacket
 {
 	public int m_iPoint;
 };
-
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct ShowSkillPacket
+{
+	public eSkillType m_eSkillType;
+	public int m_iInteractionIndex;
+};
 public class Packet
 {
 	public static T BufferToPacket<T>(byte[] _buffer, int _iHeaderSize) where T : struct

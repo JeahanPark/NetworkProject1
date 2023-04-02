@@ -10,7 +10,7 @@ public class UIUseSkill : MonoBehaviour
     private Button m_btnSkill = null;
     private Image m_imgSkill = null;
 
-
+    private bool m_bUseSkill = false;
     private float m_fSkillMaxDelay = 3f;
     private float m_fSkillDelay = 0;
     private void Awake()
@@ -20,6 +20,8 @@ public class UIUseSkill : MonoBehaviour
         m_btnSkill.onClick.AddListener(OnClickAttack);
 
         m_imgSkill = GetComponent<Image>();
+
+        m_bUseSkill = false;
 
         SygnalManager.Instance.Register(SygnalEventType.InGame_UpdateMySkill, UpdatetMySkillUI);
     }
@@ -36,7 +38,7 @@ public class UIUseSkill : MonoBehaviour
         if (m_fSkillDelay > m_fSkillMaxDelay)
         {
             // 스킬 사용가능
-            if (!m_btnSkill.interactable)
+            if (m_bUseSkill)
             {
                 // 이미지 활성화
                 m_imgSkill.fillAmount = 1;
@@ -53,6 +55,7 @@ public class UIUseSkill : MonoBehaviour
         if (m_fSkillDelay > m_fSkillMaxDelay)
         {
             InGameController.Instance.SendAttack();
+            m_bUseSkill = false;
         }
     }
 
@@ -75,6 +78,8 @@ public class UIUseSkill : MonoBehaviour
         }
 
         m_btnSkill.interactable = false;
+
+        m_bUseSkill = true;
 
         m_fSkillDelay = 0;
     }

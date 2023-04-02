@@ -71,3 +71,10 @@ struct UpdatePointPacket : BasePacket
 {
 	int m_iPoint;
 };
+
+#pragma pack(1)
+struct ShowSkillPacket : BasePacket
+{
+	eSkillType m_eSkillType;
+	int m_iInteractionIndex;
+};

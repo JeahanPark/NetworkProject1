@@ -72,6 +72,13 @@ void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 	SettingInteractionPacket(_packet);
 }
 
+void UserObject::ReciveDamage(int _iDamage)
+{
+	m_state->SubtractedHealth(_iDamage);
+
+	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, _iDamage);
+}
+
 int UserObject::GetUserIndex()
 {
 	return m_UserData.GetUserIndex();
@@ -111,7 +118,7 @@ void UserObject::RecivedCollision(Collision* _sendtarget)
 			return;
 		}
 
-		m_state->SubtractedHealth(1);
+		ReciveDamage(1);
 
 		if (m_state->Die())
 		{
@@ -122,9 +129,10 @@ void UserObject::RecivedCollision(Collision* _sendtarget)
 			UserObject* user = static_cast<UserObject*>(targetOwner.get());
 			user->AddPoint(1);
 		}
-
-		PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, 1);
-		
+	}
+	else if (target->GetInteractionType() == eInteractionType::AttackDummy)
+	{
+		ReciveDamage(1);
 	}
 	else if (target->GetInteractionType() == eInteractionType::ReflectionItem)
 	{

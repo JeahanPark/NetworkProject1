@@ -98,9 +98,9 @@ public class InGameEffectWorker : MonoBehaviour
         AddressableManager.Instance.AssetAsyncIResourceLocation<T>(resourceLocation, _fnAsyncResult);
     }
 
-    public BaseEffect GetPrefabEffect(EffectType _id, Vector3 _vPos)
+    public BaseEffect GetPrefabEffect(EffectType _id, Vector3 _vPos, Transform _parent = null)
     {
-        BaseEffect effect = CreateEffect(_id);
+        BaseEffect effect = CreateEffect(_id, _parent);
 
         if (effect != null)
         {
@@ -123,7 +123,7 @@ public class InGameEffectWorker : MonoBehaviour
         m_PoolBaseEffect[_effect.GetEffectType].Enqueue(_effect);
         _effect.transform.SetParent(m_poolParent);
     }
-    private BaseEffect CreateEffect(EffectType _id)
+    private BaseEffect CreateEffect(EffectType _id, Transform _parent = null)
     {
         if (!m_originEffect.ContainsKey(_id))
             return null;
@@ -138,9 +138,9 @@ public class InGameEffectWorker : MonoBehaviour
         else
         {
             effect = pool.Dequeue();
-            effect.transform.SetParent(null);
         }
 
+        effect.transform.SetParent(_parent);
         return effect;
     }
 }

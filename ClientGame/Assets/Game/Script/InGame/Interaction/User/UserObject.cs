@@ -10,6 +10,10 @@ public class UserObject : InteractionObject
     private static Material m_matNormalBody = null;
     private static Material m_matDamageBody = null;
 
+    // 이펙트를 따로 들고있는 이유는 해당 이펙트와 상호작용을 해야되서
+    // ex) 반사이펙트가 켜져있는 상태에서 반사를 할경우 해당 방향에 점멸느낌을 줘야한다.
+    private LinkedList<BaseEffect> m_lisUseEffect = new LinkedList<BaseEffect>();
+
     private void Start()
     {
         m_meshRenderer = GetComponent<MeshRenderer>();
@@ -100,6 +104,20 @@ public class UserObject : InteractionObject
         m_vRotateY = _InteractionData.m_vRotateY;
     }
 
+    public void ShowSkill(eSkillType _type)
+    {
+        BaseEffect effect = null;
+
+        if(_type == eSkillType.Reflection)
+        {
+
+            effect = InGameController.Instance.GetEffectWorker.GetPrefabEffect(EffectType.ReflectionSkillEffect, transform.position, transform);
+        }
+
+        if (effect != null)
+            m_lisUseEffect.AddLast(effect);
+    }
+
     public override void RecivedDamage(float _fDamage)
     {
         base.RecivedDamage(_fDamage);
@@ -149,81 +167,89 @@ public class UserObject : InteractionObject
     protected override void Update()
     {
         // 이동해야한다.
-        if (m_fMoveSpeed > 0)
         {
-            // 데드레커닝 이동이 우선
-            if (m_bDeadRackoningMove && !MyInteraction )
-            {
-                // 데드레커닝으로 구한 위치로 움직인다.
-                transform.position += m_vDeadRackoningDir * m_fDeadRackoningDeltaTime;
 
-                if ((transform.position - m_vDeadRackoningPos).magnitude < 1f)
+            if (m_fMoveSpeed > 0)
+            {
+                // 데드레커닝 이동이 우선
+                if (m_bDeadRackoningMove && !MyInteraction)
                 {
-                    m_bDeadRackoningMove = false;
+                    // 데드레커닝으로 구한 위치로 움직인다.
+                    transform.position += m_vDeadRackoningDir * m_fDeadRackoningDeltaTime;
+
+                    if ((transform.position - m_vDeadRackoningPos).magnitude < 1f)
+                    {
+                        m_bDeadRackoningMove = false;
+                    }
+                }
+                else
+                {
+                    transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
+                    m_fMoveSpeed -= 1 * Time.deltaTime;
                 }
             }
             else
-            {
-                transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
-                m_fMoveSpeed -= 1 * Time.deltaTime;
-            }
+                m_bDeadRackoningMove = false;
         }
-        else
-            m_bDeadRackoningMove = false;
 
-
-        // 두벡터간의 사이각
-        float cosTheta = Vector3.Dot(transform.forward, m_vRotateY) / (transform.forward.magnitude * m_vRotateY.magnitude);
-        float angle = Mathf.Acos(cosTheta) * Mathf.Rad2Deg;
-
-        // 새로 기준이 될 벡터가 오른쪽이냐 왼쪽이냐
-        bool bRight = false;
-
-        if ((Vector3.Cross(transform.forward, m_vRotateY).y > 0))
-            bRight = true;
-
-        // 사이각 차이가 0.001보다 크냐?
-        if (angle > 0.001f)
         {
-            //Debug.Log(angle);
+            //회전
 
-            // 이번틱에 뺄 각도
-            float calculAngle = m_fRotateSpeed * Time.deltaTime;
+            // 두벡터간의 사이각
+            float cosTheta = Vector3.Dot(transform.forward, m_vRotateY) / (transform.forward.magnitude * m_vRotateY.magnitude);
+            float angle = Mathf.Acos(cosTheta) * Mathf.Rad2Deg;
 
-            // 0이하면 angle만큼 뺀다.
-            calculAngle = angle - calculAngle < 0 ? angle : calculAngle;
+            // 새로 기준이 될 벡터가 오른쪽이냐 왼쪽이냐
+            bool bRight = false;
 
-            // 각도에 해당하는 쿼터니언을 구한다.
-            Quaternion qAngle = new Quaternion();
+            if ((Vector3.Cross(transform.forward, m_vRotateY).y > 0))
+                bRight = true;
 
-            float radian = calculAngle * Mathf.Deg2Rad;
-            qAngle.x = 0;
-            qAngle.y = Mathf.Sin(radian / 2); 
-            qAngle.z = 0;
-            qAngle.w = Mathf.Cos(radian / 2);
-
-            // 방향이 왼쪽일떄
-            if (!bRight)
+            // 사이각 차이가 0.001보다 크냐?
+            if (angle > 0.001f)
             {
-                ////-각도를 더해야한다.
+                //Debug.Log(angle);
 
-                //// 크기의 제곱구하기
-                //float norm = Mathf.Sqrt(Mathf.Pow(qAngle.y, 2) * Mathf.Pow(qAngle.w, 2));
+                // 이번틱에 뺄 각도
+                float calculAngle = m_fRotateSpeed * Time.deltaTime;
 
-                //// -각도 구하기
-                //Quaternion qInversAngle = qAngle;
-                //qInversAngle.y = (qInversAngle.y * right) / norm;
-                //qInversAngle.w = qInversAngle.w / norm;
+                // 0이하면 angle만큼 뺀다.
+                calculAngle = angle - calculAngle < 0 ? angle : calculAngle;
 
+                // 각도에 해당하는 쿼터니언을 구한다.
+                Quaternion qAngle = new Quaternion();
 
-                //qAngle = qInversAngle;
+                float radian = calculAngle * Mathf.Deg2Rad;
+                qAngle.x = 0;
+                qAngle.y = Mathf.Sin(radian / 2);
+                qAngle.z = 0;
+                qAngle.w = Mathf.Cos(radian / 2);
 
-                qAngle = Quaternion.Inverse(qAngle);
+                // 방향이 왼쪽일떄
+                if (!bRight)
+                    qAngle = Quaternion.Inverse(qAngle);
+
+                transform.rotation *= qAngle;
             }
-
-            transform.rotation *= qAngle;
         }
 
+        {
+            // 이펙트
+            var begine = m_lisUseEffect.First;
 
+            for (var iter = begine; iter != null;)
+            {
+                BaseEffect effect = iter.Value;
+                if (!effect.UpdateAnim())
+                {
+                    var removeIter = iter;
+
+                    iter = iter.Next;
+                    m_lisUseEffect.Remove(removeIter);
+                }
+                else
+                    iter = iter.Next;
+            }
+        }
     }
 }

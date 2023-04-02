@@ -80,8 +80,11 @@ public class InGameMyWorker : MonoBehaviour
         InGameController.Instance.SendMyUserMove(_vMoveDir, _vRotateY, _fMoveSpeed);
     }
 
-    private void UpdateAttackUI()
+    public Vector3 GetCameraPos
     {
-
+        get
+        {
+            return m_MyCamera.transform.position;
+        }
     }
 }

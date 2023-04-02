@@ -191,6 +191,23 @@ public class InteractionWorker : MonoBehaviour
             iter = iter.Next;
         }
     }
+
+    public void ShowSkill(ShowSkillPacket _packet)
+    {
+        var lisUser = GetActiveObjectList(eInteractionType.User);
+
+        foreach(var iter in lisUser)
+        {
+            if(iter.GetInteractionIndex == _packet.m_iInteractionIndex)
+            {
+                UserObject user = iter as UserObject;
+
+                user.ShowSkill(_packet.m_eSkillType);
+                break;
+            }
+        }
+    }
+
     private LinkedList<InteractionObject> GetActiveObjectList(eInteractionType _eInteractionType)
     {
         LinkedList<InteractionObject> list = null;

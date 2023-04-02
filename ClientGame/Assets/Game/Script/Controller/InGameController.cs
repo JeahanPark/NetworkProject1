@@ -31,6 +31,14 @@ public class InGameController : MonoDestroySingleton<InGameController>
         }
     }
 
+    public Vector3 GetCameraPosition
+    {
+        get
+        {
+            return m_InGameMyWorker.GetCameraPos;
+        }
+    }
+
     public override void Destroy()
     {
         base.Destroy();
@@ -167,6 +175,11 @@ public class InGameController : MonoDestroySingleton<InGameController>
         GetMyWorker.GetMyData.UpdatePoint(_packet.m_iPoint);
 
         SygnalManager.Instance.Fire(SygnalEventType.InGame_UpdatePoint);
+    }
+
+    public void ReciveShowSkill(ShowSkillPacket _packet)
+    {
+        m_InteractionWorker.ShowSkill(_packet);
     }
     #endregion
 }

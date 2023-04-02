@@ -22,6 +22,7 @@ enum class ePacketType
 	SToC_UserRiseAgain,
 	SToC_UpdatetMySkill,
 	SToC_UpdatePoint,
+	SToC_ShowSkill,
 	// 서버에서 클라로
 
 	// 클라에서 서버로

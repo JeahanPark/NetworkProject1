@@ -22,7 +22,8 @@ public:
 
 	void SettingInitialInGameDataPacket(InitialInGameData* _packet);
 
-
+private:
+	void ReciveDamage(int _iDamage);
 
 private:
 	s_UserController		m_userController = nullptr;

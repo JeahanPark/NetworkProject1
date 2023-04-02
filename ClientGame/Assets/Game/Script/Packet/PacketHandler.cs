@@ -69,6 +69,12 @@ public static class PacketHandler
 					InGameController.Instance.ReciveUpdatePoint(packet);
 				}
 				break;
+			case ePacketType.SToC_ShowSkill:
+				{
+					var packet = Packet.BufferToPacket<ShowSkillPacket>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReciveShowSkill(packet);
+				}
+				break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)
