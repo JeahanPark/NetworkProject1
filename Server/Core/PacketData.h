@@ -23,6 +23,7 @@ enum class ePacketType
 	SToC_UpdatetMySkill,
 	SToC_UpdatePoint,
 	SToC_ShowSkill,
+	SToC_ShowReflectionEffect,
 	// 서버에서 클라로
 
 	// 클라에서 서버로

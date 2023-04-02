@@ -554,17 +554,39 @@ void PacketHandler::ShowSkill(s_InteractionObejct _user, eSkillType _type)
 	list<s_InGameObject> lisInGameObject;
 	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
 
-	SendBuffer* pSendBuffer = new SendBuffer(sizeof(ShowSkillPacket));
-
-	ShowSkillPacket* packet = (ShowSkillPacket*)pSendBuffer->GetSendBufferAdress();
-	packet->m_PakcetType = ePacketType::SToC_ShowSkill;
-	packet->m_iSize = sizeof(ShowSkillPacket);
-
-	packet->m_iInteractionIndex = _user->GetInteractionIndex();
-	packet->m_eSkillType = _type;
+	
 
 	for (auto iter : lisInGameObject)
 	{
+		SendBuffer* pSendBuffer = new SendBuffer(sizeof(ShowSkillPacket));
+
+		ShowSkillPacket* packet = (ShowSkillPacket*)pSendBuffer->GetSendBufferAdress();
+		packet->m_PakcetType = ePacketType::SToC_ShowSkill;
+		packet->m_iSize = sizeof(ShowSkillPacket);
+
+		packet->m_iInteractionIndex = _user->GetInteractionIndex();
+		packet->m_eSkillType = _type;
+
+		iter->GetSession()->RegisterSend(pSendBuffer);
+	}
+}
+
+void PacketHandler::ShowReflectionEffect(s_InteractionObejct _user, const XMFLOAT3& _dirReflection)
+{
+	list<s_InGameObject> lisInGameObject;
+	InGameManager::GetInstance()->GetlistInGame(lisInGameObject);
+
+	for (auto iter : lisInGameObject)
+	{
+		SendBuffer* pSendBuffer = new SendBuffer(sizeof(ShowReflectionEffectPacket));
+
+		ShowReflectionEffectPacket* packet = (ShowReflectionEffectPacket*)pSendBuffer->GetSendBufferAdress();
+		packet->m_PakcetType = ePacketType::SToC_ShowReflectionEffect;
+		packet->m_iSize = sizeof(ShowReflectionEffectPacket);
+
+		packet->m_iInteractionIndex = _user->GetInteractionIndex();
+		packet->m_dirReflection = _dirReflection;
+
 		iter->GetSession()->RegisterSend(pSendBuffer);
 	}
 }

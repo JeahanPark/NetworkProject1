@@ -37,7 +37,10 @@ public class ReflectionSkillEffect : BaseNormalEffect
 
     public void ShowReflectionEffect(Vector3 _vDir)
     {
-        float uvPosX = (_vDir.x + 1) / 2;
+        // 이게 쿼드 오브젝트가 정면방향으로 이미지를 보여주지 않는다.
+        // 뒷방향에서 봤을때 정방향이다.
+        //그래서 x축을 반대로 한다
+        float uvPosX = 1 - (_vDir.x + 1) / 2;
         float uvPosY = (_vDir.z + 1) / 2;
 
         Vector4 reciveDirUV = new Vector4(uvPosX, uvPosY, 1, 0);
@@ -51,7 +54,7 @@ public class ReflectionSkillEffect : BaseNormalEffect
     {
         base.Update();
 
-        // 카메라 바라보게함
+        //카메라 바라보게함
         Vector3 dir = InGameController.Instance.GetCameraPosition - transform.position;
         dir.Normalize();
 

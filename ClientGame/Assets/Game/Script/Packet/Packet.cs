@@ -28,6 +28,7 @@ public enum ePacketType
 	SToC_UpdatetMySkill,
 	SToC_UpdatePoint,
 	SToC_ShowSkill,
+	SToC_ShowReflectionEffect,
 	// 서버에서 클라로
 
 	// 클라에서 서버로
@@ -276,6 +277,12 @@ public struct UpdatePointPacket
 public struct ShowSkillPacket
 {
 	public eSkillType m_eSkillType;
+	public int m_iInteractionIndex;
+};
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct ShowReflectionEffectPacket
+{
+	public Vector3 m_dirReflection;
 	public int m_iInteractionIndex;
 };
 public class Packet

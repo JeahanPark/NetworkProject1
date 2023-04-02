@@ -110,6 +110,15 @@ void UserObject::RecivedCollision(Collision* _sendtarget)
 			dir.x = -dir.x;
 			dir.z = -dir.z;
 
+			XMVECTOR norDir = XMLoadFloat3(&dir);
+			norDir = XMVector3Normalize(norDir);
+			XMStoreFloat3(&dir, norDir);
+
+			// 반대했다고 다알려준다.
+			PacketHandler::ShowReflectionEffect(shared_from_this(), dir);
+
+
+
 			s_InteractionObejct interaction = InteractionCreator::CreateFireball(shared_from_this(),
 				GetTransform()->GetPos(), dir);
 

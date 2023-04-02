@@ -208,6 +208,22 @@ public class InteractionWorker : MonoBehaviour
         }
     }
 
+    public void ShowReflectionEffect(ShowReflectionEffectPacket _packet)
+    {
+        var lisUser = GetActiveObjectList(eInteractionType.User);
+
+        foreach (var iter in lisUser)
+        {
+            if (iter.GetInteractionIndex == _packet.m_iInteractionIndex)
+            {
+                UserObject user = iter as UserObject;
+
+                user.ShowReflectionEffectPacket(_packet.m_dirReflection);
+                break;
+            }
+        }
+    }
+
     private LinkedList<InteractionObject> GetActiveObjectList(eInteractionType _eInteractionType)
     {
         LinkedList<InteractionObject> list = null;

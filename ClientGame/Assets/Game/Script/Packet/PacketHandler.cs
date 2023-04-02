@@ -75,6 +75,12 @@ public static class PacketHandler
 					InGameController.Instance.ReciveShowSkill(packet);
 				}
 				break;
+			case ePacketType.SToC_ShowReflectionEffect:
+                {
+					var packet = Packet.BufferToPacket<ShowReflectionEffectPacket>(_buffer, _iHeaderSize);
+					InGameController.Instance.ReciveShowReflectionEffect(packet);
+				}
+				break;
 		}
 
 		if (_header.m_PakcetType != ePacketType.SToC_PacketResult)

@@ -78,3 +78,10 @@ struct ShowSkillPacket : BasePacket
 	eSkillType m_eSkillType;
 	int m_iInteractionIndex;
 };
+
+#pragma pack(1)
+struct ShowReflectionEffectPacket : BasePacket
+{
+	XMFLOAT3	m_dirReflection;
+	int			m_iInteractionIndex;
+};

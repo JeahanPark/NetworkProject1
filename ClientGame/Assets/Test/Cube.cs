@@ -21,7 +21,7 @@ public class Cube : MonoBehaviour
         Quaternion q2 = AngleToQuaternion(120);
 
         float qqq = Mathf.Abs(Mathf.Sin(q));
-        Debug.Log(qqq);
+        //Debug.Log(qqq);
         transform.rotation = CustomLerp(q1, q2, qqq);
 
         mat.SetFloat("_DisolveRatio", qqq);

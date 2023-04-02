@@ -118,6 +118,24 @@ public class UserObject : InteractionObject
             m_lisUseEffect.AddLast(effect);
     }
 
+    public void ShowReflectionEffectPacket(Vector3 _dirReflection)
+    {
+        ReflectionSkillEffect effect = null;
+        foreach(var iter in m_lisUseEffect)
+        {
+            if(iter.GetEffectType == EffectType.ReflectionSkillEffect)
+            {
+                effect = iter as ReflectionSkillEffect;
+                break;
+            }
+        }
+
+        if (effect == null)
+            return;
+
+        effect.ShowReflectionEffect(_dirReflection);
+    }
+
     public override void RecivedDamage(float _fDamage)
     {
         base.RecivedDamage(_fDamage);

@@ -181,5 +181,10 @@ public class InGameController : MonoDestroySingleton<InGameController>
     {
         m_InteractionWorker.ShowSkill(_packet);
     }
+
+    public void ReciveShowReflectionEffect(ShowReflectionEffectPacket _packet)
+    {
+        m_InteractionWorker.ShowReflectionEffect(_packet);
+    }
     #endregion
 }

@@ -41,4 +41,6 @@ public:
 	static void UpdateMySkill(s_InteractionObejct _user);
 
 	static void ShowSkill(s_InteractionObejct _user, eSkillType _type);
+
+	static void ShowReflectionEffect(s_InteractionObejct _user, const XMFLOAT3& _dirReflection);
 };
