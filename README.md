@@ -22,7 +22,7 @@
 + 서버 : C++
 + DB : MS-SQL
 <details>
-<summary><span style="color: blue; font-size: 20px;">1. 첫 번째 섹션 제목</span></summary>
+<summary>1.로그인 로직</summary>
 	
 전체적인 로직 흐름입니다.
 클라 -> 서버 -> DB -> 서버 -> 클라
@@ -112,9 +112,17 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 }
 ``````
 </details>
-2. 실시간 이동동기화 로직
- 
-3. 반사 로직
+
+<details>
+<summary>2. 실시간 이동동기화 로직</summary>
+
+</details>
+
+<details>
+<summary>3. 반사 로직</summary>
+
+</details>
+
 
 # 4.스크린샷 및 동영상
 게임플레이 동영상 링크입니다.
