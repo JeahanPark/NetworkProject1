@@ -23,10 +23,12 @@
 + DB : MS-SQL
 
 1. 로그인 로직
-   -로직 흐름
-   클라 -> 서버 -> DB -> 서버 -> 클라
+
+전체적인 로직 흐름입니다.
+클라 -> 서버 -> DB -> 서버 -> 클라
+
 ```csharp
-// 클라이언트 코드
+// 로비 관리코드 클라이언트 코드
 public class LobbyController : MonoDestroySingleton<LobbyController>
 {
    private LobbyUIWorker m_LobbyUI = null;
@@ -46,7 +48,60 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
     }
 }
-   
+'''cpp
+// 서버 패킷 핸들러 코드
+PacketHandler.cpp
+
+void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
+{
+	LoginRequestPacket* packetData = (LoginRequestPacket*)_packetData;
+
+	DBObject* dbObject = DataBaseManager().GetInstance()->PopDBObject();
+
+	WCHAR UserID[USER_ID_LENGTH];
+	SQLLEN outUserID = 0;
+	dbObject->BindCol(1, SQL_C_WCHAR, USER_ID_LENGTH, &UserID, &outUserID);
+
+	WCHAR Password[PASSWORD_LENGTH] = L"\n";
+	SQLLEN outPassword = 0;
+	dbObject->BindCol(2, SQL_C_WCHAR, PASSWORD_LENGTH, &Password, &outPassword);
+
+	int iScore;
+	SQLLEN outScoreLen = 0;
+	dbObject->BindCol(3, SQL_C_LONG, SQL_INTEGER, &iScore, &outScoreLen);
+
+	int iUserIndex;
+	SQLLEN outUserIndexLen = 0;
+	dbObject->BindCol(4, SQL_C_LONG, SQL_INTEGER, &iUserIndex, &outUserIndexLen);
+
+	SQLLEN temp1 = 0;
+	dbObject->BindParam(packetData->m_UserID, &temp1);
+
+	auto query = L"SELECT * FROM [GameServer].[dbo].[Players] WHERE UserID = (?)";
+
+	if (!dbObject->Query(query))
+	{
+		//cout << "Query Fail" << endl;
+	}
+
+	ePacketResult packetResult = ePacketResult::Fail;
+
+	if (dbObject->IsValidData())
+	{
+		int result = wcsncmp(Password,  packetData->m_Password, PASSWORD_LENGTH);
+		if (0 == result)
+		{
+			// 비밀번호가 같다.
+			_session->SetUserData(UserID, iScore, iUserIndex);
+			packetResult = ePacketResult::Success;
+		}
+	}
+
+	DataBaseManager().GetInstance()->PushDBObject(dbObject);
+
+	SendBuffer* pSendBuffer = LoginResultPacketCreate(_session, packetResult);
+	_session->RegisterSend(pSendBuffer);
+}
    
    
 3. 실시간 이동동기화 로직
