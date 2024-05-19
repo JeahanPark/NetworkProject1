@@ -22,7 +22,7 @@
 + 서버 : C++
 + DB : MS-SQL
 <details>
-<summary style="color: gray; font-size: 20px;">1. 로그인 로직</summary>
+<summary style="color: blue; font-size: 20px;">1. 로그인 로직</summary>
 	
 전체적인 로직 흐름입니다.
 클라 -> 서버 -> DB -> 서버 -> 클라
