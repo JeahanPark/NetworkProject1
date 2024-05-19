@@ -45,6 +45,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         packet.m_UserID = _strID;
         packet.m_Password = _strPassword;
 
+	// 서버에 userID(닉네임), 패스워드, 패킷타입을 전달합니다.
         Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
     }
 }
@@ -56,6 +57,7 @@ PacketHandler.cpp
 
 void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 {
+	// 클라이언트에서 넘겨준 패킷을 닉네임과 패스워드를 담은 구조체로 형변환하여 데이터를 가져옵니다.
 	LoginRequestPacket* packetData = (LoginRequestPacket*)_packetData;
 
 	DBObject* dbObject = DataBaseManager().GetInstance()->PopDBObject();
@@ -79,6 +81,7 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 	SQLLEN temp1 = 0;
 	dbObject->BindParam(packetData->m_UserID, &temp1);
 
+	// DB의 Players테이블에서 UserID로 찾아 데이터를 가져옵니다.
 	auto query = L"SELECT * FROM [GameServer].[dbo].[Players] WHERE UserID = (?)";
 
 	if (!dbObject->Query(query))
@@ -88,6 +91,7 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 
 	ePacketResult packetResult = ePacketResult::Fail;
 
+	// 비밀번호 체크를 합니다.
 	if (dbObject->IsValidData())
 	{
 		int result = wcsncmp(Password,  packetData->m_Password, PASSWORD_LENGTH);
