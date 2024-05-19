@@ -26,9 +26,25 @@
    -로직 흐름
    클라 -> 서버 -> DB -> 서버 -> 클라
 ```csharp
-public void ExampleMethod()
+// 클라이언트 코드
+public class LobbyController : MonoDestroySingleton<LobbyController>
 {
-    Console.WriteLine("This is an example method.");
+   private LobbyUIWorker m_LobbyUI = null;
+   ...
+   public void SendLogIn(string _strID, string _strPassword)
+   {
+        if (string.IsNullOrEmpty(_strID) ||
+            string.IsNullOrEmpty(_strPassword))
+        {
+            Debug.Log("비밀번호나 아이디가 입력이안되있음");
+            return;
+        }
+        LogInPacket packet = new LogInPacket();
+        packet.m_UserID = _strID;
+        packet.m_Password = _strPassword;
+
+        Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
+    }
 }
    
    
