@@ -136,7 +136,7 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 // 클라이언트 인게임 관리코드
 public class InGameController : MonoDestroySingleton<LobbyController>
 {
-    // 위치, 방향을 갱신의 간격시간을 구하는 변수
+    // 이전 업데이트 패킷을 받은 간격 시간 오차 
     private float _fUpdateLatency = 0;
     private void Update()
     {
