@@ -130,7 +130,87 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 5. 위치 예측: 다른 사용자의 위치 정보를 직접 적용하지 않고, 추측항법을 사용하여 다음 움직일 위치를 미리 계산했고 이동의 반응성을 높였습니다.
 
 **추측항법**<br>
+```csharp
+// 클라이언트 인게임 관리코드
+public class InGameController : MonoDestroySingleton<LobbyController>
+{
+    // 위치, 방향을 갱신의 간격시간을 구하는 변수
+    private float _fUpdateLatency = 0;
+    private void Update()
+    {
+        _fUpdateLatency += Time.deltaTime;
+    }
 
+    public void ReceiveInGameUpdate(InGameUpdatePacket _packet, InteractionData[] _interactionPacketDatas)
+    {
+    	// 위치, 방향을 갱신하는 패킷을 받을경우
+        m_InteractionWorker.UpdateInteraction(_packet, _interactionPacketDatas, _fUpdateLatency * 0.5f);
+        _fUpdateLatency = 0;
+    }
+}
+``````
+
+```csharp
+// 클라이언트 유저 오브젝트
+public class UserObject : InteractionObject
+{
+    protected const float m_fDeadRackoningDeltaTime = 0.1f;
+
+    public override void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
+    {
+        m_vMoveDir = _InteractionData.m_vMoveDir;
+        m_fMoveSpeed = _InteractionData.m_fMoveSpeed;
+
+        m_bValidLife = _InteractionData.VaildLife;
+
+        if (MyInteraction)
+        {
+            transform.position = _InteractionData.m_vPos;
+        }
+        else
+        {
+            // 다른 유저 일경우
+            // 추측하는 위치 : 현재위치 + 이동방향 * 이전 패킷을 받은 간격 시간 오차 
+            m_bDeadRackoningMove = true;
+            m_vDeadRackoningPos = _InteractionData.m_vPos + m_vMoveDir * _fUpdateLatency;
+            m_vDeadRackoningDir = m_vDeadRackoningPos - transform.position;
+            m_vDeadRackoningDir.Normalize();
+        }
+        // 회전은 추측항법을 적용하지않는다. 보간만 적용
+        m_vRotateY = _InteractionData.m_vRotateY;
+    }
+
+    protected override void Update()
+    {
+        // 이동해야한다.
+        {
+
+            if (m_fMoveSpeed > 0)
+            {
+                // 데드레커닝 이동이 우선
+                if (m_bDeadRackoningMove && !MyInteraction)
+                {
+                    // 데드레커닝으로 구한 위치로 0.1f안에 움직인다.
+                    transform.position += m_vDeadRackoningDir * m_fDeadRackoningDeltaTime;
+
+                    if ((transform.position - m_vDeadRackoningPos).magnitude < 1f)
+                    {
+                        m_bDeadRackoningMove = false;
+                    }
+                }
+                else
+                {
+                    transform.position += m_vMoveDir * (m_fMoveSpeed * Time.deltaTime);
+                    m_fMoveSpeed -= 1 * Time.deltaTime;
+                }
+            }
+            else
+                m_bDeadRackoningMove = false;
+        }
+	...
+    }
+}
+``````
 
 </details>
 
