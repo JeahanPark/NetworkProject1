@@ -21,9 +21,9 @@
 + 클라이언트 : C#, 유니티
 + 서버 : C++
 + DB : MS-SQL
-
-1. 로그인 로직
-
+<details>
+<summary>1. 로그인 로직</summary>
+	
 전체적인 로직 흐름입니다.
 클라 -> 서버 -> DB -> 서버 -> 클라
 
@@ -111,10 +111,10 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 	_session->RegisterSend(pSendBuffer);
 }
 ``````
-   
-3. 실시간 이동동기화 로직
+</details>
+2. 실시간 이동동기화 로직
  
-4. 반사 로직
+3. 반사 로직
 
 # 4.스크린샷 및 동영상
 게임플레이 동영상 링크입니다.
