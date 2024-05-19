@@ -105,6 +105,8 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 
 	DataBaseManager().GetInstance()->PushDBObject(dbObject);
 
+	// 성공적으로 로그인을 하면 ePacketResult::Success을 클라이언트에 넘겨주고
+	// 클라이언트는 패킷 성공여부에 따라 동작을 합니다.
 	SendBuffer* pSendBuffer = LoginResultPacketCreate(_session, packetResult);
 	_session->RegisterSend(pSendBuffer);
 }
