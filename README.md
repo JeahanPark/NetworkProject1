@@ -130,6 +130,8 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 5. 위치 예측: 다른 사용자의 위치 정보를 직접 적용하지 않고, 추측항법을 사용하여 다음 움직일 위치를 미리 계산했고 이동의 반응성을 높였습니다.
 
 **추측항법**<br>
+
+[InGameController.cs](https://github.com/JeahanPark/NetworkProject1/blob/master/ClientGame/Assets/Game/Script/Controller/InGameController.cs)
 ```csharp
 // 클라이언트 인게임 관리코드
 public class InGameController : MonoDestroySingleton<LobbyController>
@@ -150,12 +152,14 @@ public class InGameController : MonoDestroySingleton<LobbyController>
 }
 ``````
 
+[UserObject.cs](https://github.com/JeahanPark/NetworkProject1/blob/master/ClientGame/Assets/Game/Script/InGame/Interaction/User/UserObject.cs)
 ```csharp
 // 클라이언트 유저 오브젝트
 public class UserObject : InteractionObject
 {
     protected const float m_fDeadRackoningDeltaTime = 0.1f;
 
+    // 정보를 갱신 받는다.
     public override void UpdateInteraction(InteractionData _InteractionData, float _fUpdateLatency)
     {
         m_vMoveDir = _InteractionData.m_vMoveDir;
@@ -180,6 +184,7 @@ public class UserObject : InteractionObject
         m_vRotateY = _InteractionData.m_vRotateY;
     }
 
+    // 이동한다.
     protected override void Update()
     {
         // 이동해야한다.
