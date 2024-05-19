@@ -31,7 +31,7 @@
 4. 응답 전송: 검증 결과에 따라 서버는 클라이언트에 로그인 성공 또는 실패 여부를 알리는 응답을 전송합니다.
 
 연관 클래스
-[클라이언트 로비 관리코드(LobbyController.cs)](https://github.com/JeahanPark/NetworkProject1/blob/master/ClientGame/Assets/Game/Script/Controller/LobbyController.cs)
+[LobbyController.cs](https://github.com/JeahanPark/NetworkProject1/blob/master/ClientGame/Assets/Game/Script/Controller/LobbyController.cs)
 ```csharp
 // 클라이언트 로비 관리코드
 public class LobbyController : MonoDestroySingleton<LobbyController>
