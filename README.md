@@ -23,10 +23,19 @@
 + DB : MS-SQL
 
 1. 로그인 로직
+   -로직 흐름
+   클라 -> 서버 -> DB -> 서버 -> 클라
+```csharp
+public void ExampleMethod()
+{
+    Console.WriteLine("This is an example method.");
+}
    
-2. 실시간 이동동기화 로직
+   
+   
+3. 실시간 이동동기화 로직
  
-3. 반사 로직
+4. 반사 로직
 
 # 4.스크린샷 및 동영상
 게임플레이 동영상 링크입니다.
