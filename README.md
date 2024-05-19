@@ -9,6 +9,9 @@
 # 2.게임 플레이 및 목적
 목적: 플레이어는 서로 파이어볼을 발사하여 상대방을 제압하고 점수를 획득하는 것을 목표로 합니다.
 
+**게임플레이 동영상 링크입니다.** <br>
+https://youtu.be/GegMbj8o-Xk?si=_Co855wo4Su7P2sH
+
 게임 방법:
 +  이동: 'W', 'A', 'S', 'D' 키를 사용하여 캐릭터를 이동시킵니다.
 +  공격: 마우스 클릭 방향으로 파이어볼을 발사합니다.
@@ -224,7 +227,3 @@ public class UserObject : InteractionObject
 
 </details>
 
-
-# 4.스크린샷 및 동영상
-게임플레이 동영상 링크입니다.
-https://youtu.be/GegMbj8o-Xk?si=_Co855wo4Su7P2sH
