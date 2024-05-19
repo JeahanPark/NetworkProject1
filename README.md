@@ -28,7 +28,7 @@
 클라 -> 서버 -> DB -> 서버 -> 클라
 
 ```csharp
-// 로비 관리코드 클라이언트 코드
+// 클라이언트 로비 관리코드
 public class LobbyController : MonoDestroySingleton<LobbyController>
 {
    private LobbyUIWorker m_LobbyUI = null;
@@ -48,6 +48,8 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
     }
 }
+``````
+
 ```cpp
 // 서버 패킷 핸들러 코드
 PacketHandler.cpp
@@ -102,7 +104,7 @@ void PacketHandler::Login(s_ServerSession _session, BasePacket* _packetData)
 	SendBuffer* pSendBuffer = LoginResultPacketCreate(_session, packetResult);
 	_session->RegisterSend(pSendBuffer);
 }
-   
+``````
    
 3. 실시간 이동동기화 로직
  
