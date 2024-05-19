@@ -30,6 +30,8 @@
 3.비밀번호 검증: 서버는 데이터베이스에서 검색된 비밀번호와 클라이언트가 전송한 비밀번호를 비교합니다.<br>
 4.응답 전송: 검증 결과에 따라 서버는 클라이언트에 로그인 성공 또는 실패 여부를 알리는 응답을 전송합니다.<br>
 
+연관 클래스
+https://github.com/ClientGame/Assets/Game/Script/Controller/LobbyController.cs
 ```csharp
 // 클라이언트 로비 관리코드
 public class LobbyController : MonoDestroySingleton<LobbyController>
