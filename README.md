@@ -48,7 +48,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         Packet.SendPacket<LogInPacket>(packet, ePacketType.CToS_Login);
     }
 }
-'''cpp
+```cpp
 // 서버 패킷 핸들러 코드
 PacketHandler.cpp
 
