@@ -224,7 +224,7 @@ public class UserObject : InteractionObject
 
 <details>
 <summary>3. 반사 로직</summary>
-![image](https://github.com/JeahanPark/NetworkProject1/assets/76486230/5bb181c3-d4bb-4367-8cc9-e0c3d034acac)
+![123](https://github.com/JeahanPark/NetworkProject1/assets/76486230/60ef5c2a-43f6-49e8-8b9d-fca0d2a43276)
 
 </details>
 
