@@ -288,7 +288,7 @@ Shader "Custom/ReflectionEffect"
 
 **서버, 클라이언트 데이터와 게임 로직**<br>
 
-[슈팅게임_클래스다이어그램.pdf](https://github.com/JeahanPark/NetworkProject1/blob/master/ClassDiagram/슈팅게임_클래스다이어그램.pdf
+[슈팅게임_클래스다이어그램.pdf](https://github.com/JeahanPark/NetworkProject1/blob/master/ClassDiagram/슈팅게임_클래스다이어그램.pdf)
 
 [슈팅게임_클래스다이어그램.pdf](https://github.com/JeahanPark/NetworkProject1/files/15371611/_.pdf)
 
