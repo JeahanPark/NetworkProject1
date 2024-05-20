@@ -224,8 +224,64 @@ public class UserObject : InteractionObject
 
 <details>
 <summary>3. 반사 로직</summary>
-
+1.test01이 pdwer3376에게 파이어볼을 날리는 상황<br>
 ![123](https://github.com/JeahanPark/NetworkProject1/assets/76486230/60ef5c2a-43f6-49e8-8b9d-fca0d2a43276)
 
+2.pdwer3376이 반사스킬 사용(검은색 원)<br>
+![image](https://github.com/JeahanPark/NetworkProject1/assets/76486230/35d26571-7207-4bd9-89c0-f6e93ae847c7)
+
+3.맞은 반향으로 검은색이 진해지는 효과가 있다<br>
+![image](https://github.com/JeahanPark/NetworkProject1/assets/76486230/4e2bd3f0-cda1-4a63-8fad-423f87c4538a)
+
+
+
+```cpp
+Shader "Custom/ReflectionEffect"
+{
+    Properties
+    {
+	// 반사 이미지
+        _BaseTexture("BaseTexture", 2D) = "white" {}
+
+	// 어느방향으로 맞았는지 방향좌표를 넘겨준다.
+        _ReciveDirUV("ReciveDirUV", Vector) = (1,0,1,1)
+    }
+
+    float4 frag(Vertex input) : SV_Target
+    {
+	//_ReciveDirUV 값을 사용하여 주변 픽셀과의 거리를 계산하고, 이를 바탕으로 픽셀의 색상과 투명도를 조절합니다. 
+	//이는 리플렉션 효과의 중심에서 멀어질수록 투명도가 증가하도록 설정됩니다.
+
+	 float4 mainColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, input.uv.xy);
+
+         // 계산하기 쉽게 좌표기준을 바꾸자
+         //float2 x = input.uv.x * 2 - 1;
+         //float2 y = input.uv.y * 2 - 1;
+
+         if (_ReciveDirUV.z == 0)
+         {
+              mainColor.a *= 0.6;
+              return mainColor;
+         }
+         float x = abs(_ReciveDirUV.x - input.uv.x);
+         float y = abs(_ReciveDirUV.y - input.uv.y);
+
+         float distance = sqrt(x * x + y * y);
+
+         if (distance < 0.5)
+         {
+              float alphaRatio = distance / 0.5;
+
+              mainColor.r *= 1 - 0.9 * (1 - alphaRatio);
+
+              mainColor.a *= 0.6 + 1.5 * (1 - alphaRatio);
+          }
+          else
+              mainColor.a *= 0.6;
+
+          return mainColor;
+     }
+}
+``````
 </details>
 
