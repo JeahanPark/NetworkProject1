@@ -224,6 +224,7 @@ public class UserObject : InteractionObject
 
 <details>
 <summary>3. 반사 로직</summary>
+	
 1.test01이 pdwer3376에게 파이어볼을 날리는 상황<br>
 ![123](https://github.com/JeahanPark/NetworkProject1/assets/76486230/60ef5c2a-43f6-49e8-8b9d-fca0d2a43276)
 
