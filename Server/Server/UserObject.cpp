@@ -74,7 +74,7 @@ void UserObject::SettingInitialInGameDataPacket(InitialInGameData* _packet)
 
 void UserObject::ReciveDamage(int _iDamage)
 {
-	m_state->SubtractedHealth(_iDamage);
+	m_state->SubtractedHealth(static_cast<float>(_iDamage));
 
 	PacketHandler::AllUserNotifyRecivedDamage(m_iInteractionIndex, _iDamage);
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using AddreesableManager;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 public enum PopupID
 {
     NONE,
@@ -168,6 +169,10 @@ public class PopupManager : MonoSingleton<PopupManager>
             canvas.worldCamera = camera;
 
             camera.cullingMask = LayerMask.GetMask("UI");
+
+            var urpData = cameraObject.AddComponent<UniversalAdditionalCameraData>();
+            urpData.renderType = CameraRenderType.Overlay; // 또는 Base, 용도에 맞게 설정
+            urpData.renderPostProcessing = false;
         }
 
 

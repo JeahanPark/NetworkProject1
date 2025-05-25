@@ -57,8 +57,8 @@ void ContentsManager::CreateDummy()
 
 void ContentsManager::CreateReflectionItem()
 {
-	float x = rand() % (iMaxMapSizeX * 2) - iMaxMapSizeX;
-	float z = rand() % (iMaxMapSizeY * 2) - iMaxMapSizeY;
+	float x = static_cast<float>(rand() % (iMaxMapSizeX * 2) - iMaxMapSizeX);
+	float z = static_cast<float>(rand() % (iMaxMapSizeY * 2) - iMaxMapSizeY);
 
 	XMFLOAT3 startPos = { x,0,z };
 

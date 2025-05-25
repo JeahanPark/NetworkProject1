@@ -27,11 +27,11 @@ int main()
     // WSAEvent
 
     //DB세팅
-    if (!DataBaseManager().GetInstance()->Connect())
-    {
-        cout << "DB Connect Fail" << endl;
-        return 0;
-    }
+    //if (!DataBaseManager().GetInstance()->Connect())
+    //{
+    //    cout << "DB Connect Fail" << endl;
+    //    return 0;
+    //}
 
     //DBObject* object = DataBaseManager().GetInstance()->PopDBObject();
 

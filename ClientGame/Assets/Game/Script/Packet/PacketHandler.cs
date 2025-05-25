@@ -88,7 +88,7 @@ public static class PacketHandler
 			strPacket = _header.m_PakcetType.ToString();
 		}
 
-		//Debug.Log(strPacket);
+		Debug.Log(strPacket);
 	}
 
 	private static void PacketResult(PacketResult _packetResult)
@@ -104,7 +104,7 @@ public static class PacketHandler
 					LobbyController.Instance.ReceiveChattingRoom(_packetResult);
 					break;
 				case ePacketSignal.Signal_InGameExit:
-					LobbyController.Instance.ReceiveInGameFaile(_packetResult);
+					LobbyController.Instance.ReceiveInGameFail(_packetResult);
 					break;
 				case ePacketSignal.Signal_InGameEnter:
 					LobbyController.Instance.ReceiveInGameEnter(_packetResult);

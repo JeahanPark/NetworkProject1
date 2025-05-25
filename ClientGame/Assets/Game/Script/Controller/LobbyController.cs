@@ -19,9 +19,9 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     {
         yield return null;
 
-#if UNITY_EDITOR
-        AutoLogin();
-#endif
+//#if UNITY_EDITOR
+//        AutoLogin();
+//#endif
     }
 
     // 테스트 코드
@@ -59,17 +59,17 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
     }
     public void ReceiveLoginResult(LoginResultPacket _loginResult)
     {
-        if(_loginResult.m_eResult == ePacketResult.Fail)
-        {
-            UIMessageBox.ShowPopup("로그인 실패");
-            return;
-        }
+        //if(_loginResult.m_eResult == ePacketResult.Fail)
+        //{
+        //    UIMessageBox.ShowPopup("로그인 실패");
+        //    return;
+        //}
 
         DataManager.Instance.SetUserData(_loginResult);
-        UIMessageBox.ShowPopup("로그인 성공");
+        //UIMessageBox.ShowPopup("로그인 성공");
 
-        PopupManager.Instance.ClosePopup(PopupID.UILogIn);
-        m_LobbyUI.ChattingButtonOn(true);
+        //PopupManager.Instance.ClosePopup(PopupID.UILogIn);
+        // m_LobbyUI.ChattingButtonOn(true);
     }
     public void ReceiveChattingRoom(PacketResult _packetResult)
     {
@@ -110,7 +110,7 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
         }
     }
 
-    public void ReceiveInGameFaile(PacketResult _packetResult)
+    public void ReceiveInGameFail(PacketResult _packetResult)
     {
         if (_packetResult.m_eResult == ePacketResult.Success)
         {
@@ -144,11 +144,11 @@ public class LobbyController : MonoDestroySingleton<LobbyController>
 
     public void SendInGameEnter(bool _bEnter)
     {
-        if (!DataManager.Instance.IsLogin())
-        {
-            UIMessageBox.ShowPopup("로그인을 해주세요.");
-            return;
-        }
+        //if (!DataManager.Instance.IsLogin())
+        //{
+        //    UIMessageBox.ShowPopup("로그인을 해주세요.");
+        //    return;
+        //}
 
         SignalPacket packet = new SignalPacket();
         packet.m_ePacketSignal = _bEnter ? ePacketSignal.Signal_InGameEnter : ePacketSignal.Signal_InGameExit;

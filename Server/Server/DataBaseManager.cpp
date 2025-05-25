@@ -55,7 +55,7 @@ bool DataBaseManager::Connect()
                 {
                     HWND desktopHandle = GetDesktopWindow();   // desktop's window handle  
                     WCHAR stringBuffer[256] = { 0 };
-                    ::wcscpy_s(stringBuffer, L"Driver={SQL Server};Server=DESKTOP-U31LF1O\\SQLEXPRESS;Database=GameServer;Trusted_Connection=Yes;");
+                    ::wcscpy_s(stringBuffer, L"Driver={SQL Server};Server=Jeahan\\SQLEXPRESS;Database=GameServer;Trusted_Connection=Yes;");
 
                     SQLWCHAR OutConnStr[255];
                     SQLSMALLINT OutConnStrLen;

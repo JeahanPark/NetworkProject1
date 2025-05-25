@@ -2,7 +2,9 @@
 class UserData
 {
 public:
-	UserData(WCHAR* _userID, int _iScore, int _iUserIndex);
+	UserData(const WCHAR* _userID, int _iScore, int _iUserIndex);
+	~UserData();
+
 
 public:
 	WCHAR* GetUserID()

@@ -22,19 +22,19 @@ public class UILogIn : UIPopup
 
     public void OnClickLogIn()
     {
-        if (m_ID.text.Length == 0)
-        {
-            UIMessageBox.ShowPopup("아이디 쓰세요");
-            return;
-        }
+        //if (m_ID.text.Length == 0)
+        //{
+        //    UIMessageBox.ShowPopup("아이디 쓰세요");
+        //    return;
+        //}
 
-        if (m_Password.text.Length == 0)
-        {
-            UIMessageBox.ShowPopup("비밀번호 쓰세요");
-            return;
-        }
+        //if (m_Password.text.Length == 0)
+        //{
+        //    UIMessageBox.ShowPopup("비밀번호 쓰세요");
+        //    return;
+        //}
 
-        LobbyController.Instance.SendLogIn(m_ID.text, m_Password.text);
+        //LobbyController.Instance.SendLogIn(m_ID.text, m_Password.text);
     }
 
     public static void ShowPopup()

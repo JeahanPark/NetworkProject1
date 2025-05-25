@@ -126,7 +126,7 @@ void PacketHandler::Register(s_ServerSession _session, BasePacket* _packetData)
 		//cout << "Query Fail" << endl;
 	}
 
-	DataBaseManager().GetInstance()->PushDBObject(dbObject);
+	//DataBaseManager().GetInstance()->PushDBObject(dbObject);
 
 	SendBuffer* pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::CToS_UserRegister);
 	_session->RegisterSend(pSendBuffer);
@@ -136,13 +136,13 @@ SendBuffer* PacketHandler::PacketResultCreate(ePacketResult _packetResult, ePack
 {
 	SendBuffer* pSendBuffer = new SendBuffer(sizeof(PacketResult));
 
-	PacketResult* chatting = (PacketResult*)pSendBuffer->GetSendBufferAdress();
-	chatting->m_PakcetType = ePacketType::SToC_PacketResult;
-	chatting->m_iSize = sizeof(PacketResult);
+	PacketResult* result = (PacketResult*)pSendBuffer->GetSendBufferAdress();
+	result->m_PakcetType = ePacketType::SToC_PacketResult;
+	result->m_iSize = sizeof(PacketResult);
 
-	chatting->m_Result = _packetResult;
-	chatting->m_TargetPakcetType = _eTargetPacketType;
-	chatting->m_SignalType = _eSignal;
+	result->m_Result = _packetResult;
+	result->m_TargetPakcetType = _eTargetPacketType;
+	result->m_SignalType = _eSignal;
 
 
 	return pSendBuffer;
@@ -261,24 +261,36 @@ void PacketHandler::InGameEnterProcess(s_ServerSession _session, ePacketSignal _
 	}
 	else if (_signal == ePacketSignal::Signal_InGameEnter)
 	{
-		if (_session->IsLogin())
+		int iUserIndex = _session->GetUserData()->GetUserIndex();
+		// 인게임 진입
+		if (InGameManager().GetInstance()->ExistInGameObject(iUserIndex))
 		{
-			int iUserIndex = _session->GetUserData()->GetUserIndex();
-			// 인게임 진입
-			if (InGameManager().GetInstance()->ExistInGameObject(iUserIndex))
-			{
-				// 이미 인게임이다.
-				pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
-			}
-			else
-			{
-				// 인게임 진입성공
-				pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
-			}
-				
+			// 이미 인게임이다.
+			pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 		}
-		else // 로그인을 안했다.
-			pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Not_Login, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+		else
+		{
+			// 인게임 진입성공
+			pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+		}
+		//if (_session->IsLogin())
+		//{
+		//	int iUserIndex = _session->GetUserData()->GetUserIndex();
+		//	// 인게임 진입
+		//	if (InGameManager().GetInstance()->ExistInGameObject(iUserIndex))
+		//	{
+		//		// 이미 인게임이다.
+		//		pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Already_In, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+		//	}
+		//	else
+		//	{
+		//		// 인게임 진입성공
+		//		pSendBuffer = PacketResultCreate(ePacketResult::Success, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
+		//	}
+		//		
+		//}
+		//else // 로그인을 안했다.
+		//	pSendBuffer = PacketResultCreate(ePacketResult::InGameEnter_Not_Login, ePacketType::Signal, ePacketSignal::Signal_InGameEnter);
 	}
 	else
 	{
@@ -445,7 +457,7 @@ void PacketHandler::RecivedDamage(s_ServerSession _session, int _iRecivedDamageI
 	InGameUpdate->m_iSize = sizeof(RecivedDamagePacket);
 
 	InGameUpdate->m_iInteractionIndex = _iRecivedDamageIndetractionIndex;
-	InGameUpdate->m_fReciveDamage = _iDamage;
+	InGameUpdate->m_fReciveDamage = static_cast<float>(_iDamage);
 
 	_session->RegisterSend(pSendBuffer);
 }

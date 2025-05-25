@@ -18,7 +18,7 @@ Session::~Session()
 
 void Session::InitSession(HANDLE _iocpHandle, SOCKET _socket)
 {
-	m_socket = _socket;
+	m_socket = _socket;		
 
 	//cout << GetSessionNumber() << " Connect!!!" << endl;
 

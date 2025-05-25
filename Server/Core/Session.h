@@ -17,7 +17,7 @@ public:
 
 public:
     SOCKET GetSocket() { return m_socket; }
-    void InitSession(HANDLE _iocpHandle, SOCKET _socket);
+    virtual void InitSession(HANDLE _iocpHandle, SOCKET _socket);
 
 public:
     string GetSessionNumber();
